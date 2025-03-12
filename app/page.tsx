@@ -16,7 +16,7 @@ export default function Home() {
       </Button>
       <p className="my-12 mt-8 text-lg font-normal leading-relaxed md:text-xl lg:text-2xl lg:leading-relaxed">
        
-      it's going to blow your mind!
+      its going to blow your mind!
       
       </p>
     </div>
