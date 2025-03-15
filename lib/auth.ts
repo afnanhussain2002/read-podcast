@@ -10,7 +10,9 @@ export const authOptions: NextAuthOptions = {
                password: { label: "Password", type: "password" },
            },
           async authorize(credentials) {
-               
+               if (!credentials?.email || !credentials.password) {
+                throw new Error("Please provide an email and password");
+               }
            },
         })
     ],
