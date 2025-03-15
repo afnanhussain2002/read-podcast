@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 
 export interface IUser {
@@ -8,3 +9,4 @@ export interface IUser {
     createdAt?: Date;
     updatedAt?: Date;
   }
+
