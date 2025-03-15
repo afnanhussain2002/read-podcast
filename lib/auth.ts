@@ -33,6 +33,11 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Incorrect password");
                 }
 
+                return {
+                    id: user._id.toString(),
+                    email: user.email,
+                }
+
                } catch (error) {
                 
                }
