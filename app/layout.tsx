@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SessionProvider refetchInterval={5 * 60}>
          <ThemeProvider attribute="class" disableTransitionOnChange>
           {children}
           <ThemeSwitcher />
         </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
