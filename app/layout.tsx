@@ -31,14 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider refetchInterval={5 * 60}>
+        
           <NotificationProvider>
          <ThemeProvider attribute="class" disableTransitionOnChange>
           {children}
           <ThemeSwitcher />
         </ThemeProvider>
         </NotificationProvider>
-        </SessionProvider>
+       
       </body>
     </html>
   );
