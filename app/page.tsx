@@ -28,7 +28,7 @@ export default function Home() {
       
       </p>
       {session?.user ? (
-        <p>Logged in as: {session.user.email} <button>Logout</button></p>
+        <p>Logged in as: {session.user.email} <button onClick={() => signOut()}>Logout</button></p>
       ) : (
         <p>Not logged in</p>
       )}
