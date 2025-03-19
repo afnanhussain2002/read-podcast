@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 
 export default function Home() {
@@ -27,7 +28,7 @@ export default function Home() {
       
       </p>
       {session?.user ? (
-        <p>Logged in as: {session.user.email}</p>
+        <p>Logged in as: {session.user.email} <button>Logout</button></p>
       ) : (
         <p>Not logged in</p>
       )}
