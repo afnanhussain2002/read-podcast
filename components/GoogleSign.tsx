@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+import { LogIn } from 'lucide-react';
 
 export default function GoogleSignIn() {
   return (
@@ -13,7 +13,7 @@ export default function GoogleSignIn() {
           onClick={() => signIn("google")}
           className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 transition-all"
         >
-          <FcGoogle className="text-2xl" />
+          <LogIn className="text-2xl" />
           <span className="font-medium">Sign in with Google</span>
         </button>
       </div>
