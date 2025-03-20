@@ -4,10 +4,10 @@ import { LogIn } from 'lucide-react';
 
 export default function GoogleSignIn() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <h2 className="text-2xl font-bold text-center mb-4">Sign in</h2>
-        <p className="text-gray-600 text-center mb-6">Continue with Google</p>
+    <div className="flex flex-col items-center justify-center">
+      <div className="bg-white rounded-lg shadow-lg w-full">
+        <h2 className="text-2xl font-bold text-center">Sign in</h2>
+        <p className="text-gray-600 text-center mb-3">Continue with Google</p>
         
         <button
           onClick={() => signIn("google")}
