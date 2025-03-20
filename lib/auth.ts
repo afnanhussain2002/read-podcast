@@ -1,6 +1,7 @@
 
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { connectToDatabase } from "./db";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
@@ -46,6 +47,7 @@ export const authOptions: NextAuthOptions = {
           }
         },
       }),
+      
     ],
     callbacks: {
       async jwt({ token, user }) {
