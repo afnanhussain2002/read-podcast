@@ -16,6 +16,11 @@ export async function POST(request: NextRequest) {
             { status: 400 }
         )
     }
+    const transcript = await client.transcripts.transcribe({
+        audio: video,
+      });
+
+      return NextResponse.json(transcript)
 
    
 }
