@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/components/Notification";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import GoogleSignIn from "@/components/GoogleSign";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -93,7 +93,8 @@ export default function Register() {
         >
           Register
         </button>
-        <button onClick={() => signIn("google")}>Sign up with Google</button>
+        <p>or</p>
+        <GoogleSignIn/>
         <p className="text-center mt-4">
           Already have an account?{" "}
           <Link href="/login" className="text-blue-500 hover:text-blue-600">
