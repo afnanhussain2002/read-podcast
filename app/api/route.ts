@@ -1,4 +1,10 @@
+import { AssemblyAI } from "assemblyai";
 import { NextRequest, NextResponse } from "next/server";
+
+
+const client = new AssemblyAI({
+    apiKey: process.env.ASSEMBLYAI_API_KEY,
+})
 
 
 export async function POST(request: NextRequest) {
@@ -11,5 +17,5 @@ export async function POST(request: NextRequest) {
         )
     }
 
-
+   
 }
