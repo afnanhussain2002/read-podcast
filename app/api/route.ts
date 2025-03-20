@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 const client = new AssemblyAI({
-    apiKey: process.env.ASSEMBLYAI_API_KEY,
+    apiKey: process.env.ASSEMBLYAI_API_KEY!,
 })
 
 
