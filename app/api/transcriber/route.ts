@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
-import fs from "fs";
+import fs from "fs/promises"; // Use promises for non-blocking operations
 import path from "path";
 import { AssemblyAI } from "assemblyai";
+import { nanoid } from "nanoid"; // Unique file names for parallel requests
 
 const client = new AssemblyAI({
     apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -17,8 +18,12 @@ export async function POST(req: NextRequest) {
 
         console.log("Received Video URL:", videoUrl);
 
-        // Run Python script to download and convert YouTube video
-        const pythonProcess = spawn("python", ["./scripts/download_audio.py", videoUrl]);
+        // Generate a unique file name to handle multiple users
+        const uniqueId = nanoid(10);
+        const filePath = path.join(process.cwd(), "public", `audio_${uniqueId}.mp3`);
+
+        // Run Python script asynchronously
+        const pythonProcess = spawn("python", ["./scripts/download_audio.py", videoUrl, filePath]);
 
         let output = "";
         let error = "";
@@ -42,22 +47,19 @@ export async function POST(req: NextRequest) {
 
                 try {
                     const parsedOutput = JSON.parse(output);
-                    const filePath = path.join(process.cwd(), "public", "audio.mp3");
-
-                    if (!fs.existsSync(filePath)) {
-                        return resolve(NextResponse.json({ error: "Audio file not found" }, { status: 500 }));
-                    }
+                    const audioFilePath = parsedOutput.file_path || `/audio_${uniqueId}.mp3`;
 
                     console.log("Uploading to AssemblyAI...");
                     const transcript = await client.transcripts.transcribe({
-                        audio: `file://${filePath}`, // Uploading local file
+                        audio_url: `file://${filePath}`,
                     });
 
                     console.log("Transcript received:", transcript);
 
-                    // Delete the file after transcription
-                    fs.unlinkSync(filePath);
-                    console.log("Deleted local file:", filePath);
+                    // Delete the file asynchronously after transcription
+                    fs.unlink(filePath)
+                        .then(() => console.log("Deleted local file:", filePath))
+                        .catch((err) => console.error("File deletion error:", err));
 
                     resolve(NextResponse.json({ transcript }));
                 } catch (err) {
