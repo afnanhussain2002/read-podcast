@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
-import fs from "fs/promises"; // Use promises for non-blocking operations
-import path from "path";
 import { AssemblyAI } from "assemblyai";
-import { nanoid } from "nanoid"; // Unique file names for parallel requests
 
 const client = new AssemblyAI({
     apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -18,12 +15,8 @@ export async function POST(req: NextRequest) {
 
         console.log("Received Video URL:", videoUrl);
 
-        // Generate a unique file name to handle multiple users
-        const uniqueId = nanoid(10);
-        const filePath = path.join(process.cwd(), "public", `audio_${uniqueId}.mp3`);
-
-        // Run Python script asynchronously
-        const pythonProcess = spawn("python", ["./scripts/download_audio.py", videoUrl, filePath]);
+        // Run Python script to download audio and upload to Cloudinary
+        const pythonProcess = spawn("python", ["./scripts/download_audio.py", videoUrl]);
 
         let output = "";
         let error = "";
@@ -47,27 +40,32 @@ export async function POST(req: NextRequest) {
 
                 try {
                     const parsedOutput = JSON.parse(output);
-                    const audioFilePath = parsedOutput.file_path || `/audio_${uniqueId}.mp3`;
+                    const cloudinaryUrl = parsedOutput.cloudinary_url; // Get Cloudinary URL
+
+                    if (!cloudinaryUrl) {
+                        return resolve(NextResponse.json({ error: "Cloudinary upload failed" }, { status: 500 }));
+                    }
 
                     console.log("Uploading to AssemblyAI...");
                     const transcript = await client.transcripts.transcribe({
-                        audio_url: `file://${filePath}`,
+                        audio: cloudinaryUrl, // Use Cloudinary URL
                     });
 
                     console.log("Transcript received:", transcript);
 
-                    // Delete the file asynchronously after transcription
-                    fs.unlink(filePath)
-                        .then(() => console.log("Deleted local file:", filePath))
-                        .catch((err) => console.error("File deletion error:", err));
-
-                    resolve(NextResponse.json({ transcript }));
+                    if (transcript.status === 'completed') {
+                        resolve(NextResponse.json({ transcript: transcript.text }));
+                    } else {
+                        resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
+                    }
                 } catch (err) {
-                    resolve(NextResponse.json({ error: "Processing error", details: err }, { status: 500 }));
+                    console.error("Error processing transcript:", err);
+                    resolve(NextResponse.json({ error: "Processing error", details: err.message }, { status: 500 }));
                 }
             });
         });
     } catch (err) {
-        return NextResponse.json({ error: "Server error", details: err }, { status: 500 });
+        console.error("Server Error:", err);
+        return NextResponse.json({ error: "Server error", details: err.message }, { status: 500 });
     }
 }
