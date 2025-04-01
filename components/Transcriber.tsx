@@ -52,13 +52,13 @@ export default function Transcriber() {
           >
             {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
           </Button>
-          {transcript && (
-            <div className={`p-4 border-4 rounded-lg h-60 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
-              <p className="text-sm">{transcript}</p>
-            </div>
-          )}
         </CardContent>
       </Card>
+          {transcript && (
+            <div className={`p-4 mt-5 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
+              <p className="text-lg">{transcript}</p>
+            </div>
+          )}
     </div>
   );
 }
