@@ -21,7 +21,7 @@ export default function Transcriber() {
       const response = await fetch("/api/transcriber", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ videoUrl, }),
+        body: JSON.stringify({ videoUrl, speakers }),
       });
       const data = await response.json();
       console.log(data);
@@ -46,6 +46,16 @@ export default function Transcriber() {
             onChange={(e) => setVideoUrl(e.target.value)}
             className={`border-4 rounded-lg px-4 py-2 text-lg focus:outline-none transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-white text-black"}`}
           />
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="speakers"
+              checked={speakers}
+              onChange={() => setSpeakers(!speakers)}
+              className="w-5 h-5"
+            />
+            <label htmlFor="speakers" className="text-lg">Enable Speaker Detection</label>
+          </div>
           <Button
             onClick={fetchTranscript}
             disabled={loading}
@@ -55,11 +65,11 @@ export default function Transcriber() {
           </Button>
         </CardContent>
       </Card>
-          {transcript && (
-            <div className={`p-4 mt-5 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
-              <p className="text-lg">{transcript}</p>
-            </div>
-          )}
+      {transcript && (
+        <div className={`p-4 mt-5 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
+          <p className="text-lg">{transcript}</p>
+        </div>
+      )}
     </div>
   );
 }
