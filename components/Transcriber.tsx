@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
 
+
 export default function Transcriber() {
   const { theme } = useTheme();
   const [videoUrl, setVideoUrl] = useState("");
   const [transcript, setTranscript] = useState("");
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
-  const [detectSpeakers, setDetectSpeakers] = useState("");
+  const [detectSpeakers, setDetectSpeakers] = useState({});
 
   const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
@@ -25,7 +26,11 @@ export default function Transcriber() {
         body: JSON.stringify({ videoUrl, speakers }),
       });
       const data = await response.json();
+      const speakersText = data.speakers || [];
+
+
       console.log(data);
+      setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
     } catch (error) {
       setTranscript("Failed to fetch transcript.");
@@ -66,6 +71,7 @@ export default function Transcriber() {
           </Button>
         </CardContent>
       </Card>
+      {}
       {transcript && (
         <div className={`p-4 mt-5 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
           <p className="text-lg">{transcript}</p>
