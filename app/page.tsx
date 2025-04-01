@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -16,12 +17,17 @@ export default function Home() {
       <h1 className="text-3xl font-heading md:text-4xl lg:text-5xl">
         InshaAllah, Coming Soon....
       </h1>
+      <Link 
+      href={'/transcriber'}
+      >
       <Button
         size="lg"
         className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl mt-12"
       >
         PodBook AI
       </Button>
+      
+      </Link>
       <p className="my-12 mt-8 text-lg font-normal leading-relaxed md:text-xl lg:text-2xl lg:leading-relaxed">
        
       its going to blow your mind!
