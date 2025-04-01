@@ -8,7 +8,7 @@ const client = new AssemblyAI({
 
 export async function POST(req: NextRequest) {
     try {
-        const { videoUrl } = await req.json();
+        const { videoUrl, speakers } = await req.json();
         if (!videoUrl) {
             return NextResponse.json({ error: "No YouTube URL provided" }, { status: 400 });
         }
@@ -49,12 +49,13 @@ export async function POST(req: NextRequest) {
                     console.log("Uploading to AssemblyAI...");
                     const transcript = await client.transcripts.transcribe({
                         audio: cloudinaryUrl, // Use Cloudinary URL
+                        speaker_labels: speakers,
                     });
 
                     console.log("Transcript received:", transcript);
 
                     if (transcript.status === 'completed') {
-                        resolve(NextResponse.json({ transcript: transcript.text }));
+                        resolve(NextResponse.json({ transcript: transcript.text, speakers: transcript.utterances }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
                     }

@@ -12,6 +12,7 @@ export default function Transcriber() {
   const [transcript, setTranscript] = useState("");
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
+  const [showSpeakers, setShowSpeakers] = useState("");
 
   const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
