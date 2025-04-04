@@ -71,12 +71,33 @@ export default function Transcriber() {
           </Button>
         </CardContent>
       </Card>
-      {}
-      {transcript && (
-        <div className={`p-4 mt-5 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 ${theme === "dark" ? "border-white bg-gray-700 text-white" : "border-black bg-gray-200 text-black"}`}>
-          <p className="text-lg">{transcript}</p>
+      <div className="mt-5 w-full max-w-4xl p-6 border-4 shadow-[6px_6px_0px_rgba(0,0,0,1)] 
+                transition-all duration-300 overflow-y-auto max-h-96 
+                rounded-xl bg-gray-100 dark:bg-gray-800 
+                text-black dark:text-white border-black dark:border-white">
+  {detectSpeakers && Object.keys(detectSpeakers).length > 0 ? (
+    <>
+      <h3 className="text-2xl font-bold mb-4 border-b-4 border-black dark:border-white pb-2">
+        🎙 Transcription by Speaker
+      </h3>
+      {detectSpeakers.map((utterance, index) => (
+        <div key={index} className="mb-4 p-3 rounded-lg border-4 bg-white dark:bg-gray-900 
+                                    border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+          <p className="font-semibold text-lg">
+            <span className="text-blue-600 dark:text-blue-400">Speaker {utterance.speaker}:</span>
+          </p>
+          <p className="ml-2 text-md">{utterance.text}</p>
         </div>
-      )}
+      ))}
+    </>
+  ) : (
+    <div className="p-6 border-4 rounded-lg h-80 overflow-y-auto transition-all duration-300 
+                    border-black dark:border-white bg-gray-200 dark:bg-gray-700 text-black dark:text-white 
+                    shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+      <p className="text-lg">{transcript}</p>
     </div>
+  )}
+</div>
+      </div>
   );
 }
