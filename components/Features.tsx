@@ -1,4 +1,4 @@
-import { features } from '@/public/featuresData'
+import { features } from '@/public/data'
 import Marquee from 'react-fast-marquee'
 
 export default function Features() {

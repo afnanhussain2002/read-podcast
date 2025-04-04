@@ -24,3 +24,44 @@ export const features = [
       text: 'Every transcript includes a confidence score for each word and accurate timestamps — perfect for reviewing or editing.',
     },
   ]
+
+  export const pricingPlans = [
+    {
+      planName: 'Free',
+      description: 'Perfect for individuals exploring transcription services.',
+      price: '0',
+      perks: [
+        'Up to 5 hours of transcription per month',
+        'Transcription for local files and URLs',
+        'Basic speaker detection',
+        'Automatic language detection (15+ languages)',
+        'AI-generated summaries',
+        'Community support',
+      ],
+    },
+    {
+      planName: 'Pro',
+      description: 'Ideal for content creators and professionals.',
+      price: '15',
+      mostPopular: true,
+      perks: [
+        'Up to 20 hours of transcription per month',
+        'Advanced speaker detection with labeling',
+        'Confidence scores and timestamps',
+        'All Free plan features',
+        'Priority email support',
+      ],
+    },
+    {
+      planName: 'Business',
+      description: 'Best for teams and organizations with high-volume needs.',
+      price: '70',
+      perks: [
+        'Up to 100 hours of transcription per month',
+        'Team collaboration tools',
+        'API access for integration',
+        'Dedicated account manager',
+        'All Pro plan features',
+      ],
+    },
+  ]
