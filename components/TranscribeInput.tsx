@@ -7,15 +7,11 @@ import { Button } from './ui/button'
 
 const TranscribeInput = () => {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
    
     <CardContent>
       <form>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="Name of your project" />
-          </div>
+        <div className="grid grid-cols-2 w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="framework">Framework</Label>
             <Select>
@@ -29,6 +25,10 @@ const TranscribeInput = () => {
                 <SelectItem value="nuxt">Nuxt.js</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" placeholder="Name of your project" />
           </div>
         </div>
       </form>
