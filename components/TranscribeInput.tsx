@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
-import { Card, CardContent, CardFooter } from './ui/card'
-import { Input } from './ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Button } from './ui/button'
-import { Label } from './ui/label'
+import React, { useState } from "react";
+import { Card, CardContent, CardFooter } from "./ui/card";
+import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Loader2 } from "lucide-react";
 
 const TranscribeInput = () => {
-  const [inputType, setInputType] = useState('youtubeLink') 
+  const [inputType, setInputType] = useState("youtubeLink");
   const [videoUrl, setVideoUrl] = useState("");
   const [transcript, setTranscript] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,7 +32,6 @@ const TranscribeInput = () => {
       });
       const data = await response.json();
       const speakersText = data.speakers || [];
-
 
       console.log(data);
       setDetectSpeakers(speakersText);
@@ -55,18 +61,20 @@ const TranscribeInput = () => {
             </div>
 
             <div className="flex-1 space-y-1.5">
-              {inputType === 'youtubeLink' && (
-                <Input id="youtubeLink" placeholder="Paste YouTube video link..."
-                value={videoUrl}
-                onChange={(e) => setVideoUrl(e.target.value)}
-                 />
+              {inputType === "youtubeLink" && (
+                <Input
+                  id="youtubeLink"
+                  placeholder="Paste YouTube video link..."
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                />
               )}
 
-              {inputType === 'localVideo' && (
+              {inputType === "localVideo" && (
                 <Input id="localVideo" type="file" accept="video/*" />
               )}
 
-              {inputType === 'localAudio' && (
+              {inputType === "localAudio" && (
                 <Input id="localAudio" type="file" accept="audio/*" />
               )}
             </div>
@@ -79,16 +87,20 @@ const TranscribeInput = () => {
               onChange={() => setSpeakers(!speakers)}
               className="w-5 h-5"
             />
-            <Label htmlFor="speakers" className="text-lg">Enable Speaker Detection</Label>
+            <Label htmlFor="speakers" className="text-lg">
+              Enable Speaker Detection
+            </Label>
           </div>
         </form>
       </CardContent>
 
       <CardFooter className="flex justify-end">
-        <Button variant="default">Get Transcribe</Button>
+        <Button variant="default" onClick={fetchTranscript} disabled={loading}>
+        {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
+        </Button>
       </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
-export default TranscribeInput
+export default TranscribeInput;
