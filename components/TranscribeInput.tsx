@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from './ui/card'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
+import { Label } from './ui/label'
 
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState('youtubeLink') 
@@ -48,7 +49,7 @@ const TranscribeInput = () => {
               onChange={() => setSpeakers(!speakers)}
               className="w-5 h-5"
             />
-            <label htmlFor="speakers" className="text-lg">Enable Speaker Detection</label>
+            <Label htmlFor="speakers" className="text-lg">Enable Speaker Detection</Label>
           </div>
         </form>
       </CardContent>
