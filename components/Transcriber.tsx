@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
+import TranscribeInput from "./TranscribeInput";
 
 
 
@@ -50,6 +51,8 @@ export default function Transcriber() {
        
       🎧 Local files, 🎥 YouTube links, or 🎙️ Podcasts — all welcome!
       </p>
+
+      <TranscribeInput/>
       
     </div>
   </header>
