@@ -1,27 +1,21 @@
 import { ITranscript } from "@/dataTypes/transcribeDataTypes";
 import mongoose, { Schema, model, models } from "mongoose";
 
-
+// Define the speaker schema
+const SpeakerSchema = new Schema({
+  speaker: String,
+  text: String,
+  start: Number,
+  end: Number
+});
 
 const transcriptSchema = new Schema<ITranscript>(
   {
-    audioUrl: { type: String, required: true },
-    status: { 
-      type: String, 
-      enum: ["queued", "processing", "completed", "failed"], 
-      required: true 
-    },
-    text: { type: String },
-    words: [
-      {
-        start: { type: Number, required: true },
-        end: { type: Number, required: true },
-        text: { type: String, required: true },
-        confidence: { type: Number, required: true },
-      },
-    ],
+    transcript: { type: String, required: true },
     confidence: { type: Number, min: 0, max: 1 },
-    processingCompletedAt: { type: Date },
+    speakers: [SpeakerSchema],
+    OwnerId: { type: Schema.Types.ObjectId, ref: "User" },
+    
   },
   { timestamps: true }
 );

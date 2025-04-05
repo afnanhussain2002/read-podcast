@@ -13,7 +13,7 @@ export interface ISpeaker {
 export interface ITranscript {
     _id?: mongoose.Types.ObjectId;
     transcript: string;
-    confidence?: number;   
+    confidence: number;   
     speakers?: ISpeaker[]; 
     createdAt?: Date;
     updatedAt?: Date;
