@@ -1,21 +1,7 @@
+import { ITranscript } from "@/dataTypes/transcribeDataTypes";
 import mongoose, { Schema, model, models } from "mongoose";
 
-// Define the speaker type for each utterance
 
-export interface ITranscript {
-  _id?: mongoose.Types.ObjectId;
-  audioUrl: string;
-  status: "queued" | "processing" | "completed" | "failed"; // API-defined statuses
-  text?: string; // Transcribed text (available when status is "completed")
-  words?: {
-    start: number;
-    end: number;
-    text: string;
-    confidence: number;
-  }[];
-  confidence?: number; // Overall confidence score
-  processingCompletedAt?: Date;
-}
 
 const transcriptSchema = new Schema<ITranscript>(
   {
