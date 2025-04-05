@@ -55,7 +55,7 @@ const TranscribeInput = () => {
       </CardContent>
 
       <CardFooter className="flex justify-end">
-        <Button variant="default">Transcribe</Button>
+        <Button variant="default">Get Transcribe</Button>
       </CardFooter>
     </Card>
   )
