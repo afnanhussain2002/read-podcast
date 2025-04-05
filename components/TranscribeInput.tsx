@@ -43,7 +43,7 @@ const TranscribeInput = () => {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-white dark:bg-secondaryBlack border-border border-main">
       <CardContent className="mt-4">
         <form>
           <div className="flex w-full items-center gap-1">
