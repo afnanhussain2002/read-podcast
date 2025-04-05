@@ -3,6 +3,8 @@ import { Card, CardContent, CardFooter } from './ui/card'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
+import { Youtube, Video, FileAudio } from 'lucide-react';
+
 
 const TranscribeInput = () => {
   return (
@@ -11,16 +13,16 @@ const TranscribeInput = () => {
     <CardContent className='mt-4'>
       <form>
         <div className="flex w-full items-center gap-1">
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 w-48">
             
             <Select>
               <SelectTrigger className="bg-bw text-text" id="framework">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="youtubeLink">Youtube Link</SelectItem>
-                <SelectItem value="localVideo">Local Video</SelectItem>
-                <SelectItem value="localAudio">Local Audio</SelectItem>
+                <SelectItem value="youtubeLink">🔗 Youtube Link</SelectItem>
+                <SelectItem value="localVideo">🎥 Local Video</SelectItem>
+                <SelectItem value="localAudio">🎧 Local Audio</SelectItem>
               </SelectContent>
             </Select>
           </div>
