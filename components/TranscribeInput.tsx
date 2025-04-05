@@ -9,11 +9,11 @@ const TranscribeInput = () => {
   return (
     <Card className="w-full">
    
-    <CardContent>
+    <CardContent className='mt-4'>
       <form>
-        <div className="grid grid-cols-2 w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">Framework</Label>
+        <div className="flex w-full items-center gap-1">
+          <div className="space-y-1.5">
+            
             <Select>
               <SelectTrigger className="bg-bw text-text" id="framework">
                 <SelectValue placeholder="Select" />
@@ -26,15 +26,14 @@ const TranscribeInput = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
+          <div className="flex-1 space-y-1.5">
             <Input id="name" placeholder="Name of your project" />
           </div>
         </div>
       </form>
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="neutral">Deploy</Button>
+    <CardFooter className="flex justify-end">
+      <Button variant="default">Transcribe</Button>
     </CardFooter>
   </Card>
   )
