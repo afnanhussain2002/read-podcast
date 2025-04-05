@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from './ui/card'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
-import { Youtube, Video, FileAudio } from 'lucide-react';
+
 
 
 const TranscribeInput = () => {
