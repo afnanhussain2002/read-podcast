@@ -7,7 +7,11 @@ import { Label } from './ui/label'
 
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState('youtubeLink') 
+  const [videoUrl, setVideoUrl] = useState("");
+  const [transcript, setTranscript] = useState("");
+  const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
+  const [detectSpeakers, setDetectSpeakers] = useState({});
 
   return (
     <Card className="w-full">
