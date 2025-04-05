@@ -56,7 +56,10 @@ const TranscribeInput = () => {
 
             <div className="flex-1 space-y-1.5">
               {inputType === 'youtubeLink' && (
-                <Input id="youtubeLink" placeholder="Paste YouTube video link..." />
+                <Input id="youtubeLink" placeholder="Paste YouTube video link..."
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                 />
               )}
 
               {inputType === 'localVideo' && (
