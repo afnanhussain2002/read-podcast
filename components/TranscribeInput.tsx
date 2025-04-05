@@ -33,6 +33,9 @@ const TranscribeInput = () => {
       const data = await response.json();
       const speakersText = data.speakers || [];
 
+      const jsonSizeInBytes = new Blob([JSON.stringify(data)]).size;
+      console.log(`Data size: ${(jsonSizeInBytes / 1024).toFixed(2)} KB`);
+
       console.log(data);
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
