@@ -3,10 +3,7 @@ import React from 'react'
 const TranscribeInput = () => {
   return (
     <Card className="w-[350px]">
-    <CardHeader>
-      <CardTitle>Create project</CardTitle>
-      <CardDescription>Deploy your new project in one-click.</CardDescription>
-    </CardHeader>
+   
     <CardContent>
       <form>
         <div className="grid w-full items-center gap-4">
