@@ -67,6 +67,7 @@ const TranscribeInput = () => {
                   placeholder="Paste YouTube video link..."
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
+                  className="text-black dark:text-white"
                 />
               )}
 
