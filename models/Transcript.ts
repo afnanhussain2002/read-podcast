@@ -1,5 +1,7 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
+// Define the speaker type for each utterance
+
 export interface ITranscript {
   _id?: mongoose.Types.ObjectId;
   audioUrl: string;
