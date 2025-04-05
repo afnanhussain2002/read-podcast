@@ -1,7 +1,9 @@
 import React from 'react'
-import { Card, CardContent } from './ui/card'
+import { Card, CardContent, CardFooter } from './ui/card'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { Button } from './ui/button'
 
 const TranscribeInput = () => {
   return (
@@ -32,7 +34,6 @@ const TranscribeInput = () => {
       </form>
     </CardContent>
     <CardFooter className="flex justify-between">
-      <Button>Cancel</Button>
       <Button variant="neutral">Deploy</Button>
     </CardFooter>
   </Card>
