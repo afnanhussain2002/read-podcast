@@ -5,7 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Button } from './ui/button'
 
 const TranscribeInput = () => {
-  const [inputType, setInputType] = useState('youtubeLink') // Track selected option
+  const [inputType, setInputType] = useState('youtubeLink') 
+  const [speakers, setSpeakers] = useState(false);
 
   return (
     <Card className="w-full">
@@ -38,6 +39,16 @@ const TranscribeInput = () => {
                 <Input id="localAudio" type="file" accept="audio/*" />
               )}
             </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="speakers"
+              checked={speakers}
+              onChange={() => setSpeakers(!speakers)}
+              className="w-5 h-5"
+            />
+            <label htmlFor="speakers" className="text-lg">Enable Speaker Detection</label>
           </div>
         </form>
       </CardContent>
