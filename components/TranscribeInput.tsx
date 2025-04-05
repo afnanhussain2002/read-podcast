@@ -13,6 +13,29 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
 
+  const fetchTranscript = async () => {
+    if (!videoUrl.trim()) return;
+    setLoading(true);
+    setTranscript("");
+    try {
+      const response = await fetch("/api/transcriber", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ videoUrl, speakers }),
+      });
+      const data = await response.json();
+      const speakersText = data.speakers || [];
+
+
+      console.log(data);
+      setDetectSpeakers(speakersText);
+      setTranscript(data.transcript || "No transcript available.");
+    } catch (error) {
+      setTranscript("Failed to fetch transcript.");
+    }
+    setLoading(false);
+  };
+
   return (
     <Card className="w-full">
       <CardContent className="mt-4">
