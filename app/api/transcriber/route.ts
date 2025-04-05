@@ -55,7 +55,12 @@ export async function POST(req: NextRequest) {
                     console.log("Transcript received:", transcript);
 
                     if (transcript.status === 'completed') {
-                        resolve(NextResponse.json({ transcript: transcript.text, speakers: transcript.utterances, confidence: transcript.confidence }));
+                        resolve(NextResponse.json({ transcript: transcript.text, speakers: transcript.utterances?.map( utterance => ({
+                            speaker: utterance.speaker,
+                            text: utterance.text,
+                            start: utterance.start,
+                            end: utterance.end
+                        })), confidence: transcript.confidence }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
                     }
