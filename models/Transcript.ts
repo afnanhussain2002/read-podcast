@@ -1,5 +1,5 @@
 import { ITranscript } from "@/dataTypes/transcribeDataTypes";
-import mongoose, { Schema, model, models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 // Define the speaker schema
 const SpeakerSchema = new Schema({
