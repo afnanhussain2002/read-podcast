@@ -18,16 +18,15 @@ const TranscribeInput = () => {
               <SelectTrigger className="bg-bw text-text" id="framework">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="next">Next.js</SelectItem>
-                <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                <SelectItem value="astro">Astro</SelectItem>
-                <SelectItem value="nuxt">Nuxt.js</SelectItem>
+              <SelectContent>
+                <SelectItem value="youtubeLink">Youtube Link</SelectItem>
+                <SelectItem value="localVideo">Local Video</SelectItem>
+                <SelectItem value="localAudio">Local Audio</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="flex-1 space-y-1.5">
-            <Input id="name" placeholder="Name of your project" />
+            <Input id="Link" placeholder="Paste Youtube video link..." />
           </div>
         </div>
       </form>
