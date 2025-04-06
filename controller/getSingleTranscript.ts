@@ -14,6 +14,7 @@ export default async function getSingleTranscript(transcriptId: string) {
 
         return NextResponse.json({ transcript }, { status: 200 });
     } catch (error) {
+        console.log(error, "error from getting transcript");
         NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
     }
 }
