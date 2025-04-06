@@ -10,9 +10,15 @@ export default async function saveTranscript(transcript: string, confidence: num
 
         const transcribedData = await Transcript.create({transcript, confidence, speakers, OwnerId});
 
+        const createdTranscript = await Transcript.findById(transcribedData._id);
+
+        if (!createdTranscript) {
+         NextResponse.json({error: "Failed to save data on database"}, {status: 500});
+        }
+
         console.log(transcribedData, "Save on database");
 
-        return NextResponse.json({transcribedData,}, {status: 200});
+        return NextResponse.json({createdTranscript,}, {status: 200});
 
      } catch (error) {
         console.log(error, "error from saving data on database");
