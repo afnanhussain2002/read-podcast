@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 import { AssemblyAI } from "assemblyai";
+import saveTranscript from "@/controller/saveTranscript";
 
 const client = new AssemblyAI({
     apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -55,12 +56,14 @@ export async function POST(req: NextRequest) {
                     console.log("Transcript received:", transcript);
 
                     if (transcript.status === 'completed') {
-                        resolve(NextResponse.json({ transcript: transcript.text, speakers: transcript.utterances?.map( utterance => ({
+                        const speakersData = transcript.utterances?.map( utterance => ({
                             speaker: utterance.speaker,
                             text: utterance.text,
                             start: utterance.start,
                             end: utterance.end
-                        })), confidence: transcript.confidence }));
+                        }));
+                        await saveTranscript(transcript.text!, transcript.confidence!, speakersData! )
+                        resolve(NextResponse.json({ transcript: transcript.text, speakers: speakersData, confidence: transcript.confidence }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
                     }

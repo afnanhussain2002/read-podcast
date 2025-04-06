@@ -4,11 +4,11 @@ import Transcript from "@/models/Transcript";
 import { NextResponse } from "next/server";
 
 
-export default async function saveTranscript(transcript: string, confidence: number, speakers: ISpeaker[], OwnerId: string) {
+export default async function saveTranscript(transcript: string, confidence: number, speakers: ISpeaker[], ) {
      try {
         connectToDatabase();
 
-        const transcribedData = await Transcript.create({transcript, confidence, speakers, OwnerId});
+        const transcribedData = await Transcript.create({transcript, confidence, speakers});
 
         console.log(transcribedData, "Save on database");
 
