@@ -4,7 +4,7 @@ import { AssemblyAI } from "assemblyai";
 import saveTranscript from "@/controller/saveTranscript";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import getSingleTranscript from "@/controller/getSingleTranscript";
+
 
 
 
@@ -80,12 +80,7 @@ const userId = session.user.id;
                         // save data on DB
                       const transcribedData =  await saveTranscript(transcript.text!, transcript.confidence!, speakersData, userId )
 
-                     
-
-                       // Now, retrieve the saved transcript data using the returned ID
-                       const savedTranscript = await getSingleTranscript(transcribedData.id);
-
-                      
+                       
                       
                         // send response
                         resolve(NextResponse.json({ transcribedData }, { status: 200 }));
