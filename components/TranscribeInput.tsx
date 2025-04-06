@@ -12,6 +12,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 
+
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
   const [videoUrl, setVideoUrl] = useState("");
@@ -39,7 +40,7 @@ const TranscribeInput = () => {
       console.log(data);
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      localStorage.setItem("transcript", data.transcript || "No transcript available.");
+      localStorage.setItem("transcript", JSON.stringify(data) || "No transcript available.");
     } catch (error) {
       setTranscript("Failed to fetch transcript.");
     }
