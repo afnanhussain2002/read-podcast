@@ -12,7 +12,7 @@ export default async function getSingleTranscript(transcriptId: string) {
             return NextResponse.json({ error: "Transcript not found" }, { status: 404 });
         }
 
-        
+        return NextResponse.json({ transcript }, { status: 200 });
     } catch (error) {
         NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
     }
