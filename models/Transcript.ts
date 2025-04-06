@@ -12,9 +12,9 @@ const SpeakerSchema = new Schema({
 const transcriptSchema = new Schema<ITranscript>(
   {
     transcript: { type: String, required: true },
-    confidence: { type: Number, min: 0, max: 1 },
+    confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
-    OwnerId: { type: Schema.Types.ObjectId, ref: "User" },
+    OwnerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     
   },
   { timestamps: true }
