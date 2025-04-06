@@ -20,9 +20,9 @@ export default withAuth(
         }
 
         // Public routes
-        if (pathname === "/" || pathname.startsWith("/api/transcriber")) {
+      /*   if (pathname === "/" || pathname.startsWith("/api/transcriber")) {
           return true;
-        }
+        } */
         // All other routes require authentication
         return !!token;
       },

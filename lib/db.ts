@@ -15,11 +15,16 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
+  // Check if the connection already exists in the cache
   if (cached.conn) {
+    console.log("Reusing existing database connection.");
     return cached.conn;
   }
 
+  // If no connection in cache, set up a new connection
   if (!cached.promise) {
+    console.log("No existing connection, attempting to connect...");
+
     const opts = {
       bufferCommands: true,
       maxPoolSize: 10,
@@ -27,15 +32,24 @@ export async function connectToDatabase() {
 
     cached.promise = mongoose
       .connect(MONGODB_URI, opts)
-      .then(() => mongoose.connection);
+      .then(() => {
+        console.log("Successfully connected to MongoDB!");
+        return mongoose.connection;
+      })
+      .catch((error) => {
+        console.error("Error connecting to MongoDB:", error);
+        throw error; // Rethrow the error for handling in the calling code
+      });
   }
 
   try {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    console.error("Database connection failed:", e);
     throw e;
   }
 
+  console.log("Database connection established.");
   return cached.conn;
 }

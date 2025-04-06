@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 import { AssemblyAI } from "assemblyai";
 import saveTranscript from "@/controller/saveTranscript";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+
 
 const client = new AssemblyAI({
     apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -9,6 +13,15 @@ const client = new AssemblyAI({
 
 export async function POST(req: NextRequest) {
     try {
+
+        const session = await getServerSession(authOptions);
+
+if (!session || !session.user) {
+  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+}
+
+const userId = session.user.id;
+       
         const { videoUrl, speakers } = await req.json();
         if (!videoUrl) {
             return NextResponse.json({ error: "No YouTube URL provided" }, { status: 400 });
@@ -64,7 +77,7 @@ export async function POST(req: NextRequest) {
                         }));
 
                         // save data on DB
-                        await saveTranscript(transcript.text!, transcript.confidence!, speakersData! )
+                        await saveTranscript(transcript.text!, transcript.confidence!, speakersData, userId )
                         // send response
                         resolve(NextResponse.json({ transcript: transcript.text, speakers: speakersData, confidence: transcript.confidence }));
                     } else {
