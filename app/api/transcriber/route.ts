@@ -62,7 +62,10 @@ export async function POST(req: NextRequest) {
                             start: utterance.start,
                             end: utterance.end
                         }));
+
+                        // save data on DB
                         await saveTranscript(transcript.text!, transcript.confidence!, speakersData! )
+                        // send response
                         resolve(NextResponse.json({ transcript: transcript.text, speakers: speakersData, confidence: transcript.confidence }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
