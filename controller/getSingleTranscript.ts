@@ -7,6 +7,12 @@ export default async function getSingleTranscript(transcriptId: string) {
         await connectToDatabase();
 
         const transcript = await Transcript.findById(transcriptId);
+
+        if (!transcript) {
+            return NextResponse.json({ error: "Transcript not found" }, { status: 404 });
+        }
+
+        
     } catch (error) {
         NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
     }
