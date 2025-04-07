@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 import { AssemblyAI } from "assemblyai";
-import saveTranscript from "@/controller/saveTranscript";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { connectToDatabase } from "@/lib/db";
+import Transcript from "@/models/Transcript";
 
 
 
@@ -78,12 +79,17 @@ const userId = session.user.id;
                         }));
 
                         // save data on DB
-                      const transcribedData =  await saveTranscript(transcript.text!, transcript.confidence!, speakersData, userId )
+
+                    await connectToDatabase();
+
+                    const transcribedData = await Transcript.create({transcript: transcript.text!, confidence: transcript.confidence!, speakers: speakersData, OwnerId: userId});
+
+                    const createdTranscript = await Transcript.findById(transcribedData._id);
 
                        
                       
                         // send response
-                        resolve(NextResponse.json({ transcribedData }, { status: 200 }));
+                        resolve(NextResponse.json({ createdTranscript }, { status: 200 }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
                     }
