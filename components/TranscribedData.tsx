@@ -1,6 +1,5 @@
 import { ITranscript } from '@/dataTypes/transcribeDataTypes';
 import React, { useEffect, useState } from 'react'
-import { Label } from './ui/label';
 import { Card } from './ui/card';
 
 const TranscribedData = () => {
