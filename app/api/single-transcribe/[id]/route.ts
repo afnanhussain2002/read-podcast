@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 export default async function handler(req: NextRequest, { params }: { params: { id: string } }) {
     const { id } = params;
 
-    const transcript = await getSingleTranscript(id);
-    if (!transcript) {
+    const singleTranscript = await getSingleTranscript(id);
+    if (!singleTranscript) {
         return NextResponse.json({ error: "Transcript not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ transcript }, { status: 200 });
+    return NextResponse.json({ singleTranscript }, { status: 200 });
 }
