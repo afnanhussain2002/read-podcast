@@ -15,6 +15,7 @@ const TranscribedData = () => {
       }
     }
   }, []);
+  console.log(transcript);
 
 
   return (
