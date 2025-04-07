@@ -1,23 +1,71 @@
 "use client"
 import { ITranscript } from '@/dataTypes/transcribeDataTypes';
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Card } from './ui/card';
 
 const TranscribedData = () => {
 
    const [transcript, setTranscript] = useState<ITranscript>()
+   const [transcriptId, setTranscriptId] = useState<string>('');
 
-   useEffect(() => {
+   /* useEffect(() => {
+
+    const fetchTranscriptFromAPI = async (id: string) => {
+      try {
+        const response = await fetch(`/api/single-transcribe/${id}`);
+        const data = await response.json();
+        setTranscript(data);
+      } catch (error) {
+        console.error('Failed to fetch transcript from API:', error);
+      }
+    };
+  
     const storedTranscript = localStorage.getItem('transcript');
     if (storedTranscript) {
       try {
-        const parsedTranscript = JSON.parse(storedTranscript) 
-        setTranscript(parsedTranscript);
+        const parsedTranscript = JSON.parse(storedTranscript);
+        if (parsedTranscript?.transcript) {
+          setTranscriptId(parsedTranscript);
+          fetchTranscriptFromAPI(parsedTranscript);
+        }
       } catch (error) {
         console.error('Failed to parse transcript from localStorage:', error);
       }
     }
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    const storedTranscript = localStorage.getItem('transcript');
+    if (storedTranscript) {
+      try {
+        const parsedTranscript = JSON.parse(storedTranscript);
+        if (parsedTranscript) {
+          setTranscriptId(parsedTranscript.transcript);
+        }
+      } catch (error) {
+        console.error('Failed to parse transcript from localStorage:', error);
+      }
+    }
+  },[])
+
+
+  useEffect(() => {
+    if (transcriptId) {
+      const fetchTranscriptFromAPI = async (id: string) => {
+        try {
+          const response = await fetch(`/api/single-transcribe/${id}`);
+          const data = await response.json();
+          setTranscript(data);
+        } catch (error) {
+          console.error('Failed to fetch transcript from API:', error);
+        }
+      };
+  
+      fetchTranscriptFromAPI(transcriptId);
+    }
+  }, [transcriptId]);
+
+  console.log(transcriptId);
   console.log(transcript);
 
    // Convert ms to mm:ss format

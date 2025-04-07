@@ -14,13 +14,14 @@ export default withAuth(
         if (
           pathname.startsWith("/api/auth") ||
           pathname === "/login" ||
-          pathname === "/register"
+          pathname === "/register" 
         ) {
           return true;
         }
 
         // Public routes
-        if (pathname === "/" ) {
+        if (pathname === "/" ||
+          pathname.startsWith("/api/single-transcribe" ) ) {
           return true;
         }
         // All other routes require authentication
