@@ -12,7 +12,7 @@ const TranscribedData = () => {
     if (storedTranscript) {
       try {
         const parsedTranscript = JSON.parse(storedTranscript) 
-        setTranscript(parsedTranscript.createdTranscript);
+        setTranscript(parsedTranscript);
       } catch (error) {
         console.error('Failed to parse transcript from localStorage:', error);
       }
