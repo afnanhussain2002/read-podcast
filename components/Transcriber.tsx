@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
 import TranscribeInput from "./TranscribeInput";
+import TranscribedData from "./TranscribedData";
 
 
 
@@ -56,6 +57,7 @@ export default function Transcriber() {
       
     </div>
   </header>
+  <TranscribedData/>
     <div
       className={`flex flex-col items-center justify-center min-h-screen p-6 transition-colors duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
     >
