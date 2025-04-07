@@ -89,7 +89,7 @@ const userId = session.user.id;
                        
                       
                         // send response
-                        resolve(NextResponse.json({ createdTranscript }, { status: 200 }));
+                        resolve(NextResponse.json({ transcript: createdTranscript._id }, { status: 200 }));
                     } else {
                         resolve(NextResponse.json({ error: "Failed to transcribe audio" }, { status: 500 }));
                     }
