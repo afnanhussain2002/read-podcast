@@ -13,3 +13,9 @@ const upload = multer({
     dest: "uploads/",
 })
 const uploadMiddleware = upload.single("video");
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
