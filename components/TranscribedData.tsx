@@ -35,35 +35,28 @@ const TranscribedData = () => {
   }, []); */
 
   useEffect(() => {
-    const storedTranscript = localStorage.getItem('transcript');
-    if (storedTranscript) {
-      try {
-        const parsedTranscript = JSON.parse(storedTranscript);
-        if (parsedTranscript) {
-          setTranscriptId(parsedTranscript.transcript);
-        }
-      } catch (error) {
-        console.error('Failed to parse transcript from localStorage:', error);
-      }
-    }
-  },[])
-
-
-  useEffect(() => {
-    if (transcriptId) {
-      const fetchTranscriptFromAPI = async (id: string) => {
-        try {
-          const response = await fetch(`/api/single-transcribe/${id}`);
-          const data = await response.json();
-          setTranscript(data);
-        } catch (error) {
-          console.error('Failed to fetch transcript from API:', error);
-        }
-      };
+    const fetchTranscript = async () => {
+      const storedTranscript = localStorage.getItem('transcript');
   
-      fetchTranscriptFromAPI(transcriptId);
-    }
-  }, [transcriptId]);
+      if (!storedTranscript) return;
+  
+      try {
+        const parsed = JSON.parse(storedTranscript);
+        const id = parsed?.transcript;
+  
+        if (!id) return;
+  
+        const response = await fetch(`/api/single-transcribe/${id}`);
+        const data = await response.json();
+        setTranscript(data);
+      } catch (error) {
+        console.error('Error handling transcript:', error);
+      }
+    };
+  
+    fetchTranscript();
+  }, []);
+  
 
   console.log(transcriptId);
   console.log(transcript);
