@@ -41,7 +41,8 @@ const TranscribeInput = () => {
       console.log(data);
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      localStorage.setItem("transcript", JSON.stringify(data) || "No transcript available.");
+      localStorage.setItem("transcript", JSON.stringify(data));
+window.dispatchEvent(new Event("transcript-updated")); // ✅ trigger event
     } catch (error) {
       setTranscript("Failed to fetch transcript.");
     }

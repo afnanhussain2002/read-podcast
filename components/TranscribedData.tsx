@@ -8,7 +8,7 @@ const TranscribedData = () => {
    const [transcript, setTranscript] = useState<ITranscript>()
    const [transcriptId, setTranscriptId] = useState<string>('');
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchTranscript = async () => {
       const storedTranscript = localStorage.getItem('transcript');
   
@@ -29,7 +29,41 @@ const TranscribedData = () => {
     };
   
     fetchTranscript();
+  }, []); */
+
+  useEffect(() => {
+    const fetchTranscript = async () => {
+      const storedTranscript = localStorage.getItem('transcript');
+      if (!storedTranscript) return;
+  
+      try {
+        const parsed = JSON.parse(storedTranscript);
+        const id = parsed?.transcript;
+        if (!id) return;
+  
+        const response = await fetch(`/api/single-transcribe/${id}`);
+        const data = await response.json();
+        setTranscript(data);
+      } catch (error) {
+        console.error('Error fetching transcript:', error);
+      }
+    };
+  
+    // Initial load
+    fetchTranscript();
+  
+    // Listen for updates
+    const handleUpdate = () => {
+      fetchTranscript();
+    };
+  
+    window.addEventListener("transcript-updated", handleUpdate);
+  
+    return () => {
+      window.removeEventListener("transcript-updated", handleUpdate);
+    };
   }, []);
+  
   
 
   console.log(transcriptId);
