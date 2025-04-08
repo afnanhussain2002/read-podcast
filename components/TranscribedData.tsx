@@ -54,22 +54,8 @@ const TranscribedData = () => {
       }
     };
   
-    // Fetch once on mount
     fetchTranscript();
-  
-    // Set up listener for future updates
-    const handleUpdate = () => {
-      fetchTranscript();
-    };
-  
-    window.addEventListener("transcript-updated", handleUpdate);
-  
-    // Clean up listener
-    return () => {
-      window.removeEventListener("transcript-updated", handleUpdate);
-    };
   }, []);
-  
   
 
   console.log(transcriptId);
