@@ -81,7 +81,7 @@ const TranscribedData = () => {
   return (
     <section className='border-t-border dark:border-t-darkBorder dark:bg-darkBg border-t-2 bg-bg py-20 font-base lg:py-[100px]'>
     <Card className="p-4 max-w-xl mx-auto mt-10 bg-">
-      <h1 className="nb-text text-2xl mb-4">📝 Transcription Result</h1>
+      <h1 className="nb-text text-2xl mb-4">📝 Recent Transcript</h1>
       
 
       {transcript?.speakers?.length ? (
