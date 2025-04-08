@@ -27,3 +27,34 @@ const runMiddleware = (req, res, fn) => {
       });
     });
   };
+
+  export default async function Post(req, res) {
+    await runMiddleware(req, res, uploadMiddleware);
+  
+    const videoPath = req.file.path;
+    const audioPath = `uploads/${Date.now()}.mp3`;
+  
+    // Convert video to audio
+    ffmpeg(videoPath)
+      .output(audioPath)
+      .on('end', async () => {
+        // ✅ Audio is ready
+  
+        // TODO: Upload to cloud (Cloudinary, S3, or AssemblyAI's upload)
+        // Example: const audioUrl = await uploadToCloudinary(audioPath)
+  
+        // Then send audioUrl to AssemblyAI for transcription
+        // const transcript = await transcribeWithAssemblyAI(audioUrl)
+  
+        // Cleanup temp files
+        fs.unlinkSync(videoPath);
+        fs.unlinkSync(audioPath);
+  
+        res.status(200).json({ message: 'Audio extracted', audioPath });
+      })
+      .on('error', (err) => {
+        console.error(err);
+        res.status(500).json({ error: 'Conversion failed' });
+      })
+      .run();
+  }
