@@ -1,6 +1,6 @@
 "use client"
 import { ITranscript } from '@/dataTypes/transcribeDataTypes';
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from './ui/card';
 
 const TranscribedData = () => {
