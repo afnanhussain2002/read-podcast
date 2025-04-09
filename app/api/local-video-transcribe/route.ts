@@ -1,50 +1,38 @@
-// app/api/upload-video/route.ts
+// app/api/transcribe-audio/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import ffmpeg from 'fluent-ffmpeg';
-import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
-import multer from 'multer';
-import fs from 'fs';
-import path from 'path';
-import { Readable } from 'stream';
 
-ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+async function fileToBuffer(file: File): Promise<Buffer> {
+  const reader = file.stream().getReader();
+  const chunks: Uint8Array[] = [];
 
-const upload = multer({ dest: '/tmp' });
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
 
-function runMiddleware(req: any, res: any, fn: Function) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      return result instanceof Error ? reject(result) : resolve(result);
-    });
-  });
+  return Buffer.concat(chunks);
 }
 
-// Convert file to readable stream
-function fileToStream(filePath: string): Readable {
-  return fs.createReadStream(filePath);
-}
-
-// Upload audio to AssemblyAI
-async function uploadToAssemblyAI(audioPath: string) {
+async function uploadToAssemblyAI(buffer: Buffer): Promise<string> {
   const res = await fetch('https://api.assemblyai.com/v2/upload', {
     method: 'POST',
     headers: {
       authorization: process.env.ASSEMBLYAI_API_KEY!,
     },
-    body: fileToStream(audioPath),
+    body: buffer,
   });
 
   const data = await res.json();
   return data.upload_url;
 }
 
-// Send for transcription
-async function transcribeFromAssemblyAI(audioUrl: string) {
+async function requestTranscript(audioUrl: string): Promise<string> {
   const res = await fetch('https://api.assemblyai.com/v2/transcript', {
     method: 'POST',
     headers: {
       authorization: process.env.ASSEMBLYAI_API_KEY!,
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ audio_url: audioUrl }),
   });
@@ -53,58 +41,39 @@ async function transcribeFromAssemblyAI(audioUrl: string) {
   return data.id;
 }
 
-// Poll transcript result
-async function pollTranscript(id: string) {
-  const pollingEndpoint = `https://api.assemblyai.com/v2/transcript/${id}`;
-  let transcriptData;
+async function pollTranscript(id: string): Promise<string> {
+  const url = `https://api.assemblyai.com/v2/transcript/${id}`;
 
   while (true) {
-    const res = await fetch(pollingEndpoint, {
+    const res = await fetch(url, {
       headers: { authorization: process.env.ASSEMBLYAI_API_KEY! },
     });
 
-    transcriptData = await res.json();
-    if (transcriptData.status === 'completed') break;
-    if (transcriptData.status === 'error') throw new Error(transcriptData.error);
-    await new Promise((r) => setTimeout(r, 3000)); // wait 3s
-  }
+    const json = await res.json();
+    if (json.status === 'completed') return json.text;
+    if (json.status === 'error') throw new Error(json.error);
 
-  return transcriptData.text;
+    await new Promise((r) => setTimeout(r, 3000));
+  }
 }
 
-// Handle POST request
-export async function POST(req: NextRequest, res: any) {
+export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  const videoFile = formData.get('video') as File;
+  const file = formData.get('audio') as File;
 
-  // Save video to tmp
-  const tempVideoPath = `/tmp/${videoFile.name}`;
-  const buffer = Buffer.from(await videoFile.arrayBuffer());
-  fs.writeFileSync(tempVideoPath, buffer);
+  if (!file) {
+    return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+  }
 
-  const audioPath = `/tmp/${Date.now()}.mp3`;
+  const buffer = await fileToBuffer(file);
 
-  // Convert video to audio
-  await new Promise<void>((resolve, reject) => {
-    ffmpeg(tempVideoPath)
-      .output(audioPath)
-      .on('end', () => resolve())
-      .on('error', (err) => reject(err))
-      .run();
-  });
+  try {
+    const uploadUrl = await uploadToAssemblyAI(buffer);
+    const transcriptId = await requestTranscript(uploadUrl);
+    const transcript = await pollTranscript(transcriptId);
 
-  // Upload audio to AssemblyAI
-  const audioUrl = await uploadToAssemblyAI(audioPath);
-
-  // Request transcription
-  const transcriptId = await transcribeFromAssemblyAI(audioUrl);
-
-  // Poll and get result
-  const finalTranscript = await pollTranscript(transcriptId);
-
-  // Cleanup
-  fs.unlinkSync(tempVideoPath);
-  fs.unlinkSync(audioPath);
-
-  return NextResponse.json({ transcript: finalTranscript });
+    return NextResponse.json({ transcript });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }
