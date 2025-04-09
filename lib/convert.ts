@@ -1,15 +1,19 @@
-// lib/convert.ts
-import { fetchFile } from '@ffmpeg/ffmpeg';
-import { loadFFmpeg } from './load-ffmpeg';
+// utils/convert-to-audio.ts
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import path from 'path';
+import os from 'os';
 
-export const convertVideoToAudio = async (videoFile: File): Promise<Blob> => {
-  const ffmpeg = await loadFFmpeg();
-  const inputName = 'input.mp4';
-  const outputName = 'output.mp3';
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-  ffmpeg.FS('writeFile', inputName, await fetchFile(videoFile));
-  await ffmpeg.run('-i', inputName, outputName);
-  const data = ffmpeg.FS('readFile', outputName);
+export async function convertVideoToAudio(videoPath: string): Promise<string> {
+  const audioPath = path.join(os.tmpdir(), `${Date.now()}-output.mp3`);
 
-  return new Blob([data.buffer], { type: 'audio/mp3' });
-};
+  return new Promise((resolve, reject) => {
+    ffmpeg(videoPath)
+      .toFormat('mp3')
+      .on('end', () => resolve(audioPath))
+      .on('error', (err) => reject(err))
+      .save(audioPath);
+  });
+}

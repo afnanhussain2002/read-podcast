@@ -1,9 +1,13 @@
-// lib/load-ffmpeg.ts
-import { createFFmpeg } from '@ffmpeg/ffmpeg';
+// imports
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { toBlobURL } from '@ffmpeg/util';
 
-export const ffmpeg = createFFmpeg({ log: true });
-
-export const loadFFmpeg = async () => {
-  if (!ffmpeg.isLoaded()) await ffmpeg.load();
+export default async function loadFfmpeg(): Promise<FFmpeg> {
+  const ffmpeg = new FFmpeg();
+  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd';
+  await ffmpeg.load({
+    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+  });
   return ffmpeg;
-};
+}

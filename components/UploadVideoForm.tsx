@@ -1,43 +1,57 @@
-// components/UploadForm.tsx
-'use client';
-
+"use client"
 import { useState } from 'react';
-import { convertVideoToAudio } from '@/lib/convert';
 
-export default function UploadForm() {
-  const [loading, setLoading] = useState(false);
-  const [transcript, setTranscript] = useState('');
+const Home = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files ? event.target.files[0] : null;
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleFileUpload = async () => {
     if (!file) return;
-
-    setLoading(true);
-
-    const audioBlob = await convertVideoToAudio(file);
+    
     const formData = new FormData();
-    formData.append('audio', new File([audioBlob], 'converted.mp3', { type: 'audio/mp3' }));
+    formData.append('file', file);
 
-    const res = await fetch('/api/transcribe-audio', {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      setUploading(true);
+      setError(null);
+      // Replace with your backend file upload API endpoint
+      const response = await fetch('/api/local-video-transcribe', {
+        method: 'POST',
+        body: formData,
+      });
 
-    const data = await res.json();
-    setTranscript(data.transcript || 'No transcript received');
-    setLoading(false);
+      if (!response.ok) {
+        throw new Error('File upload failed.');
+      }
+
+      const result = await response.json();
+      alert(`File uploaded successfully: ${result.fileName}`);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
-    <div className="p-4">
-      <input type="file" accept="video/*" onChange={handleUpload} />
-      {loading && <p>Transcribing...</p>}
-      {transcript && (
-        <div className="mt-4">
-          <h2 className="text-lg font-bold">Transcript:</h2>
-          <pre>{transcript}</pre>
-        </div>
-      )}
+    <div>
+      <h1>File Upload</h1>
+      <input type="file" onChange={handleFileChange} />
+      {file && <p>Selected File: {file.name}</p>}
+      <button onClick={handleFileUpload} disabled={uploading}>
+        {uploading ? 'Uploading...' : 'Upload File'}
+      </button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
-}
+};
+
+export default Home;
