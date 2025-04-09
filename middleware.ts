@@ -21,7 +21,7 @@ export default withAuth(
 
         // Public routes
         if (pathname === "/" ||
-          pathname.startsWith("/api/single-transcribe" ) ) {
+          pathname.startsWith("/api/local-video-transcribe" ) ) {
           return true;
         }
         // All other routes require authentication
