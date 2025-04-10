@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
 import {
@@ -13,14 +13,66 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 
-
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
   const [videoUrl, setVideoUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [transcript, setTranscript] = useState("");
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
+  const [error, setError] = useState<string | null>(null);
+
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  const resetForm = () => {
+    formRef.current?.reset();
+    setVideoUrl("");
+    setFile(null);
+    setSpeakers(false);
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files ? event.target.files[0] : null;
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleFileUpload = async () => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("speakers", String(speakers)); // Convert boolean to string
+
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch("/api/local-video-transcribe", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("File upload failed.");
+      }
+
+      const data = await response.json();
+      const speakersText = data.speakers || [];
+
+      setDetectSpeakers(speakersText);
+      setTranscript(data.transcript || "No transcript available.");
+      localStorage.setItem("transcript", JSON.stringify(data));
+      window.dispatchEvent(new Event("transcript-updated"));
+
+      resetForm(); // ✅ reset after success
+    } catch (err: any) {
+      setError(err.message);
+      setTranscript("Failed to fetch transcript.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
@@ -35,27 +87,34 @@ const TranscribeInput = () => {
       const data = await response.json();
       const speakersText = data.speakers || [];
 
-      const jsonSizeInBytes = new Blob([JSON.stringify(data)]).size;
-      console.log(`Data size: ${(jsonSizeInBytes / 1024).toFixed(2)} KB`);
-
-      console.log(data);
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
       localStorage.setItem("transcript", JSON.stringify(data));
-window.dispatchEvent(new Event("transcript-updated")); // ✅ trigger event
+      window.dispatchEvent(new Event("transcript-updated"));
+
+      resetForm(); // ✅ reset after success
     } catch (error) {
       setTranscript("Failed to fetch transcript.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleAction = () => {
+    if (inputType === "youtubeLink") {
+      fetchTranscript();
+    } else {
+      handleFileUpload();
+    }
   };
 
   return (
     <Card className="w-full bg-white dark:bg-secondaryBlack border-border border-main">
       <CardContent className="mt-4">
-        <form>
+        <form ref={formRef}>
           <div className="flex w-full items-center gap-1">
             <div className="space-y-1.5 w-48">
-              <Select onValueChange={(value) => setInputType(value)}>
+              <Select onValueChange={(value) => setInputType(value)} value={inputType}>
                 <SelectTrigger className="bg-bw text-text" id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -78,16 +137,18 @@ window.dispatchEvent(new Event("transcript-updated")); // ✅ trigger event
                 />
               )}
 
-              {inputType === "localVideo" && (
-                <Input id="localVideo" type="file" accept="video/*" />
-              )}
-
-              {inputType === "localAudio" && (
-                <Input id="localAudio" type="file" accept="audio/*" />
+              {(inputType === "localVideo" || inputType === "localAudio") && (
+                <Input
+                  id={inputType}
+                  type="file"
+                  accept={inputType === "localVideo" ? "video/*" : "audio/*"}
+                  onChange={handleFileChange}
+                />
               )}
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+
+          <div className="flex items-center space-x-2 mt-3">
             <input
               type="checkbox"
               id="speakers"
@@ -103,8 +164,8 @@ window.dispatchEvent(new Event("transcript-updated")); // ✅ trigger event
       </CardContent>
 
       <CardFooter className="flex justify-end">
-        <Button variant="default" onClick={fetchTranscript} disabled={loading}>
-        {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
+        <Button variant="default" onClick={handleAction} disabled={loading}>
+          {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
         </Button>
       </CardFooter>
     </Card>

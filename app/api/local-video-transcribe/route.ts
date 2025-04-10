@@ -20,11 +20,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const {speakers} = await req.json();
+    
 
     const userId = session.user.id;
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
+    const speakers = formData.get("speakers") as string;
+  const isSpeakersEnabled = speakers === "true";
 
     if (!file) {
       return NextResponse.json({ error: "No video file provided" }, { status: 400 });
@@ -145,7 +147,7 @@ export async function POST(req: NextRequest) {
           console.log("Uploading to AssemblyAI...");
           const transcript = await client.transcripts.transcribe({
             audio: cloudinaryUrl, // Use Cloudinary URL
-            speaker_labels: speakers,
+            speaker_labels: isSpeakersEnabled,
           });
 
           console.log("Transcript received:", transcript);
