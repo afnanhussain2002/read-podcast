@@ -16,6 +16,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -84,6 +85,34 @@ export default function Register() {
                 required
               />
             </div>
+
+            <div className="grid gap-2">
+  <Label htmlFor="image">Profile Image</Label>
+  <Input
+    id="image"
+    type="file"
+    accept="image/*"
+    onChange={(e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }}
+  />
+  {imagePreview && (
+    <Image
+      src={imagePreview}
+      alt="Preview"
+      width={200}
+      height={200}
+      className="mt-2 rounded w-32 h-32 object-cover border"
+    />
+  )}
+</div>
 
             <Button type="submit" className="w-full">
               Register
