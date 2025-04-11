@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
 import { AssemblyAI } from "assemblyai";
-import { writeFile, unlink } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
 import os from "os";
 
