@@ -58,7 +58,7 @@ export default function Login() {
             <Input
               id="password"
               type="password"
-              placeholder="Your password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -73,7 +73,7 @@ export default function Login() {
         <GoogleSignIn />
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="underline underline-offset-4 text-blue-500 hover:text-blue-600">
+          <Link href="/register" className="underline underline-offset-4 font-bold hover:text-primary">
             Register
           </Link>
         </div>
