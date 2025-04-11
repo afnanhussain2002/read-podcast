@@ -21,19 +21,25 @@ import Image from "next/image";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const router = useRouter();
   const { showNotification } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: formData,
       });
 
       const data = await res.json();
@@ -88,32 +94,33 @@ export default function Register() {
             </div>
 
             <div className="grid gap-2">
-  <Label htmlFor="image">Profile Image</Label>
-  <Input
-    id="image"
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result as string);
-        };
-        reader.readAsDataURL(file);
-      }
-    }}
-  />
-  {imagePreview && (
-    <Image
-      src={imagePreview}
-      alt="Preview"
-      width={200}
-      height={200}
-      className="mt-2 rounded w-32 h-32 object-cover border"
-    />
-  )}
-</div>
+              <Label htmlFor="image">Profile Image</Label>
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setImageFile(file);
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setImagePreview(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+              {imagePreview && (
+                <Image
+                  src={imagePreview}
+                  alt="Preview"
+                  width={200}
+                  height={200}
+                  className="mt-2 rounded w-32 h-32 object-cover border"
+                />
+              )}
+            </div>
 
             <Button type="submit" className="w-full">
               Register
