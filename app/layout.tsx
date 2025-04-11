@@ -5,6 +5,7 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { ThemeProvider } from "@/providers/theme-provider";
 // import { SessionProvider } from "next-auth/react";
 import { NotificationProvider } from "@/components/Notification";
+import AuthProvider from "@/providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+     
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -40,6 +43,7 @@ export default function RootLayout({
         </NotificationProvider>
        
       </body>
+      
     </html>
   );
 }
