@@ -20,17 +20,11 @@ import { Button } from "@/components/ui/button";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
   const { showNotification } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      showNotification("Passwords do not match", "error");
-      return;
-    }
 
     try {
       const res = await fetch("/api/auth/register", {
