@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const router = useRouter();
   const { showNotification } = useNotification();
 
