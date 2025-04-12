@@ -9,6 +9,13 @@ const SpeakerSchema = new Schema({
   end: Number
 });
 
+const ChaptersSchema = new Schema({
+  gist: String,
+  headline: String,
+  start: Number,
+  end: Number
+})
+
 const transcriptSchema = new Schema<ITranscript>(
   {
     transcript: { type: String, required: true },
