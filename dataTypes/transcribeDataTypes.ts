@@ -24,6 +24,6 @@ export interface ITranscript {
     speakers?: ISpeaker[]; 
     createdAt?: Date;
     updatedAt?: Date;
-    
+    chapters?: chapters[];
     OwnerId: mongoose.Types.ObjectId;
   }
