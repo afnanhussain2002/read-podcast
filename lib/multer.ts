@@ -23,3 +23,15 @@ const storage = multer.diskStorage({
 });
 
 export const upload = multer({ storage });
+let total = 0;
+
+groupedItems.forEach(item => {
+  let quantityToCharge = item.quantity;
+  if (item.name === "Apple") {
+    const freeItems = Math.floor(item.quantity / 4);
+    quantityToCharge -= freeItems;
+  }
+  total += quantityToCharge * item.price;
+});
+
+console.log("Total Price:", total.toFixed(2));
