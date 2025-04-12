@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 // import { SessionProvider } from "next-auth/react";
 import { NotificationProvider } from "@/components/Notification";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
          <ThemeProvider attribute="class" disableTransitionOnChange>
          <Navbar/>
           {children}
+          <Footer/>
           <ThemeSwitcher />
         </ThemeProvider>
         </NotificationProvider>
