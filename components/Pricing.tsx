@@ -20,7 +20,7 @@ export default function Pricing() {
 
 function PricingPlan({ perks, mostPopular = false, planName, description, price }) {
   return (
-    <div className="border-border dark:border-darkBorder dark:bg-secondaryBlack flex flex-col justify-between rounded-base border-2 bg-white p-5">
+    <div id='pricing' className="border-border dark:border-darkBorder dark:bg-secondaryBlack flex flex-col justify-between rounded-base border-2 bg-white p-5">
       <div>
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-heading">{planName}</h3>
