@@ -78,6 +78,7 @@ export async function POST(req: NextRequest) {
           const transcript = await client.transcripts.transcribe({
             audio: cloudinaryUrl, // Use Cloudinary URL
             speaker_labels: speakers,
+            auto_chapters: true,
           });
 
           console.log("Transcript received:", transcript);
