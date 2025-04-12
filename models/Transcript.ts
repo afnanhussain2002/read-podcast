@@ -21,6 +21,7 @@ const transcriptSchema = new Schema<ITranscript>(
     transcript: { type: String, required: true },
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
+    chapters: [ChaptersSchema],
     OwnerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     
   },
