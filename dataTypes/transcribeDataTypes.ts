@@ -9,6 +9,13 @@ export interface ISpeaker {
   end: number;
 }
 
+export interface chapters{
+  gist: string;
+  headline: string;
+  start: number;
+  end: number;
+}
+
 // Main transcript interface without audioUrl, status, and words
 export interface ITranscript {
     _id?: mongoose.Types.ObjectId;
@@ -17,5 +24,6 @@ export interface ITranscript {
     speakers?: ISpeaker[]; 
     createdAt?: Date;
     updatedAt?: Date;
+    
     OwnerId: mongoose.Types.ObjectId;
   }
