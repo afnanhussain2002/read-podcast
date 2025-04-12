@@ -16,6 +16,12 @@ const ChaptersSchema = new Schema({
   end: Number
 })
 
+const ParagraphsSchema = new Schema({
+  text: String,
+  start: Number,
+  end: Number
+})
+
 const transcriptSchema = new Schema<ITranscript>(
   {
     transcript: { type: String, required: true },
