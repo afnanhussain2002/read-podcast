@@ -99,6 +99,7 @@ export async function POST(req: NextRequest) {
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
+              chapters: transcript.chapters,
               OwnerId: userId,
             });
 
