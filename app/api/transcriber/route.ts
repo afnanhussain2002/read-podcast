@@ -107,13 +107,7 @@ export async function POST(req: NextRequest) {
 
             return resolve(
               NextResponse.json(
-                {
-                  transcript: transcript.text,
-                  confidence: transcript.confidence!,
-                  speakers: speakersData,
-                  chapters: transcript.chapters,
-                  transcriptId: createdTranscript?._id,
-                },
+                { transcript: createdTranscript._id },
                 { status: 200 }
               )
             );
