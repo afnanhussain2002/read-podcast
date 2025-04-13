@@ -131,11 +131,11 @@ export async function POST(req: NextRequest) {
 
         try {
           // const parsedOutput = JSON.parse(output);
-          const cloudinaryUrl = output.trim(); // Get Cloudinary URL
+          const assemblyUrl = output.trim(); // Get Cloudinary URL
 
-          console.log(cloudinaryUrl, "Cloudinary URL line 132");
+          console.log(assemblyUrl, "Cloudinary URL line 132");
 
-          if (!cloudinaryUrl) {
+          if (!assemblyUrl) {
             return resolve(
               NextResponse.json(
                 { error: "Cloudinary upload failed" },
@@ -146,8 +146,9 @@ export async function POST(req: NextRequest) {
 
           console.log("Uploading to AssemblyAI...");
           const transcript = await client.transcripts.transcribe({
-            audio: cloudinaryUrl, // Use Cloudinary URL
+            audio: assemblyUrl, // Use Cloudinary URL
             speaker_labels: isSpeakersEnabled,
+            auto_chapters: true,
           });
 
           console.log("Transcript received:", transcript);
@@ -168,6 +169,7 @@ export async function POST(req: NextRequest) {
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
+              chapters: transcript.chapters,
               OwnerId: userId,
             });
 

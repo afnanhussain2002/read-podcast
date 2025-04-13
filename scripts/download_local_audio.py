@@ -1,46 +1,43 @@
-import os
 import sys
 import uuid
-import cloudinary
-import cloudinary.uploader
+import os
+import requests
 from moviepy.editor import VideoFileClip
 
-# Configure Cloudinary
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET")
-)
+ASSEMBLY_API_KEY = os.getenv("ASSEMBLYAI_API_KEY")
+UPLOAD_ENDPOINT = "https://api.assemblyai.com/v2/upload"
+HEADERS = {"authorization": ASSEMBLY_API_KEY}
 
 def convert_video_to_audio(video_path: str, output_audio_path: str = "output.mp3"):
     try:
         video = VideoFileClip(video_path)
-        video.audio.write_audiofile(output_audio_path, logger=None)  # Disable logs
+        video.audio.write_audiofile(output_audio_path, logger=None)
     except Exception as e:
         print(f"[ERROR] Video to audio conversion failed: {e}", file=sys.stderr)
         raise
 
-def upload_audio_to_cloudinary(audio_path: str):
+def upload_audio_to_assemblyai(audio_path: str) -> str:
     try:
-        result = cloudinary.uploader.upload(audio_path, resource_type="video")
-        return result["secure_url"]
+        with open(audio_path, 'rb') as f:
+            response = requests.post(UPLOAD_ENDPOINT, headers=HEADERS, data=f)
+        response.raise_for_status()
+        return response.json()["upload_url"]
     except Exception as e:
-        print(f"[ERROR] Cloudinary upload failed: {e}", file=sys.stderr)
+        print(f"[ERROR] AssemblyAI upload failed: {e}", file=sys.stderr)
         raise
 
-def process_and_upload_audio(video_path: str):
-    unique_filename = str(uuid.uuid4())
-    output_audio_path = f"{unique_filename}.mp3"
-
-    convert_video_to_audio(video_path, output_audio_path)
-    cloudinary_url = upload_audio_to_cloudinary(output_audio_path)
+def process_and_upload_audio(video_path: str) -> str:
+    unique_filename = f"{uuid.uuid4()}.mp3"
+    convert_video_to_audio(video_path, unique_filename)
+    
+    assembly_url = upload_audio_to_assemblyai(unique_filename)
 
     try:
-        os.remove(output_audio_path)
+        os.remove(unique_filename)
     except Exception as e:
         print(f"[ERROR] Cleanup failed: {e}", file=sys.stderr)
 
-    return cloudinary_url
+    return assembly_url
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -51,7 +48,7 @@ if __name__ == "__main__":
 
     try:
         url = process_and_upload_audio(video_path)
-        print(url)  # ✅ Only print the final URL to stdout
+        print(url)  # Only print the final upload URL to stdout
     except Exception as e:
         print(f"[ERROR] Video processing failed: {e}", file=sys.stderr)
         sys.exit(1)
