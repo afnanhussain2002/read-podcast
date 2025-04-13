@@ -79,9 +79,6 @@ export async function POST(req: NextRequest) {
             audio: cloudinaryUrl, // Use Cloudinary URL
             speaker_labels: speakers,
             auto_chapters: true,
-            summarization: true,
-            summary_model:"informative",
-            summary_type:"bullets",
           });
 
           console.log("Transcript received:", transcript);
@@ -103,7 +100,6 @@ export async function POST(req: NextRequest) {
               confidence: transcript.confidence!,
               speakers: speakersData,
               chapters: transcript.chapters,
-              summary: transcript.summarization,
               OwnerId: userId,
             });
 

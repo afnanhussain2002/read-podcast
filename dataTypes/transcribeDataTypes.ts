@@ -32,6 +32,5 @@ export interface ITranscript {
     updatedAt?: Date;
     chapters?: chapters[];
     paragraphs?: paragraphs[];
-    summary?: string;
     OwnerId: mongoose.Types.ObjectId;
   }
