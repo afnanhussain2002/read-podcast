@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     console.log("Received Video URL:", videoUrl);
 
-    // Run Python script to download audio and upload to Cloudinary
+    // Run Python script to download audio and upload to AssemblyAI
     const pythonProcess = spawn("python", [
       "./scripts/download_audio.py",
       videoUrl,
@@ -63,12 +63,12 @@ export async function POST(req: NextRequest) {
 
         try {
           const parsedOutput = JSON.parse(output);
-          const cloudinaryUrl = parsedOutput.cloudinary_url; // Get Cloudinary URL
+          const assemblyUrl = parsedOutput.assemblyai_url;
 
-          if (!cloudinaryUrl) {
+          if (!assemblyUrl) {
             return resolve(
               NextResponse.json(
-                { error: "Cloudinary upload failed" },
+                { error: "AssemblyAI upload failed" },
                 { status: 500 }
               )
             );
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
           console.log("Uploading to AssemblyAI...");
           const transcript = await client.transcripts.transcribe({
-            audio: cloudinaryUrl, // Use Cloudinary URL
+            audio: assemblyUrl,
             speaker_labels: speakers,
             auto_chapters: true,
           });
@@ -90,8 +90,6 @@ export async function POST(req: NextRequest) {
               start: utterance.start,
               end: utterance.end,
             }));
-
-            // save data on DB
 
             await connectToDatabase();
 
@@ -107,24 +105,23 @@ export async function POST(req: NextRequest) {
               transcribedData._id
             );
 
-            // send response
-            resolve(
+            return resolve(
               NextResponse.json(
                 { transcript: createdTranscript._id },
                 { status: 200 }
               )
             );
           } else {
-            resolve(
+            return resolve(
               NextResponse.json(
                 { error: "Failed to transcribe audio" },
                 { status: 500 }
               )
             );
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error("Error processing transcript:", err);
-          resolve(
+          return resolve(
             NextResponse.json(
               { error: "Processing error", details: err.message },
               { status: 500 }
@@ -133,7 +130,7 @@ export async function POST(req: NextRequest) {
         }
       });
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Server Error:", err);
     return NextResponse.json(
       { error: "Server error", details: err.message },
