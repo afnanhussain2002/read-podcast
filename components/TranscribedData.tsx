@@ -8,29 +8,6 @@ const TranscribedData = () => {
    const [transcript, setTranscript] = useState<ITranscript>()
    const [transcriptId, setTranscriptId] = useState<string>('');
 
-  /* useEffect(() => {
-    const fetchTranscript = async () => {
-      const storedTranscript = localStorage.getItem('transcript');
-  
-      if (!storedTranscript) return;
-  
-      try {
-        const parsed = JSON.parse(storedTranscript);
-        const id = parsed?.transcript;
-  
-        if (!id) return;
-  
-        const response = await fetch(`/api/single-transcribe/${id}`);
-        const data = await response.json();
-        setTranscript(data);
-      } catch (error) {
-        console.error('Error handling transcript:', error);
-      }
-    };
-  
-    fetchTranscript();
-  }, []); */
-
   useEffect(() => {
     const fetchTranscript = async () => {
       const storedTranscript = localStorage.getItem('transcript');
