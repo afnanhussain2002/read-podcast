@@ -20,16 +20,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    
-
     const userId = session.user.id;
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const speakers = formData.get("speakers") as string;
-  const isSpeakersEnabled = speakers === "true";
+    const isSpeakersEnabled = speakers === "true";
 
     if (!file) {
-      return NextResponse.json({ error: "No video file provided" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No video file provided" },
+        { status: 400 }
+      );
     }
 
     // Save the file temporarily
@@ -39,7 +40,10 @@ export async function POST(req: NextRequest) {
     await writeFile(tempFilePath, buffer);
 
     // Run Python script
-    const pythonProcess = spawn("python", ["./scripts/download_local_audio.py", tempFilePath]);
+    const pythonProcess = spawn("python", [
+      "./scripts/download_local_audio.py",
+      tempFilePath,
+    ]);
 
     let output = "";
     let error = "";
@@ -180,7 +184,13 @@ export async function POST(req: NextRequest) {
             // send response
             resolve(
               NextResponse.json(
-                { transcript: createdTranscript._id },
+                {
+                  transcript: transcript.text,
+                  confidence: transcript.confidence!,
+                  speakers: speakersData,
+                  chapters: transcript.chapters,
+                  transcriptId: createdTranscript?._id,
+                },
                 { status: 200 }
               )
             );
@@ -205,6 +215,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: any) {
     console.error("🔥 Server Error:", err);
-    return NextResponse.json({ error: "Server error", details: err.message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Server error", details: err.message },
+      { status: 500 }
+    );
   }
 }
