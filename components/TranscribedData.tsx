@@ -21,6 +21,9 @@ const TranscribedData = () => {
         const response = await fetch(`/api/single-transcribe/${id}`);
         const data = await response.json();
         setTranscript(data);
+        if (transcript) {
+          localStorage.removeItem('transcript');
+        }
       } catch (error) {
         console.error('Error fetching transcript:', error);
       }
