@@ -115,11 +115,11 @@ const TranscribeInput = () => {
           <div className="flex w-full items-center gap-1">
             <div className="space-y-1.5 w-48">
               <Select onValueChange={(value) => setInputType(value)} value={inputType}>
-                <SelectTrigger className="bg-bw text-text" id="framework">
+                <SelectTrigger className="bg-bw text-text dark:text-white" id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="youtubeLink">🔗 Youtube Link</SelectItem>
+                  <SelectItem value="youtubeLink" className="">🔗 Youtube Link</SelectItem>
                   <SelectItem value="localVideo">🎥 Local Video</SelectItem>
                   <SelectItem value="localAudio">🎧 Local Audio</SelectItem>
                 </SelectContent>
@@ -143,6 +143,7 @@ const TranscribeInput = () => {
                   type="file"
                   accept={inputType === "localVideo" ? "video/*" : "audio/*"}
                   onChange={handleFileChange}
+                  className="text-black dark:text-white"
                 />
               )}
             </div>
