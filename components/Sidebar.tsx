@@ -18,7 +18,7 @@ const Sidebar = () => {
       </button>
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 bg-black text-white w-[280px] border-r-[5px] border-white p-4 flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-40 bg-main text-white w-[280px] border-r-[5px] border-white p-4 flex flex-col transition-transform duration-300 ease-in-out ${
           sidebarOpen ? '' : '-translate-x-full'
         }`}
       >
