@@ -57,7 +57,7 @@ const Sidebar = () => {
           </div>
         )}
 
-        <Button size={"lg"} className="mt-auto dark:bg-black font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
+        <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
     </>
   );
