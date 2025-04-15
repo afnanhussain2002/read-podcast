@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { BiSearch, BiHomeAlt, BiBookmark, BiChat, BiLogOut } from 'react-icons/bi';
 import { BsChevronDown } from 'react-icons/bs';
+import { Button } from './ui/button';
+import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
   const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -55,7 +57,7 @@ const Sidebar = () => {
           </div>
         )}
 
-        <NavItem icon={<BiLogOut />} label="Logout" className="mt-auto" />
+        <Button size={"lg"} className="mt-auto dark:bg-black font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
     </>
   );
