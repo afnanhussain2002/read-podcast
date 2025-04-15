@@ -9,7 +9,7 @@ const Dashboard = () => {
     
       console.log(user, "user");
   return (
-    <div>Dashboard</div>
+    <div className='min-h-screen'>Dashboard</div>
   )
 }
 
