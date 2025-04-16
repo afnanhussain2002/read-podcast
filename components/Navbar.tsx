@@ -28,6 +28,15 @@ export default function Navbar() {
         {/* Left - NavigationMenu */}
         <NavigationMenu>
           <NavigationMenuList>
+          {user && (
+              <NavigationMenuItem>
+              <Link href="/dashboard" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Dashboard
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            )}
           <NavigationMenuItem>
               <Link href="#pricing" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -52,15 +61,7 @@ export default function Navbar() {
               </Link>
             </NavigationMenuItem>
 
-            {user && (
-              <NavigationMenuItem>
-              <Link href="/dashboard" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Dashboard
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            )}
+            
           </NavigationMenuList>
         </NavigationMenu>
 
