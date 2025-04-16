@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
 
     try {
+        const userEmail = session.user.email;
         
     } catch (error) {
         
