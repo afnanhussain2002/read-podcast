@@ -13,7 +13,7 @@ const Sidebar = () => {
   return (
     <>
       <button
-        className="fixed top-5 left-4 z-50 text-white text-3xl bg-black border-[3px] border-white rounded-lg px-2 py-1 lg:hidden"
+        className="fixed top-5 left-4 z-50 text-white text-3xl bg-black border-[3px] border-white rounded-lg px-2 py-1"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         ☰
@@ -34,14 +34,6 @@ const Sidebar = () => {
   );
 };
 
-const NavItem = ({ icon, label, className = '' }: { icon: React.ReactNode; label: string; className?: string }) => (
-  <div
-    className={`flex items-center gap-3 cursor-pointer bg-yellow-300 text-black border-[3px] border-black px-4 py-2 rounded-lg mb-2 hover:bg-yellow-400 font-bold ${className}`}
-  >
-    {icon}
-    <span>{label}</span>
-  </div>
-);
 
 
 export default Sidebar;
