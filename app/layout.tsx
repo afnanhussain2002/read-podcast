@@ -1,20 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Poppins } from 'next/font/google';
 import './globals.css';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { NotificationProvider } from '@/components/Notification';
 import LayoutWrapper from '@/components/LayoutWrapper'; // ✅ import it here
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const poppinsSans = Poppins({
+  variable: '--font-poppins-sans',
   subsets: ['latin'],
+  weight: '100'
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -28,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${poppinsSans.variable} antialiased`}>
         <NotificationProvider>
           <ThemeProvider attribute="class" disableTransitionOnChange>
             <LayoutWrapper>
