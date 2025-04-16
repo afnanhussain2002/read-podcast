@@ -23,6 +23,8 @@ const UserTranscriptions = () => {
   
       fetchTranscriptions();
     }, []);
+
+    console.log(transcriptions);
   
     if (loading) return <p>Loading...</p>;
   
