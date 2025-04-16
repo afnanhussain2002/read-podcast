@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BiLogOut } from 'react-icons/bi';
 import { MdDashboard } from "react-icons/md";
 import { GrDocumentNotes } from "react-icons/gr";
+import { RiProfileLine } from "react-icons/ri";
 import { Button } from './ui/button';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -29,6 +30,7 @@ const Sidebar = () => {
 
         <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white'> <MdDashboard/> Dashboard</Button></Link>
         <Link href="/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <GrDocumentNotes/> All Transcribe</Button></Link>
+        <Link href="/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <RiProfileLine/> Profile</Button></Link>
 
         <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
