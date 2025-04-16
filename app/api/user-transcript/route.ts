@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import Transcript from "@/models/Transcript";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -14,7 +15,9 @@ export async function GET(req: NextRequest) {
 
     try {
         const userEmail = session.user.email;
-        
+
+        const transcriptions = await Transcript.find({ user: userEmail });
+
     } catch (error) {
         
     }
