@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Star10 from './stars/s10';
 
 
