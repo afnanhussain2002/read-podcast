@@ -1,13 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { BiSearch, BiHomeAlt, BiBookmark, BiChat, BiLogOut } from 'react-icons/bi';
-import { BsChevronDown } from 'react-icons/bs';
+import { BiHomeAlt, BiLogOut } from 'react-icons/bi';
 import { Button } from './ui/button';
 import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -27,15 +25,6 @@ const Sidebar = () => {
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
         <NavItem icon={<BiHomeAlt />} label="Dashboard" />
-       
-
-        {submenuOpen && (
-          <div className="mt-2 ml-6 flex flex-col gap-2">
-            <SubItem label="Social" />
-            <SubItem label="Personal" />
-            <SubItem label="Friends" />
-          </div>
-        )}
 
         <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
@@ -52,10 +41,5 @@ const NavItem = ({ icon, label, className = '' }: { icon: React.ReactNode; label
   </div>
 );
 
-const SubItem = ({ label }: { label: string }) => (
-  <div className="cursor-pointer bg-blue-300 border-[3px] border-black px-3 py-1 rounded-lg hover:bg-blue-400 font-bold text-black">
-    {label}
-  </div>
-);
 
 export default Sidebar;
