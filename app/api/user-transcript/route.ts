@@ -14,9 +14,9 @@ export async function GET() {
     await connectToDatabase();
 
     try {
-        const userEmail = session.user.email;
+        const userId = session.user.id;
 
-        const transcriptions = await Transcript.find({ user: userEmail });
+        const transcriptions = await Transcript.find({ OwnerId: userId });
 
         if (!transcriptions) {
             return NextResponse.json({ error: "No transcriptions found" }, { status: 404 });
