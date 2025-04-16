@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <header className=" top-0 z-50 border-b absolute w-full">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+      <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between px-4 py-3">
         {/* Left - NavigationMenu */}
         <NavigationMenu>
           <NavigationMenuList>
@@ -51,6 +51,16 @@ export default function Navbar() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
+
+            {user && (
+              <NavigationMenuItem>
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Dashboard
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            )}
           </NavigationMenuList>
         </NavigationMenu>
 
