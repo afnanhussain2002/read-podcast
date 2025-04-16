@@ -29,17 +29,6 @@ const Sidebar = () => {
         <NavItem icon={<BiHomeAlt />} label="Home" />
         <NavItem icon={<BiBookmark />} label="Bookmark" />
 
-        <div
-          className="flex items-center justify-between cursor-pointer bg-pink-500 border-[3px] border-black px-4 py-2 rounded-lg mt-4"
-          onClick={() => setSubmenuOpen(!submenuOpen)}
-        >
-          <div className="flex items-center gap-3">
-            <BiChat />
-            <span className="font-bold">Chatbox</span>
-          </div>
-          <BsChevronDown className={`transform transition-transform ${submenuOpen ? 'rotate-180' : ''}`} />
-        </div>
-
         {submenuOpen && (
           <div className="mt-2 ml-6 flex flex-col gap-2">
             <SubItem label="Social" />
