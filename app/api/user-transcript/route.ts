@@ -22,6 +22,8 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: "No transcriptions found" }, { status: 404 });
         }
 
+        return NextResponse.json({ transcriptions }, { status: 200 });
+
     } catch (error) {
         
     }
