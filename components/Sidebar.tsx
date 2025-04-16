@@ -26,15 +26,6 @@ const Sidebar = () => {
       >
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
-        <div className="flex items-center bg-white text-black px-3 py-2 mb-4 border-[3px] border-black rounded-lg">
-          <BiSearch className="text-xl" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="ml-3 w-full bg-transparent outline-none"
-          />
-        </div>
-
         <NavItem icon={<BiHomeAlt />} label="Home" />
         <NavItem icon={<BiBookmark />} label="Bookmark" />
 
