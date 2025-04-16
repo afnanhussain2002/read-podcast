@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { BiHomeAlt, BiLogOut } from 'react-icons/bi';
+import { BiLogOut } from 'react-icons/bi';
+import { MdDashboard } from "react-icons/md";
 import { Button } from './ui/button';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -24,7 +26,7 @@ const Sidebar = () => {
       >
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
-        <NavItem icon={<BiHomeAlt />} label="Dashboard" />
+        <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white'> <MdDashboard/> Dashboard</Button></Link>
 
         <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
