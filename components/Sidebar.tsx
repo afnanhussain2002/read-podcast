@@ -26,8 +26,8 @@ const Sidebar = () => {
       >
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
-        <NavItem icon={<BiHomeAlt />} label="Home" />
-        <NavItem icon={<BiBookmark />} label="Bookmark" />
+        <NavItem icon={<BiHomeAlt />} label="Dashboard" />
+       
 
         {submenuOpen && (
           <div className="mt-2 ml-6 flex flex-col gap-2">
