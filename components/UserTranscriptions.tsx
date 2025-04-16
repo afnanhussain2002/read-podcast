@@ -1,11 +1,13 @@
 'use client';
-import { ITranscript } from '@/dataTypes/transcribeDataTypes';
 import React from 'react'
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Star10 from './stars/s10';
+
 
 type Transcript = {
     _id: string;
@@ -44,7 +46,13 @@ const UserTranscriptions = () => {
 
     console.log(transcriptions);
   
-    if (loading) return <p>Loading...</p>;
+    if (loading) {
+        return (
+          <div className="flex items-center justify-center h-screen">
+            <Star10 size={100} strokeWidth={4} className="animate-spin text-blue-500" />
+          </div>
+        );
+      } 
   
     if (transcriptions.length === 0) return <p>No transcriptions found.</p>;
   return (
@@ -60,6 +68,7 @@ const UserTranscriptions = () => {
             <CardContent>
               <p className="text-sm line-clamp-3">
                 {t.transcript}
+                
               </p>
             </CardContent>
             <CardFooter>
