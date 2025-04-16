@@ -11,4 +11,10 @@ export async function GET(req: NextRequest) {
     }
 
     await connectToDatabase();
+
+    try {
+        
+    } catch (error) {
+        
+    }
 }
