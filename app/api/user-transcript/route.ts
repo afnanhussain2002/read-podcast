@@ -25,6 +25,6 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ transcriptions }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ error: 'Something went wrong on get transcriptions' }, { status: 500 });
+        return NextResponse.json({ error: "Failed to get user transcriptions"  }, { status: 500 });
     }
 }
