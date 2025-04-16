@@ -18,6 +18,10 @@ export async function GET(req: NextRequest) {
 
         const transcriptions = await Transcript.find({ user: userEmail });
 
+        if (!transcriptions) {
+            return NextResponse.json({ error: "No transcriptions found" }, { status: 404 });
+        }
+
     } catch (error) {
         
     }
