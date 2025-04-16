@@ -29,8 +29,8 @@ const Sidebar = () => {
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
         <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white'> <MdDashboard/> Dashboard</Button></Link>
-        <Link href="/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <GrDocumentNotes/> All Transcribe</Button></Link>
-        <Link href="/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <RiProfileLine/> Profile</Button></Link>
+        <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <GrDocumentNotes/> All Transcribe</Button></Link>
+        <Link href="/dashboard/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <RiProfileLine/> Profile</Button></Link>
 
         <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
