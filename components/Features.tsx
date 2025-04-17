@@ -15,7 +15,7 @@ export default function Features() {
           {features.map((feature, i) => {
             return (
               <div
-                className="border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-white p-5"
+                className="border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5"
                 key={i}
               >
                 <h4 className="text-xl font-heading">{feature.title}</h4>

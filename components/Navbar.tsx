@@ -26,7 +26,7 @@ export default function Navbar() {
     <header className=" top-0 z-50 border-b absolute w-full">
       <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between px-4 py-3 ">
         {/* Left - NavigationMenu */}
-        <NavigationMenu className="shadow-light dark:shadow-dark">
+        <NavigationMenu className=" shadow-light dark:shadow-dark">
           <NavigationMenuList>
           {user && (
               <NavigationMenuItem>
