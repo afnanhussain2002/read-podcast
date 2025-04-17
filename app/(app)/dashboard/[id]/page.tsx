@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { formatDate } from '@/lib/formatDate';
+import Star10 from '@/components/stars/s10';
 
 
 type Transcript = {
@@ -42,7 +43,14 @@ const SingleTranscript = () => {
     
         fetchTranscript();
       }, [id]);
-      console.log(transcript);
+
+      console.log(transcript);if (loading) {
+        return (
+          <div className="flex items-center justify-center h-screen">
+            <Star10 size={100} strokeWidth={4} className="animate-spin text-blue-500" />
+          </div>
+        );
+      }
   return (
     <>
     <div>SingleTranscript: {id}</div>
