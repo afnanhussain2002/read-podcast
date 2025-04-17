@@ -1,4 +1,5 @@
 "use client"
+import Star10 from '@/components/stars/s10';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
 import React from 'react'
@@ -10,11 +11,9 @@ const Profile = () => {
     
           if (status === 'loading') {
             return (
-              <div className="min-h-screen flex items-center justify-center">
-                <div className="bg-white border-4 border-black p-6 rounded-lg text-center animate-pulse">
-                  <p className="text-lg font-bold">Loading Dashboard...</p>
-                </div>
-              </div>
+            <div className="flex items-center justify-center h-screen">
+                        <Star10 size={100} strokeWidth={4} className="animate-spin text-brand-glow shadow-light dark:shadow-dark" />
+                      </div>
             );
           }
   return (
