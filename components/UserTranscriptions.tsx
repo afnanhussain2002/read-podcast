@@ -59,7 +59,7 @@ const UserTranscriptions = () => {
       <h1 className="text-3xl font-bold mb-8">All Transcriptions</h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {transcriptions.map((t) => (
-          <Card key={t._id} className="w-full max-w-sm">
+          <Card key={t._id} className="border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5">
             <CardHeader>
               <CardTitle>{t.title || "Untitled Transcript"}</CardTitle>
               <CardDescription>{formatDate(t.createdAt)}</CardDescription>
