@@ -29,7 +29,6 @@ export async function GET() {
       createdAt: t.createdAt,
       title: t.chapters?.[0]?.gist || "Untitled",
     }));
-    console.log(formattedTranscriptions, "formattedTranscriptions");
 
     return NextResponse.json({ transcriptions: formattedTranscriptions }, { status: 200 });
 
