@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { formatDate } from '@/lib/formatDate';
 
+
 type Transcript = {
     _id: string;
     transcript: string;
