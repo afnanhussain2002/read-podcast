@@ -1,73 +1,55 @@
-'use client';
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+"use client"
+import { useParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import Star10 from "@/components/stars/s10";
-
+import { formatDate } from '@/lib/formatDate';
 
 type Transcript = {
-  _id: string;
-  transcript: string;
-  createdAt: string;
-  chapters: {
-    gist?: string;
-    headline?: string;
-    start?: number;
-    end?: number;
-  }[];
-  confidence: number;
-};
+    _id: string;
+    transcript: string;
+    confidence: number;
+    createdAt: string;
+    chapters: {
+      gist?: string;
+      headline?: string;
+      start?: number;
+      end?: number;
+    }[];
+  };
 
-const formatDate = (isoString: string) => {
-  const date = new Date(isoString);
-  return date.toLocaleString("en-US", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-};
+const SingleTranscript = () => {
+    const { id } = useParams();
+    const [transcript, setTranscript] = useState<Transcript>({ _id: '',
+        transcript: '',
+        confidence: 0,
+        createdAt: '',
+        chapters: []});
+    const [loading, setLoading] = useState(true);
 
-export default function SingleTranscriptPage() {
-  const { id } = useParams();
-  const [transcript, setTranscript] = useState<Transcript | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTranscript = async () => {
-      try {
-        const res = await fetch(`/api/single-transcribe/${id}`);
-        const data = await res.json();
-        setTranscript(data.transcript);
-      } catch (err) {
-        console.error("Failed to fetch transcript", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTranscript();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Star10 size={100} strokeWidth={4} className="animate-spin text-blue-500" />
-      </div>
-    );
-  }
-
-  if (!transcript) {
-    return <div className="text-center mt-10 text-red-500">Transcript not found.</div>;
-  }
-
+    useEffect(() => {
+        const fetchTranscript = async () => {
+          try {
+            const res = await fetch(`/api/single-transcribe/${id}`);
+            const data = await res.json();
+            setTranscript(data);
+          } catch (err) {
+            console.error("Error loading transcript:", err);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchTranscript();
+      }, [id]);
+      console.log(transcript);
   return (
-    <main className="flex justify-center p-6">
-      <Card className="w-full max-w-2xl">
+    <>
+    <div>SingleTranscript: {id}</div>
+    <Card className="w-full max-w-2xl">
         <CardHeader>
-          <CardTitle>{transcript.chapters[0]?.gist}</CardTitle>
+          <CardTitle>{transcript.chapters[0]?.gist || "Untitled Transcript"}</CardTitle>
           <CardDescription>
-            Created at: {formatDate(transcript.createdAt)} • Confidence:{" "}
-            {(transcript.confidence * 100).toFixed(2)}%
+            Created at: {formatDate(transcript.createdAt)} • Confidence: {(transcript.confidence * 100).toFixed(2)}%
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -76,6 +58,9 @@ export default function SingleTranscriptPage() {
           </p>
         </CardContent>
       </Card>
-    </main>
-  );
+    
+    </>
+  )
 }
+
+export default SingleTranscript
