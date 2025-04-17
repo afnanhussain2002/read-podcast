@@ -32,7 +32,7 @@ const Sidebar = () => {
         <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-dark mt-4 border-none text-brand-glow'> <GrDocumentNotes/> All Transcribe</Button></Link>
         <Link href="/dashboard/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-dark mt-4 border-none text-brand-glow'> <RiProfileLine/> Profile</Button></Link>
 
-        <Button size={"lg"} className="mt-auto bg-brand-glow font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
+        <Button size={"lg"} className="mt-auto bg-brand-glow font-bold text-brand-dark border-none" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
     </>
   );
