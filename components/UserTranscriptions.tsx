@@ -71,7 +71,7 @@ const UserTranscriptions = () => {
               </p>
             </CardContent>
             <CardFooter>
-              <Link href={`/transcripts/${t._id}`}>
+              <Link href={`/dashboard/${t._id}`}>
                 <Button className="w-full">Read More</Button>
               </Link>
             </CardFooter>

@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Star10 } from "lucide-react";
+import Star10 from "@/components/stars/s10";
+
 
 type Transcript = {
   _id: string;
