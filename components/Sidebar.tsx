@@ -28,9 +28,9 @@ const Sidebar = () => {
       >
         <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
 
-        <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark border-none text-brand-glow'> <MdDashboard/> Dashboard</Button></Link>
-        <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark mt-4 border-none text-brand-glow'> <GrDocumentNotes/> All Transcribe</Button></Link>
-        <Link href="/dashboard/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark mt-4 border-none text-brand-glow'> <RiProfileLine/> Profile</Button></Link>
+        <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark border-none text-brand-glow shadow-light dark:shadow-dark'> <MdDashboard/> Dashboard</Button></Link>
+        <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark mt-4 border-none text-brand-glow shadow-light dark:shadow-dark'> <GrDocumentNotes/> All Transcribe</Button></Link>
+        <Link href="/dashboard/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark mt-4 border-none text-brand-glow shadow-light dark:shadow-dark'> <RiProfileLine/> Profile</Button></Link>
 
         <Button size={"lg"} className="mt-auto bg-brand-light dark:bg-brand-glow font-bold text-brand-dark border-none" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
