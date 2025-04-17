@@ -25,7 +25,7 @@ function PricingPlan({ perks, mostPopular = false, planName, description, price 
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-heading">{planName}</h3>
           {mostPopular && (
-            <span className="border-border text-text dark:border-darkBorder rounded-base border-2 bg-main px-2 py-0.5 text-sm">
+            <span className="border-border text-text dark:border-darkBorder rounded-base border-2 bg-brand-glow px-2 py-0.5 text-sm">
               Most popular
             </span>
           )}
