@@ -15,7 +15,7 @@ const Sidebar = () => {
   return (
     <>
       <button
-        className="fixed top-5 left-4 z-50 text-white text-3xl bg-black border-[3px] rounded-lg px-2 py-1 lg:hidden"
+        className="fixed top-5 left-4 z-50 text-brand-dark text-3xl bg-brand-glow border-[3px] rounded-lg px-2 py-1 lg:hidden"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         ☰
