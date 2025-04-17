@@ -11,7 +11,7 @@ const Profile = () => {
           if (status === 'loading') {
             return (
               <div className="min-h-screen flex items-center justify-center">
-                <div className="bg-white border-4 border-black p-6 rounded-lg shadow-neobrutalism text-center animate-pulse">
+                <div className="bg-white border-4 border-black p-6 rounded-lg text-center animate-pulse">
                   <p className="text-lg font-bold">Loading Dashboard...</p>
                 </div>
               </div>
@@ -19,7 +19,7 @@ const Profile = () => {
           }
   return (
       <div className="min-h-screen p-10 flex items-center justify-center">
-        <div className="bg-brand-glow border-4 border-black p-8 rounded-xl w-full max-w-md text-black space-y-4">
+        <div className="bg-brand-glow border-4 border-black p-8 rounded-xl w-full max-w-md text-black space-y-4 shadow-light dark:shadow-dark">
           <div className="flex items-center space-x-4">
             <div className="border-4 border-black rounded-full overflow-hidden w-24 h-24">
               <Image
