@@ -1,4 +1,5 @@
 "use client"
+import EditProfile from '@/components/EditProfile';
 import Star10 from '@/components/stars/s10';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
@@ -19,6 +20,7 @@ const Profile = () => {
   return (
       <div className="min-h-screen p-10 flex items-center justify-center">
         <div className="bg-brand-glow border-4 border-black p-8 rounded-xl w-full max-w-md text-black space-y-4 shadow-light dark:shadow-dark">
+          <EditProfile/>
           <div className="flex items-center space-x-4">
             <div className="border-4 border-black rounded-full overflow-hidden w-24 h-24">
               <Image
