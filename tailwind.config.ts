@@ -18,7 +18,6 @@ export default {
   			darkBg: '#272933',
   			darkText: '#eeefe9',
   			darkBorder: '#000',
-  			secondaryBlack: '#212121',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -57,7 +56,15 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			  brand: {
+				light: '#F9FAFB',     // 60% Light BG
+				primary: '#6366F1',   // 30% Indigo
+				accent: '#F59E0B',    // 10% Amber
+				dark: '#0F172A',      // 60% Dark BG
+				surface: '#1E293B',   // 30% Dark components
+				glow: '#38BDF8',      // 10% Accent for dark
+			  }
   		},
   		borderRadius: {
   			base: '5px',

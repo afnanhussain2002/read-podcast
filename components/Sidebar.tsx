@@ -22,7 +22,7 @@ const Sidebar = () => {
       </button>
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 bg-main text-white w-[280px] border-r-[5px] border-white p-4 flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-40 bg-brand-surface text-white w-[280px] border-r-[5px] border-white p-4 flex flex-col transition-transform duration-300 ease-in-out ${
           sidebarOpen ? '' : '-translate-x-full'
         }`}
       >
@@ -32,7 +32,7 @@ const Sidebar = () => {
         <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <GrDocumentNotes/> All Transcribe</Button></Link>
         <Link href="/dashboard/profile" ><Button size={"lg"} variant={"neutral"}className='w-full bg-white mt-4'> <RiProfileLine/> Profile</Button></Link>
 
-        <Button size={"lg"} className="mt-auto bg-secondaryBlack  border-secondaryBlack font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
+        <Button size={"lg"} className="mt-auto bg-brand-dark  border-brand-dark font-bold" onClick={() => signOut()}> <BiLogOut /> Logout</Button>
       </aside>
     </>
   );

@@ -109,7 +109,7 @@ const TranscribeInput = () => {
   };
 
   return (
-    <Card className="w-full bg-white dark:bg-secondaryBlack border-border border-main">
+    <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
       <CardContent className="mt-4">
         <form ref={formRef}>
           <div className="flex w-full items-center gap-1">

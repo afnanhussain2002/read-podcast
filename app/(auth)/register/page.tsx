@@ -59,7 +59,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 dark:bg-darkBg">
+    <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Create your account</CardTitle>
