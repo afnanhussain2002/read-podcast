@@ -1,67 +1,80 @@
 export const features = [
-    {
-      title: '🎧 Upload or Paste – Your Choice',
-      text: 'Whether it’s a local audio/video file or a YouTube or podcast link, Scribint transcribes it all in seconds. No limits. No hassle.',
-    },
-    {
-      title: '🤖 Ask AI Anything',
-      text: 'Ask smart questions about your video or podcast, and Scribint’s AI will reply based on the actual transcript. Like ChatGPT, but focused on your content.',
-    },
-    {
-      title: '🌍 Understands 15+ Languages',
-      text: 'With automatic language detection and support for over 15 languages, Scribint works globally right out of the box.',
-    },
-    {
-      title: '🧠 AI-Powered Summaries',
-      text: 'Long video? No worries. Scribint generates clear and concise summaries so you can save time and still get the key points.',
-    },
-    {
-      title: '👥 Smart Speaker Detection',
-      text: 'Multiple people in your audio? Scribint separates them intelligently, labeling them as Speaker A, B, and so on.',
-    },
-    {
-      title: '📊 Confidence Score + Timestamps',
-      text: 'Every transcript includes a confidence score for each word and accurate timestamps — perfect for reviewing or editing.',
-    },
-  ]
+  {
+    title: '🎧 Upload or Link – Transcribe Anything',
+    text: 'Whether it’s a local file, YouTube video, or podcast URL, Scribint transcribes with high accuracy in seconds.',
+  },
+  {
+    title: '💬 Ask AI About the Content',
+    text: 'Curious about what was said? Ask anything, and Scribint AI will answer based on the transcript, like ChatGPT but focused on your file.',
+  },
+  {
+    title: '🌐 Multilingual Support',
+    text: 'Auto-detects and supports over 15+ languages for seamless global accessibility.',
+  },
+  {
+    title: '🧠 Summarize Long Content Instantly',
+    text: 'Skip the fluff — get crystal-clear AI-generated summaries of long podcasts, meetings, or lectures.',
+  },
+  {
+    title: '👥 Speaker Identification',
+    text: 'Automatically detects and separates speakers — perfect for interviews, meetings, and multi-host podcasts.',
+  },
+  {
+    title: '📌 Word Confidence & Timestamps',
+    text: 'Every word includes a confidence score and timestamp so you can trust and verify your transcript.',
+  },
+];
 
-  export const pricingPlans = [
-    {
-      planName: 'Free',
-      description: 'Perfect for individuals exploring transcription services.',
-      price: '0',
-      perks: [
-        'Up to 5 hours of transcription per month',
-        'Transcription for local files and URLs',
-        'Basic speaker detection',
-        'Automatic language detection (15+ languages)',
-        'AI-generated summaries',
-        'Community support',
-      ],
-    },
-    {
-      planName: 'Pro',
-      description: 'Ideal for content creators and professionals.',
-      price: '15',
-      mostPopular: true,
-      perks: [
-        'Up to 20 hours of transcription per month',
-        'Advanced speaker detection with labeling',
-        'Confidence scores and timestamps',
-        'All Free plan features',
-        'Priority email support',
-      ],
-    },
-    {
-      planName: 'Business',
-      description: 'Best for teams and organizations with high-volume needs.',
-      price: '70',
-      perks: [
-        'Up to 100 hours of transcription per month',
-        'Team collaboration tools',
-        'API access for integration',
-        'Dedicated account manager',
-        'All Pro plan features',
-      ],
-    },
-  ]
+
+export const pricingPlans = [
+  /* {
+    planName: 'Free Tier',
+    description: 'Great for trying out Scribint with limited usage.',
+    price: '0',
+    perks: [
+      '5 minutes of free transcription',
+      'Use file uploads or links',
+      'Basic speaker separation',
+      'Summarization included',
+      'Multilingual detection',
+      'No credit card needed',
+    ],
+  }, */
+  {
+    planName: 'Pay-as-you-go',
+    description: 'Flexible usage for occasional users. Pay only for what you use.',
+    price: '5',
+    perks: [
+      '1 hours of transcription/month',
+      'High-accuracy transcription',
+      'Speaker separation & summaries',
+      'AI-powered Q&A',
+      'Perfect for freelancers or researchers',
+    ],
+  },
+  {
+    planName: 'Starter Plan',
+    description: 'Best for regular users who need a few hours each month.',
+    price: '9',
+    mostPopular: true,
+    perks: [
+      '3 hours of transcription/month',
+      'All AI features included',
+      'Speaker detection & summaries',
+      'Upload files or paste URLs',
+      'Priority processing',
+    ],
+  },
+  {
+    planName: 'Pro Plan',
+    description: 'Powerful features for active content creators or teams.',
+    price: '19',
+    perks: [
+      '10 hours of transcription/month',
+      'Auto chapters, summaries, and Q&A',
+      'Speaker labeling & timestamps',
+      'All Starter plan features',
+      'Email support',
+    ],
+  },
+];
