@@ -8,3 +8,7 @@ type Props = {
     priceId: string;
     
 };
+
+export const subscribe = async ({ userId, email, priceId }: Props) => {
+   
+}
