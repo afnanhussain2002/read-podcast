@@ -43,6 +43,7 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
     })
     return url;
    } catch (error) {
-    
+    console.log("Stripe error:",error);
+    throw error;
    }
 }
