@@ -1,9 +1,11 @@
 import { subscribe } from '@/actions/stripe.action';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 const BillingPage = () => {
     const { data: session } = useSession();
+    const router = useRouter();
 
     const user = session?.user
 
@@ -17,6 +19,10 @@ const BillingPage = () => {
             email: user?.email as string,
             priceId: process.env.STRIPE_SUBSCRIPTION_PRICE_ID as string
         })
+
+        if (url) {
+           
+        }
     }
 
 
