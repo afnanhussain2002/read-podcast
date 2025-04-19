@@ -20,6 +20,12 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
         limit: 1,
     })
     let customerId = existingCustomer.data.length > 0 ? existingCustomer.data[0]?.id : null;
+
+    if (!customerId) {
+        const customer = await stripe.customers.create({
+            email,
+        })
+    }
    } catch (error) {
     
    }
