@@ -19,7 +19,7 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
         email: email,
         limit: 1,
     })
-    let customerId = existingCustomer.data[0]?.id;
+    let customerId = existingCustomer.data.length > 0 ? existingCustomer.data[0]?.id : null;
    } catch (error) {
     
    }
