@@ -4,3 +4,6 @@ import {headers} from "next/headers";
 import User from "@/models/User";
 import Stripe from "stripe";    
 
+export async function POST(req: NextRequest) {
+    
+}
