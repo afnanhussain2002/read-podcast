@@ -38,8 +38,8 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
             }
         ],
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_URL}/account`,
-        cancel_url: `${process.env.NEXT_PUBLIC_URL}/account`
+        success_url: `${process.env.NEXT_PUBLIC_URL}/payment/success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_URL}/payment/cancel`,
     })
     return url;
    } catch (error) {
