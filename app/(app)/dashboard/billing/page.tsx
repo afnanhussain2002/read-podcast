@@ -1,3 +1,4 @@
+"use client";
 import { subscribe } from '@/actions/stripe.action';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -27,7 +28,9 @@ const BillingPage = () => {
 
 
   return (
-    <div>BillingPage</div>
+    <div>
+        <button onClick={handleSubscribe}>Subscribe</button>
+    </div>
   )
 }
 
