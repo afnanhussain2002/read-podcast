@@ -21,7 +21,7 @@ const BillingPage = () => {
         })
 
         if (url) {
-           
+           router.push(url)
         }
     }
 
