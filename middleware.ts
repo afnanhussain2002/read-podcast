@@ -19,6 +19,11 @@ export default withAuth(
           return true;
         }
 
+        // ✅ Allow Stripe webhook route
+    if (pathname.startsWith("/api/webhooks/stripe")) {
+      return true;
+    }
+
         // Public routes
         if (pathname === "/" ) {
           return true;
@@ -39,6 +44,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|public/|api/webhooks/stripe).*)",
   ],
 };

@@ -37,6 +37,9 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
                 quantity: 1,
             }
         ],
+        metadata: {
+            userId
+        },
         mode: 'subscription',
         success_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/payment/success`,
         cancel_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/payment/cancel`,
