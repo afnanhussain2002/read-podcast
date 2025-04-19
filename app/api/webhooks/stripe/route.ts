@@ -20,4 +20,16 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         
     }
+    data = event.data;
+    eventType = event.type;
+
+    if (eventType === "checkout.session.completed") {
+        const session = await stripe.checkout.sessions.retrieve(data?.object?.id, {
+            expand: ["line_items"],
+        });
+
+        const customerId = session?.customer
+        const customer = await stripe.customers.retrieve(customerId as string);
+        const priceId = session?.line_items?.data[0]?.price?.id;
+    }
 }
