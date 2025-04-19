@@ -31,5 +31,11 @@ export async function POST(req: NextRequest) {
         const customerId = session?.customer
         const customer = await stripe.customers.retrieve(customerId as string);
         const priceId = session?.line_items?.data[0]?.price?.id;
+        const metadata = event?.data?.object?.metadata;
+
+        if (priceId !== process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID) {
+            return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
+            
+        }
     }
 }
