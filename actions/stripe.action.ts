@@ -10,5 +10,7 @@ type Props = {
 };
 
 export const subscribe = async ({ userId, email, priceId }: Props) => {
-   
+   if (!userId || !email || !priceId) {
+    throw new Error("Missing required fields");
+   }
 }
