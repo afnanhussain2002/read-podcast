@@ -15,7 +15,10 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
    }
 
    try {
-    
+    const existingCustomer = await stripe.customers.list({
+        email: email,
+        limit: 1,
+    })
    } catch (error) {
     
    }
