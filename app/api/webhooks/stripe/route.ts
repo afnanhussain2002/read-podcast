@@ -40,6 +40,15 @@ export async function POST(req: NextRequest) {
         { isSubscribed: true, clientId: metadata.clientId },
         { new: true }
       );
+
+      if (!updatedUser) {
+        return NextResponse.json(
+          { error: "User not found" },
+          { status: 404 }
+        );
+      }else{
+        console.log("user updated");
+      }
     }
   }
 }
