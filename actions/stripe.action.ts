@@ -25,6 +25,7 @@ export const subscribe = async ({ userId, email, priceId }: Props) => {
         const customer = await stripe.customers.create({
             email,
         })
+        customerId = customer.id;
     }
    } catch (error) {
     
