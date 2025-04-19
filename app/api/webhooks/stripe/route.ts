@@ -3,6 +3,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { headers } from "next/headers";
 import User from "@/models/User";
 import Stripe from "stripe";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -42,13 +43,13 @@ export async function POST(req: NextRequest) {
       );
 
       if (!updatedUser) {
-        return NextResponse.json(
-          { error: "User not found" },
-          { status: 404 }
-        );
-      }else{
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      } else {
         console.log("user updated");
       }
     }
   }
+
+  revalidatePath("/dashboard", "layout");
+  return new NextResponse("webhook received", { status: 200 });
 }
