@@ -10,4 +10,10 @@ export async function POST(req: NextRequest) {
     let event: Stripe.Event;
     let data: any;
     let eventType: string;
+
+    try {
+        
+    } catch (error) {
+        
+    }
 }
