@@ -31,6 +31,7 @@ export const pricingPlans = [
     planName: 'Quick 10',
     description: 'Perfect for small tasks or short clips.',
     price: '$1',
+    minutes: 10,
     perks: [
       '10 minutes of transcription',
       'All AI features included',
@@ -41,8 +42,9 @@ export const pricingPlans = [
     planName: 'Standard',
     description: 'For occasional creators and light users.',
     price: '$5',
+    minutes: 60,
     perks: [
-      '1 hour of transcription',
+      '60 minutes of transcription',
       'Speaker separation & summaries',
       'Ask AI about your content',
     ],
@@ -51,9 +53,10 @@ export const pricingPlans = [
     planName: 'Pro',
     description: 'Best value for consistent users.',
     price: '$9',
+    minutes: 150,
     mostPopular: true,
     perks: [
-      '2.5 hours of transcription',
+      '150 minutes of transcription',
       'All features from Standard',
       'Priority processing',
     ],
@@ -62,10 +65,12 @@ export const pricingPlans = [
     planName: 'Power Pack',
     description: 'Bulk transcription time at the best rate.',
     price: '$19',
+    minutes: 360,
     perks: [
-      '6 hours of transcription',
+      '360 minutes of transcription',
       'All Scribint features included',
       'Great for podcasts, interviews & research teams',
     ],
   },
 ];
+

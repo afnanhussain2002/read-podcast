@@ -6,8 +6,7 @@ export interface IUser {
   password: string;
   _id?: mongoose.Types.ObjectId;
   profileImage?: string;
-  isSubscribed?: boolean;
-  clientId?: string;
+  transcriptMinutes:number
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -17,8 +16,7 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profileImage: { type: String },
-    isSubscribed: { type: Boolean, default: false, },
-    clientId: { type: String, default: "" },
+    transcriptMinutes: { type: Number, default: 10 },
   },
   { timestamps: true }
 );

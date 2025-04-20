@@ -7,11 +7,13 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
-  console.log('webhook started');
+  console.log("📬 Webhook received");
   await connectToDatabase();
+
   const body = await req.text();
   const signature = (await headers()).get("Stripe-Signature");
-  let event: Stripe.Event | undefined;
+
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -19,57 +21,54 @@ export async function POST(req: NextRequest) {
       signature!,
       process.env.STRIPE_WEBHOOK_SECRET as string
     );
-    console.log("event",event);
+    console.log("✅ Event verified:", event.type);
   } catch (error) {
-    console.error("Error verifying Stripe webhook signature:", error);
-    return NextResponse.json({ error: "Invalid webhook signature" }, { status: 400 });
+    console.error("❌ Error verifying Stripe webhook:", error);
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  if (event) {
-    const data = event.data;
-    const eventType = event.type;
+  if (event.type === "checkout.session.completed") {
+    try {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const { email, minutes } = session.metadata;
 
-    console.log(`Received event type: ${eventType}`);
+      console.log(`🎉 Payment received for user: ${email} and update ${minutes}`);
 
-    if (eventType === "checkout.session.completed") {
-      try {
-        const session = await stripe.checkout.sessions.retrieve(data?.object?.id, {
-          expand: ["line_items"],
-        });
-
-        const customerId = session?.customer;
-        const customer = await stripe.customers.retrieve(customerId as string);
-        const priceId = session?.line_items?.data[0]?.price?.id;
-        const sessionObject = event.data.object as Stripe.Checkout.Session;
-        const metadata = sessionObject.metadata;
-
-        if (priceId !== process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID) {
-          console.error("Invalid price ID");
-          return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
-        }
-
-        if (metadata) {
-          const updatedUser = await User.findOneAndUpdate(
-            { _id: metadata.userId },
-            { isSubscribed: true, clientId: metadata.clientId },
-            { new: true }
-          );
-
-          if (!updatedUser) {
-            console.error("User not found");
-            return NextResponse.json({ error: "User not found" }, { status: 404 });
-          } else {
-            console.log("User updated successfully");
-          }
-        }
-      } catch (error) {
-        console.error("Error processing checkout.session.completed event:", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+      if (!email || !minutes) {
+        return NextResponse.json(
+          { error: "Missing metadata" },
+          { status: 400 }
+        );
       }
-    }
 
-    revalidatePath("/dashboard", "layout");
+      const user = await User.findOneAndUpdate(
+        { email },
+        {
+          $inc: {
+            transcriptMinutes: parseInt(minutes),
+          },
+        }, // increment minutes
+        { new: true }
+      );
+
+      console.log("udated user", user);
+
+      if (!user) {
+        console.error("User not found");
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      console.log(`🎉 Added ${minutes} minutes to user: ${email}`);
+    } catch (err) {
+      console.error("❌ Error updating user:", err);
+      return NextResponse.json(
+        { error: "Internal server error" },
+        { status: 500 }
+      );
+    }
   }
 
-  return new NextResponse("Webhook received", { status: 200 });
+  revalidatePath("/dashboard", "layout");
+
+  return new NextResponse("Webhook processed", { status: 200 });
 }

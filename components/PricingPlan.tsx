@@ -1,8 +1,58 @@
+"use client";
+
 import { Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-export default function PricingPlan({ perks, mostPopular = false, planName, description, price }) {
+
+export default function PricingPlan({
+  perks,
+  mostPopular = false,
+  planName,
+  description,
+  price,
+  minutes,
+
+}: {
+  perks: string[];
+  mostPopular?: boolean;
+  planName: string;
+  description: string;
+  price: number;
+  minutes: number;
+
+}) {
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession()
+  const user = session?.user
+
+  const handleBuy = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ minutes, email:user?.email }),
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url; // Redirect to Stripe Checkout
+      } else {
+        alert("Something went wrong!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Payment error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       id="pricing"
@@ -21,9 +71,7 @@ export default function PricingPlan({ perks, mostPopular = false, planName, desc
           )}
         </div>
         <p className="mb-3 mt-1 text-muted-foreground">{description}</p>
-        <div className="mt-1 text-3xl font-heading">
-          <span>{price}</span>
-        </div>
+        <div className="mt-1 text-3xl font-heading">{price}</div>
         <ul className="mt-6 flex flex-col gap-2 text-sm">
           {perks.map((perk, i) => (
             <li key={i} className="flex items-center gap-3">
@@ -35,8 +83,10 @@ export default function PricingPlan({ perks, mostPopular = false, planName, desc
       <Button
         size={mostPopular ? "lg" : "default"}
         className={cn("mt-10 w-full", mostPopular && "bg-black text-white hover:bg-black/90")}
+        onClick={handleBuy}
+        disabled={loading}
       >
-        Buy Minutes
+        {loading ? "Redirecting..." : "Buy Minutes"}
       </Button>
     </div>
   );
