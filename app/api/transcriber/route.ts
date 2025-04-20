@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
+import User from "@/models/User"; // 👈 make sure this path is correct
 
 const client = new AssemblyAI({
   apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -18,7 +19,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = session.user.id;
+    const userEmail = session.user.email;
+
+    await connectToDatabase();
+
+    const mongoUser = await User.findOne({ email: userEmail });
+
+    if (!mongoUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const userId = mongoUser._id;
 
     const { videoUrl, speakers } = await req.json();
     if (!videoUrl) {
@@ -30,7 +41,6 @@ export async function POST(req: NextRequest) {
 
     console.log("Received Video URL:", videoUrl);
 
-    // Run Python script to download audio and upload to AssemblyAI
     const pythonProcess = spawn("python", [
       "./scripts/download_audio.py",
       videoUrl,
@@ -91,14 +101,12 @@ export async function POST(req: NextRequest) {
               end: utterance.end,
             }));
 
-            await connectToDatabase();
-
             const transcribedData = await Transcript.create({
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
               chapters: transcript.chapters,
-              OwnerId: userId,
+              ownerId: userId, // ✅ linked to actual MongoDB User ID
             });
 
             const createdTranscript = await Transcript.findById(

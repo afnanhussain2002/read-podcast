@@ -29,7 +29,7 @@ const transcriptSchema = new Schema<ITranscript>(
     speakers: [SpeakerSchema],
     chapters: [ChaptersSchema],
     paragraphs: [ParagraphsSchema],
-    OwnerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
   },
   { timestamps: true }
