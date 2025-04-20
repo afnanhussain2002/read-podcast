@@ -83,7 +83,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id || token.sub as string; // fallback to token.sub for OAuth
         token.profileImage = user.profileImage || user.image as string;
-        token.transcriptMinutes = user.transcriptMinutes; // ✅ send it via token
+       
       }
       return token;
     },
@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.profileImage = token.profileImage as string;
-        session.user.transcriptMinutes = token.transcriptMinutes as number; 
+       
       }
       return session;
     },
