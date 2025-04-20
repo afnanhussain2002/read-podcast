@@ -27,54 +27,45 @@ export const features = [
 
 
 export const pricingPlans = [
-  /* {
-    planName: 'Free Tier',
-    description: 'Great for trying out Scribint with limited usage.',
-    price: '0',
-    perks: [
-      '5 minutes of free transcription',
-      'Use file uploads or links',
-      'Basic speaker separation',
-      'Summarization included',
-      'Multilingual detection',
-      'No credit card needed',
-    ],
-  }, */
   {
-    planName: 'Pay-as-you-go',
-    description: 'Flexible usage for occasional users. Pay only for what you use.',
-    price: '5',
+    planName: 'Quick 10',
+    description: 'Perfect for small tasks or short clips.',
+    price: '$1',
     perks: [
-      '1 hours of transcription/month',
-      'High-accuracy transcription',
-      'Speaker separation & summaries',
-      'AI-powered Q&A',
-      'Perfect for freelancers or researchers',
+      '10 minutes of transcription',
+      'All AI features included',
+      'Upload files or paste URLs',
     ],
   },
   {
-    planName: 'Starter Plan',
-    description: 'Best for regular users who need a few hours each month.',
-    price: '9',
+    planName: 'Standard',
+    description: 'For occasional creators and light users.',
+    price: '$5',
+    perks: [
+      '1 hour of transcription',
+      'Speaker separation & summaries',
+      'Ask AI about your content',
+    ],
+  },
+  {
+    planName: 'Pro',
+    description: 'Best value for consistent users.',
+    price: '$9',
     mostPopular: true,
     perks: [
-      '3 hours of transcription/month',
-      'All AI features included',
-      'Speaker detection & summaries',
-      'Upload files or paste URLs',
+      '2.5 hours of transcription',
+      'All features from Standard',
       'Priority processing',
     ],
   },
   {
-    planName: 'Pro Plan',
-    description: 'Powerful features for active content creators or teams.',
-    price: '19',
+    planName: 'Power Pack',
+    description: 'Bulk transcription time at the best rate.',
+    price: '$19',
     perks: [
-      '10 hours of transcription/month',
-      'Auto chapters, summaries, and Q&A',
-      'Speaker labeling & timestamps',
-      'All Starter plan features',
-      'Email support',
+      '6 hours of transcription',
+      'All Scribint features included',
+      'Great for podcasts, interviews & research teams',
     ],
   },
 ];

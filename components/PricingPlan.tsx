@@ -22,14 +22,7 @@ export default function PricingPlan({ perks, mostPopular = false, planName, desc
         </div>
         <p className="mb-3 mt-1 text-muted-foreground">{description}</p>
         <div className="mt-1 text-3xl font-heading">
-          {price === "Free" ? (
-            <span>Free</span>
-          ) : (
-            <>
-              <span>${price}</span>
-              <span className="text-base font-normal text-muted-foreground"> /month</span>
-            </>
-          )}
+          <span>{price}</span>
         </div>
         <ul className="mt-6 flex flex-col gap-2 text-sm">
           {perks.map((perk, i) => (
@@ -43,7 +36,7 @@ export default function PricingPlan({ perks, mostPopular = false, planName, desc
         size={mostPopular ? "lg" : "default"}
         className={cn("mt-10 w-full", mostPopular && "bg-black text-white hover:bg-black/90")}
       >
-        {price === "Free" ? "Try for Free" : "Buy Plan"}
+        Buy Minutes
       </Button>
     </div>
   );
