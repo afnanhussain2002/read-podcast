@@ -7,7 +7,7 @@ export default function GoogleSignIn() {
     <div className="flex flex-col items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-full">
         <button
-          onClick={() => signIn("google")}
+            onClick={() => signIn('google', { callbackUrl: '/' })}
           className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 transition-all"
         >
           <LogIn className="text-2xl" />

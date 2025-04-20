@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 export interface IUser {
   email: string;
-  password: string;
+  password?: string;
   _id?: mongoose.Types.ObjectId;
   profileImage?: string;
   transcriptMinutes:number
@@ -14,7 +14,7 @@ export interface IUser {
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String},
     profileImage: { type: String },
     transcriptMinutes: { type: Number, default: 10 },
   },
@@ -22,7 +22,7 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
+  if (this.isModified("password") && this.password) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
