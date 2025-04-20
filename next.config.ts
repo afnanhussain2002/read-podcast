@@ -1,10 +1,15 @@
-// next.config.ts
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      'res.cloudinary.com',      // your own uploads
-      'lh3.googleusercontent.com' // ✅ Google's profile images
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 };
