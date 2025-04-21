@@ -92,7 +92,7 @@ const TranscribeInput = () => {
       const response = await fetch("/api/transcriber", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ videoUrl, speakers }),
+        body: JSON.stringify({ videoUrl, speakers, userMinutes: user?.transcriptMinutes }),
       });
       const data = await response.json();
       const speakersText = data.speakers || [];
