@@ -49,7 +49,7 @@ export default function Register() {
       }
 
       showNotification("Registration successful! Please log in.", "success");
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       showNotification(
         error instanceof Error ? error.message : "Registration failed",
