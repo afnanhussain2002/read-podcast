@@ -26,8 +26,6 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState<{ type: "success" | "error"; title: string; description?: string } | null>(null);
 
-  const { showNotification } = useNotification();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
