@@ -29,6 +29,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setUploading(true); // Start loading
 
     const formData = new FormData();
     formData.append("email", email);
@@ -56,6 +57,8 @@ export default function Register() {
         error instanceof Error ? error.message : "Registration failed",
         "error"
       );
+    } finally {
+      setUploading(false); // Stop loading
     }
   };
 
@@ -123,8 +126,8 @@ export default function Register() {
               )}
             </div>
 
-            <Button type="submit" className="w-full">
-              Register
+            <Button type="submit" className="w-full" disabled={isUploading}>
+              {isUploading ? "Registering..." : "Register"}
             </Button>
           </form>
 
