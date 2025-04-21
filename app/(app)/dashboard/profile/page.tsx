@@ -1,6 +1,7 @@
 "use client"
 import AvailableMinutes from '@/components/AvailableMinutes';
 import EditProfile from '@/components/EditProfile';
+import Loader from '@/components/Loader';
 import Star10 from '@/components/stars/s10';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
@@ -12,11 +13,7 @@ const Profile = () => {
           const user = session?.user
     
           if (status === 'loading') {
-            return (
-            <div className="flex items-center justify-center h-screen">
-                        <Star10 size={100} strokeWidth={4} className="animate-spin text-brand-glow shadow-light dark:shadow-dark" />
-                      </div>
-            );
+            return <Loader/>
           }
   return (
       <div className="min-h-screen p-10 flex items-center justify-center">
@@ -51,16 +48,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-import useSWR from 'swr'
-
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-
-function Profile() {
-  const { data, error, isLoading } = useSWR('/api/user', fetcher)
-
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Failed to load</div>
-
-  return <div>Hello, {data.name}!</div>
-}
