@@ -8,6 +8,7 @@ import { AssemblyAI } from "assemblyai";
 import { writeFile, unlink } from "fs/promises";
 import path from "path";
 import os from "os";
+import User from "@/models/User";
 
 const client = new AssemblyAI({
   apiKey: process.env.ASSEMBLYAI_API_KEY!,
@@ -20,7 +21,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = session.user.id;
+    const userEmail = session.user.email;
+
+    await connectToDatabase();
+
+    const mongoUser = await User.findOne({ email: userEmail });
+
+    if (!mongoUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const userMinutes = mongoUser.transcriptMinutes;
+    const userId = mongoUser._id;
+
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const speakers = formData.get("speakers") as string;
@@ -43,12 +56,12 @@ export async function POST(req: NextRequest) {
     const pythonProcess = spawn("python", [
       "./scripts/download_local_audio.py",
       tempFilePath,
+      userMinutes.toString(),
     ]);
 
     let output = "";
     let error = "";
 
-    // Timeout failsafe
     const timeout = setTimeout(() => {
       pythonProcess.kill("SIGTERM");
     }, 2 * 60 * 1000); // 2 mins max
@@ -81,9 +94,21 @@ export async function POST(req: NextRequest) {
           );
         }
 
-        const audioUrl = output.trim(); // URL or path returned by Python
-        
-        console.log("Audio URL:", audioUrl);
+        let audioUrl = "";
+        let videoMinutes = 0;
+        try {
+          const parsedOutput = JSON.parse(output.trim());
+          audioUrl = parsedOutput.assemblyai_url;
+          videoMinutes = parsedOutput.video_minutes; // Get video minutes from the response
+        } catch (err) {
+          console.error("❗ Failed to parse Python output:", err, output);
+          return resolve(
+            NextResponse.json(
+              { error: "Invalid audio URL returned by Python script" },
+              { status: 500 }
+            )
+          );
+        }
 
         if (!audioUrl) {
           return resolve(
@@ -119,6 +144,10 @@ export async function POST(req: NextRequest) {
             start: utterance.start,
             end: utterance.end,
           }));
+
+          // Update transcript minutes of the user
+          mongoUser.transcriptMinutes -= videoMinutes;
+          await mongoUser.save(); // Save the updated user document
 
           await connectToDatabase();
 
