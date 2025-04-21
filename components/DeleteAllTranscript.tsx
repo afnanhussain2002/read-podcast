@@ -1,10 +1,16 @@
 'use client';
 
+import { useUser } from '@/hooks/useUser';
 import { useState } from 'react';
 // import toast from 'react-hot-toast';
 
 export default function DeleteAllTranscriptsButton() {
   const [loading, setLoading] = useState(false);
+
+  const {user} = useUser()
+
+  console.log(user);
+  
 
   const handleDeleteAll = async () => {
     const confirm = window.confirm('Are you sure you want to delete all transcripts?');
@@ -12,8 +18,12 @@ export default function DeleteAllTranscriptsButton() {
 
     setLoading(true);
     try {
-      const res = await fetch('/api/transcripts/delete-all', {
+      const res = await fetch('/api/delete-all', {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user?.id }), 
       });
 
       const data = await res.json();

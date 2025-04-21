@@ -5,9 +5,13 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) { 
+
+    const {userId} = await req.json();
+   
    const session = await getServerSession(authOptions);
 
-   const userId = session?.user?.id;
+//    const userId = session?.user?.id;
+   console.log(userId);
    
       if (!userId) {
           return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
