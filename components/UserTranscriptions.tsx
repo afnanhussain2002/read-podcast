@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Link from 'next/link';
 import { Button } from './ui/button';
 import Star10 from './stars/s10';
+import Loader from './Loader';
 
 
 type Transcript = {
@@ -46,11 +47,7 @@ const UserTranscriptions = () => {
     console.log(transcriptions);
   
     if (loading) {
-        return (
-          <div className="flex items-center justify-center h-screen">
-            <Star10 size={100} strokeWidth={4} className="animate-spin text-blue-500" />
-          </div>
-        );
+       return <Loader/>
       } 
   
     if (transcriptions.length === 0) return <p>No transcriptions found.</p>;
