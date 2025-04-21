@@ -39,9 +39,17 @@ export default function Login() {
     });
 
     if (result?.error) {
-      showNotification(result.error, "error");
+      setAlert({
+        type: "error",
+        title: "Login failed!",
+        description: result.error,
+      });
     } else {
-      showNotification("Login successful!", "success");
+      setAlert({
+        type: "success",
+        title: "Login successful!",
+        description: "Redirecting you now...",
+      });
       router.push("/");
     }
 
@@ -50,6 +58,7 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
+        {alert && <AlertBox {...alert} />}
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
