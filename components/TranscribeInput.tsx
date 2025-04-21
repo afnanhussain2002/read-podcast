@@ -15,6 +15,7 @@ import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
 import { useUser } from "@/hooks/useUser";
 import Loader from "./Loader";
+import { Badge } from "./ui/badge";
 
 
 
@@ -183,8 +184,11 @@ const TranscribeInput = () => {
             </Label>
           </div>
         </form>
-        
       </CardContent>
+        <div className="flex gap-2 ml-5 flex-wrap">
+        <Badge className="text-darkBg ">Note: </Badge>
+        {user?.transcriptMinutes} minutes of transcription available
+        </div>
 
       <CardFooter className="flex justify-end">
         <Button variant="default" onClick={handleAction} disabled={loading}>
