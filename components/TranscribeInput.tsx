@@ -16,6 +16,7 @@ import TranscribedData from "./TranscribedData";
 import { useUser } from "@/hooks/useUser";
 import Loader from "./Loader";
 import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 
 
@@ -187,7 +188,8 @@ const TranscribeInput = () => {
       </CardContent>
         <div className="flex gap-2 ml-5 flex-wrap">
         <Badge className="text-darkBg ">Note: </Badge>
-        {user?.transcriptMinutes} minutes of transcription available
+        {user?.transcriptMinutes} minutes of transcription available.
+        <Badge variant={"neutral"}><Link href="/#pricing"> Buy More</Link> </Badge>
         </div>
 
       <CardFooter className="flex justify-end">
