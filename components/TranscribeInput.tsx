@@ -12,6 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
+import TranscribedData from "./TranscribedData";
 
 
 
@@ -120,6 +121,7 @@ const TranscribeInput = () => {
   console.log("transcript data",transcript);
 
   return (
+    <>
     <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
       <CardContent className="mt-4">
         <form ref={formRef}>
@@ -180,18 +182,11 @@ const TranscribeInput = () => {
           {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
         </Button>
       </CardFooter>
-      {transcript && (
-      <div className="text-center mt-6">
-        <p className="text-xl font-medium mb-4 text-green-600">✅ Your transcript is ready!</p>
-        <a
-          href={`/dashboard/${transcript}`}
-          className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          View Full Transcript
-        </a>
-      </div>
-    )}
     </Card>
+
+    <TranscribedData transcript={transcript} />
+    
+    </>
   );
 };
 
