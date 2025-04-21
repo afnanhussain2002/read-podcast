@@ -1,5 +1,5 @@
 import TranscribeInput from "./TranscribeInput";
-import TranscribedData from "./TranscribedData";
+
 
 
 
@@ -20,9 +20,7 @@ export default function Transcriber() {
       <TranscribeInput/>
       
     </div>
-  </header>
-  <TranscribedData/>
-   
+  </header>  
     
     </>
   );

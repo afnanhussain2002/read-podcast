@@ -14,6 +14,7 @@ import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 
 
+
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
   const [videoUrl, setVideoUrl] = useState("");
@@ -23,6 +24,7 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
   const [error, setError] = useState<string | null>(null);
+  const [transcriptId, setTranscriptId] = useState("");
 
 
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -64,7 +66,8 @@ const TranscribeInput = () => {
 
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      localStorage.setItem("transcript", JSON.stringify(data));
+      setTranscriptId(data.transcriptId);
+      // localStorage.setItem("transcript", JSON.stringify(data));
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
@@ -92,7 +95,8 @@ const TranscribeInput = () => {
 
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      localStorage.setItem("transcript", JSON.stringify(data));
+      setTranscriptId(data.transcriptId);
+      // localStorage.setItem("transcript", JSON.stringify(data));
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
@@ -112,7 +116,8 @@ const TranscribeInput = () => {
     }
   };
 
-  // router.push(`/dashboard/${transcript?._id}`);
+  console.log("transcriptId",transcriptId);
+  console.log("transcript data",transcript);
 
   return (
     <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
@@ -175,6 +180,17 @@ const TranscribeInput = () => {
           {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
         </Button>
       </CardFooter>
+      {transcript && (
+      <div className="text-center mt-6">
+        <p className="text-xl font-medium mb-4 text-green-600">✅ Your transcript is ready!</p>
+        <a
+          href={`/dashboard/${transcript}`}
+          className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          View Full Transcript
+        </a>
+      </div>
+    )}
     </Card>
   );
 };
