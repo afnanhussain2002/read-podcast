@@ -2,7 +2,6 @@
 import AvailableMinutes from '@/components/AvailableMinutes';
 import EditProfile from '@/components/EditProfile';
 import Loader from '@/components/Loader';
-import Star10 from '@/components/stars/s10';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
 import React from 'react'
