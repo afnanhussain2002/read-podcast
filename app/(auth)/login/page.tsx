@@ -24,6 +24,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState<{ type: "success" | "error"; title: string; description?: string } | null>(null);
 
   const { showNotification } = useNotification();
 
