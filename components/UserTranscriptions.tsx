@@ -45,6 +45,10 @@ const UserTranscriptions = () => {
       fetchTranscriptions();
     }, []);
 
+    const handleClearTranscripts = () => {
+      setTranscriptions([]); // 🔥 clears it instantly from UI
+    };
+
     console.log(transcriptions);
   
     if (loading) {
@@ -76,7 +80,7 @@ const UserTranscriptions = () => {
           </Card>
         ))}
       </div>
-      <DeleteAllTranscriptsButton/>
+      <DeleteAllTranscriptsButton onDeleted={handleClearTranscripts}/>
     </main>
   )
 }

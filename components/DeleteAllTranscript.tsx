@@ -4,7 +4,7 @@ import { useUser } from '@/hooks/useUser';
 import { useState } from 'react';
 // import toast from 'react-hot-toast';
 
-export default function DeleteAllTranscriptsButton() {
+export default function DeleteAllTranscriptsButton({ onDeleted }: { onDeleted: () => void }) {
   const [loading, setLoading] = useState(false);
 
   const {user} = useUser()
@@ -30,6 +30,7 @@ export default function DeleteAllTranscriptsButton() {
 
       if (res.ok) {
         alert(data.message);
+        onDeleted();
       } else {
         alert(data.message || 'Failed to delete transcripts');
       }
