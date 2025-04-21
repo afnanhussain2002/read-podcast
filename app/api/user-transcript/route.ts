@@ -26,7 +26,7 @@ export async function GET() {
 
   try {
 
-    const transcriptions = await Transcript.find({ OwnerId: userId });
+    const transcriptions = await Transcript.find({ ownerId: userId });
 
     if (!transcriptions || transcriptions.length === 0) {
       return NextResponse.json({ error: "No transcriptions found" }, { status: 404 });
