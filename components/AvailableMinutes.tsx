@@ -1,7 +1,7 @@
 "use client"
 import { useUser } from '@/hooks/useUser';
 import React, { useEffect } from 'react'
-import Star10 from './stars/s10';
+import Loader from './Loader';
 
 const AvailableMinutes = () => {
     const { user, isLoading, refreshUser } = useUser();
@@ -10,7 +10,7 @@ const AvailableMinutes = () => {
         refreshUser();
       }, [refreshUser]);
       if (isLoading) {
-        return <Star10 size={100} strokeWidth={4} className="animate-spin text-brand-glow shadow-light dark:shadow-dark" />
+        return <Loader/>
       }
       return <div>Available Minutes: {user?.transcriptMinutes}</div>;
 }
