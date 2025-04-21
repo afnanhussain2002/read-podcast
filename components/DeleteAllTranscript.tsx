@@ -2,20 +2,19 @@
 
 import { useUser } from '@/hooks/useUser';
 import { useState } from 'react';
-// import toast from 'react-hot-toast';
 
-export default function DeleteAllTranscriptsButton({ onDeleted }: { onDeleted: () => void }) {
+import { Button } from '@/components/ui/button';
+import ConfirmDialog from './ShowAlert';
+
+export default function DeleteAllTranscriptsButton({
+  onDeleted,
+}: {
+  onDeleted: () => void;
+}) {
   const [loading, setLoading] = useState(false);
-
-  const {user} = useUser()
-
-  console.log(user);
-  
+  const { user } = useUser();
 
   const handleDeleteAll = async () => {
-    const confirm = window.confirm('Are you sure you want to delete all transcripts?');
-    if (!confirm) return;
-
     setLoading(true);
     try {
       const res = await fetch('/api/delete-all', {
@@ -23,14 +22,14 @@ export default function DeleteAllTranscriptsButton({ onDeleted }: { onDeleted: (
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: user?.id }), 
+        body: JSON.stringify({ userId: user?.id }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message);
-        onDeleted();
+        alert(data.message); // Optional: swap with toast if you prefer
+        onDeleted(); // Immediately update the frontend
       } else {
         alert(data.message || 'Failed to delete transcripts');
       }
@@ -43,12 +42,16 @@ export default function DeleteAllTranscriptsButton({ onDeleted }: { onDeleted: (
   };
 
   return (
-    <button
-      onClick={handleDeleteAll}
-      disabled={loading}
-      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
-    >
-      {loading ? 'Deleting...' : 'Delete All Transcripts'}
-    </button>
+    <ConfirmDialog
+      title="Delete all transcripts?"
+      description="This action cannot be undone. It will permanently delete all your transcripts from our database."
+      onConfirm={handleDeleteAll}
+      loading={loading}
+      trigger={
+        <Button variant="default" disabled={loading}>
+          {loading ? 'Deleting...' : 'Delete All Transcripts'}
+        </Button>
+      }
+    />
   );
 }
