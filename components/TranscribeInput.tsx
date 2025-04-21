@@ -14,6 +14,7 @@ import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
 import { useUser } from "@/hooks/useUser";
+import Loader from "./Loader";
 
 
 
@@ -122,6 +123,10 @@ const TranscribeInput = () => {
 
   console.log("transcriptId",transcriptId);
   console.log("transcript data",transcript);
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <>
