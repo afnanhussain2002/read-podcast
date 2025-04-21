@@ -2,89 +2,102 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/components/Notification";
 import Link from "next/link";
-import GoogleSignIn from "@/components/GoogleSign";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import AlertBox from "@/components/AlertBox";
+
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isUploading, setUploading] = useState(false);
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState<{
+    type: "success" | "error";
+    title: string;
+    description?: string;
+  } | null>(null);
+
   const router = useRouter();
-  const { showNotification } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUploading(true); // Start loading
-
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    setIsLoading(true);
+    setAlert(null);
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, name }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
+        setAlert({
+          type: "error",
+          title: "Registration Failed",
+          description: data?.message || "Something went wrong",
+        });
+      } else {
+        setAlert({
+          type: "success",
+          title: "Account Created!",
+          description: "Redirecting to login page...",
+        });
 
-      showNotification("Registration successful! Please log in.", "success");
-      router.push("/");
-    } catch (error) {
-      showNotification(
-        error instanceof Error ? error.message : "Registration failed",
-        "error"
-      );
+        setTimeout(() => {
+          router.push("/login");
+        }, 1500);
+      }
+    } catch (err) {
+      setAlert({
+        type: "error",
+        title: "Something went wrong",
+        description: "Please try again later.",
+      });
     } finally {
-      setUploading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
-          <CardTitle>Create your account</CardTitle>
-          <CardDescription>
-            Enter your email and password to get started
-          </CardDescription>
+          <CardTitle>Create an account</CardTitle>
+          <CardDescription>Register with your email and password</CardDescription>
         </CardHeader>
+
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {alert && <AlertBox {...alert} />} {/* ✅ Show alert */}
+          <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="m@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
               <Input
@@ -96,60 +109,16 @@ export default function Register() {
                 required
               />
             </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="image">Profile Image</Label>
-              <Input
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setImageFile(file);
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setImagePreview(reader.result as string);
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
-              {imagePreview && (
-                <Image
-                  src={imagePreview}
-                  alt="Preview"
-                  width={200}
-                  height={200}
-                  className="mt-2 rounded w-32 h-32 object-cover border"
-                />
-              )}
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isUploading}>
-              {isUploading ? "Registering..." : "Register"}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Creating..." : "Register"}
             </Button>
           </form>
-
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-muted-foreground">or</span>
-            </div>
-          </div>
-
-          <GoogleSignIn />
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-2">
-          <div className="text-sm text-center">
+        <CardFooter className="flex-col gap-2">
+          <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <Link
-              href="/login"
-              className="underline underline-offset-4 font-bold hover:text-primary"
-            >
+            <Link href="/login" className="underline underline-offset-4 font-bold hover:text-primary">
               Login
             </Link>
           </div>
