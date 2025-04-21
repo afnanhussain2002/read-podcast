@@ -23,6 +23,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setUploading] = useState(false);
   const router = useRouter();
   const { showNotification } = useNotification();
 
