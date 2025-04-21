@@ -11,6 +11,7 @@ if not ASSEMBLYAI_API_KEY:
     print(json.dumps({"error": "AssemblyAI API key not set"}))
     sys.exit(1)
 
+
 def get_video_duration(video_url):
     try:
         with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
@@ -19,6 +20,7 @@ def get_video_duration(video_url):
             return duration / 60  # convert to minutes
     except Exception as e:
         raise Exception(f"Failed to get video duration: {str(e)}")
+
 
 def download_audio(video_url):
     unique_filename = str(uuid.uuid4())
@@ -48,6 +50,7 @@ def download_audio(video_url):
     except Exception as e:
         raise Exception(f"Download/Conversion failed: {str(e)}")
 
+
 def upload_to_assemblyai(file_path):
     headers = {
         "authorization": ASSEMBLYAI_API_KEY,
@@ -70,6 +73,7 @@ def upload_to_assemblyai(file_path):
     except Exception as e:
         raise Exception(f"Upload error: {str(e)}")
 
+
 def main():
     if len(sys.argv) < 3:
         print(json.dumps({"error": "Usage: python3 script.py <video_url> <user_minutes>"}))
@@ -84,19 +88,26 @@ def main():
         sys.exit(1)
 
     try:
+        # Step 1: Get video duration
         video_minutes = get_video_duration(video_url)
 
+        # Step 2: Check if user has enough minutes
         if video_minutes > user_minutes:
             print(json.dumps({
                 "error": f"Video is {video_minutes:.2f} minutes long, but user only has {user_minutes:.2f} minutes left."
             }))
             sys.exit(1)
 
+        # Step 3: Download audio
         audio_file = download_audio(video_url)
+
+        # Step 4: Upload to AssemblyAI
         assemblyai_url = upload_to_assemblyai(audio_file)
 
+        # Step 5: Delete temporary audio file
         os.remove(audio_file)
 
+        # Step 6: Respond with video length and upload URL
         print(json.dumps({
             "status": "success",
             "video_minutes": round(video_minutes, 2),
@@ -106,6 +117,7 @@ def main():
     except Exception as e:
         print(json.dumps({"error": str(e)}))
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
