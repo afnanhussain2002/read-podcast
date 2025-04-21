@@ -15,6 +15,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import AvailableMinutes from "./AvailableMinutes"
 
 export default function Navbar() {
   const { data: session } = useSession()
@@ -78,6 +79,7 @@ export default function Navbar() {
               <Button size="sm" onClick={() => signOut()}>
                 Logout
               </Button>
+              <AvailableMinutes/>
             </>
           ) : (
             <Link href="/login">

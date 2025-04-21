@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
+import { useUser } from "@/hooks/useUser";
 
 
 
@@ -26,6 +27,8 @@ const TranscribeInput = () => {
   const [detectSpeakers, setDetectSpeakers] = useState({});
   const [error, setError] = useState<string | null>(null);
   const [transcriptId, setTranscriptId] = useState("");
+  const { user, isLoading } = useUser();
+
 
 
   const formRef = useRef<HTMLFormElement | null>(null);
