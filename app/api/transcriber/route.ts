@@ -29,9 +29,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const userMinutes = mongoUser.transcriptMinutes;
+
     const userId = mongoUser._id;
 
-    const { videoUrl, speakers } = await req.json();
+    const { videoUrl, speakers} = await req.json();
     if (!videoUrl) {
       return NextResponse.json(
         { error: "No YouTube URL provided" },
@@ -43,7 +45,8 @@ export async function POST(req: NextRequest) {
 
     const pythonProcess = spawn("python", [
       "./scripts/download_audio.py",
-      videoUrl,
+      videoUrl, 
+      userMinutes.toString(),  
     ]);
 
     let output = "";

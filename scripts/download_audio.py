@@ -11,6 +11,15 @@ if not ASSEMBLYAI_API_KEY:
     print(json.dumps({"error": "AssemblyAI API key not set"}))
     sys.exit(1)
 
+def get_video_duration(video_url):
+    try:
+        with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
+            info = ydl.extract_info(video_url, download=False)
+            duration = info.get("duration", 0)  # in seconds
+            return duration / 60  # convert to minutes
+    except Exception as e:
+        raise Exception(f"Failed to get video duration: {str(e)}")
+
 def download_audio(video_url):
     unique_filename = str(uuid.uuid4())
     output_filename = f"{unique_filename}.mp3"
@@ -62,19 +71,37 @@ def upload_to_assemblyai(file_path):
         raise Exception(f"Upload error: {str(e)}")
 
 def main():
-    if len(sys.argv) < 2:
-        print(json.dumps({"error": "No video URL provided"}))
+    if len(sys.argv) < 3:
+        print(json.dumps({"error": "Usage: python3 script.py <video_url> <user_minutes>"}))
         sys.exit(1)
 
     video_url = sys.argv[1]
 
     try:
+        user_minutes = float(sys.argv[2])
+    except ValueError:
+        print(json.dumps({"error": "Invalid user minutes"}))
+        sys.exit(1)
+
+    try:
+        video_minutes = get_video_duration(video_url)
+
+        if video_minutes > user_minutes:
+            print(json.dumps({
+                "error": f"Video is {video_minutes:.2f} minutes long, but user only has {user_minutes:.2f} minutes left."
+            }))
+            sys.exit(1)
+
         audio_file = download_audio(video_url)
         assemblyai_url = upload_to_assemblyai(audio_file)
 
         os.remove(audio_file)
 
-        print(json.dumps({"assemblyai_url": assemblyai_url}))
+        print(json.dumps({
+            "status": "success",
+            "video_minutes": round(video_minutes, 2),
+            "assemblyai_url": assemblyai_url
+        }))
 
     except Exception as e:
         print(json.dumps({"error": str(e)}))
