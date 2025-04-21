@@ -2,7 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 
-const TranscribedData = ({transcript}) => {
+type Props = {
+  transcript: string
+}
+
+const TranscribedData = ({transcript}: Props) => {
   return (
    <>
    {transcript && (
