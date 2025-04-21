@@ -12,7 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
+
 
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
@@ -23,7 +23,7 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -68,6 +68,7 @@ const TranscribeInput = () => {
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
+     
     } catch (err: any) {
       setError(err.message);
       setTranscript("Failed to fetch transcript.");
@@ -95,6 +96,7 @@ const TranscribeInput = () => {
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
+     
     } catch (error) {
       setTranscript("Failed to fetch transcript.");
     } finally {
@@ -109,6 +111,8 @@ const TranscribeInput = () => {
       handleFileUpload();
     }
   };
+
+  // router.push(`/dashboard/${transcript?._id}`);
 
   return (
     <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
