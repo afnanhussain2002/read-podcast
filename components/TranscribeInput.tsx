@@ -12,6 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/router";
 
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
@@ -22,6 +23,7 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
