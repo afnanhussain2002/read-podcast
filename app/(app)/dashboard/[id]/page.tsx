@@ -7,6 +7,7 @@ import { formatDate, formatTime } from '@/lib/formatDate';
 import Star10 from '@/components/stars/s10';
 import { chapters, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
+import Loader from '@/components/Loader';
 
 // Dummy formatTime function for start/end (replace with real implementation)
 
@@ -49,11 +50,7 @@ const SingleTranscript = () => {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Star10 size={100} strokeWidth={4} className="animate-spin text-blue-500" />
-      </div>
-    );
+    return <Loader/>
   }
 
   return (
