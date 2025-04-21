@@ -183,6 +183,7 @@ const TranscribeInput = () => {
             </Label>
           </div>
         </form>
+        
       </CardContent>
 
       <CardFooter className="flex justify-end">
