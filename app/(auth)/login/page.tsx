@@ -61,6 +61,7 @@ export default function Login() {
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+              className="text-brand-glow"
                 id="email"
                 type="email"
                 placeholder="m@example.com"
@@ -72,6 +73,7 @@ export default function Login() {
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
               <Input
+                className="text-brand-glow"
                 id="password"
                 type="password"
                 placeholder="••••••••"
