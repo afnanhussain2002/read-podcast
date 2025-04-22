@@ -104,7 +104,6 @@ const TranscribeInput = () => {
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
       setTranscriptId(data.transcriptId);
-      // localStorage.setItem("transcript", JSON.stringify(data));
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
