@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/components/Notification";
 import Link from "next/link";
 import GoogleSignIn from "@/components/GoogleSign";
 import {
@@ -26,7 +25,7 @@ export default function Register() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setUploading] = useState(false);
   const router = useRouter();
-  const { showNotification } = useNotification();
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
