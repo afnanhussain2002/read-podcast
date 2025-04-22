@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 export default function PricingPlan({
@@ -26,9 +27,13 @@ export default function PricingPlan({
 }) {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession()
+  const router = useRouter();
   const user = session?.user
 
   const handleBuy = async () => {
+    if (!user) {
+      router.push("/login");
+    }
     try {
       setLoading(true);
       const res = await fetch("/api/create-checkout-session", {
