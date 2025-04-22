@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useNotification } from "./Notification";
 
 
 export default function PricingPlan({
@@ -28,6 +29,7 @@ export default function PricingPlan({
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession()
   const router = useRouter();
+  const { showNotification } = useNotification();
   const user = session?.user
 
   const handleBuy = async () => {
@@ -52,7 +54,7 @@ export default function PricingPlan({
       }
     } catch (error) {
       console.error(error);
-      alert("Payment error");
+      showNotification("Something went wrong", "error");
     } finally {
       setLoading(false);
     }

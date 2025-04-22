@@ -16,7 +16,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const [notification, setNotification] = useState<{
     message: string;
     type: NotificationType;
-    id: number;
+    id: number; 
   } | null>(null);
 
   const showNotification = (message: string, type: NotificationType) => {
