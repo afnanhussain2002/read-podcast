@@ -3,16 +3,11 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { LogIn } from "lucide-react";
-import AlertBox from "./AlertBox";
+import { toast } from "sonner";
 
 
 export default function GoogleSignIn() {
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState<{
-    type: "success" | "error";
-    title: string;
-    description?: string;
-  } | null>(null);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -20,17 +15,9 @@ export default function GoogleSignIn() {
       const res = await signIn("google", { callbackUrl: "/", redirect: false });
 
       if (res?.error) {
-        setAlert({
-          type: "error",
-          title: "Google Sign-In Failed",
-          description: res.error,
-        });
+        toast.error(res.error);
       } else {
-        setAlert({
-          type: "success",
-          title: "Signed in with Google!",
-          description: "Redirecting you now...",
-        });
+       toast.success("Signed in successfully!");
 
         // Optional delay before redirect
         setTimeout(() => {
@@ -38,11 +25,7 @@ export default function GoogleSignIn() {
         }, 1500);
       }
     } catch (err) {
-      setAlert({
-        type: "error",
-        title: "Something went wrong",
-        description: "Please try again later.",
-      });
+      toast.error(err as string);
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +33,6 @@ export default function GoogleSignIn() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      {alert && <AlertBox {...alert} />}
 
       <div className="bg-white rounded-lg shadow-lg w-full mt-4">
         <button
