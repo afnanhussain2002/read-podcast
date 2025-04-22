@@ -130,7 +130,7 @@ const TranscribeInput = () => {
   console.log("transcript data",transcript);
 
   if (isLoading) {
-    return <Loader />
+    return <p>Minutes Left.......</p>
   }
 
   return (
