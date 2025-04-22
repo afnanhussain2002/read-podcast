@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { LogIn } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { FaGoogle } from "react-icons/fa";
 
 
 export default function GoogleSignIn() {
@@ -34,17 +35,18 @@ export default function GoogleSignIn() {
   return (
     <div className="flex flex-col items-center justify-center w-full">
 
-      <div className="bg-white rounded-lg shadow-lg w-full mt-4">
-        <button
+      <div className=" rounded-lg w-full mt-4">
+        <Button
+        variant={"default"}
           onClick={handleGoogleSignIn}
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 transition-all disabled:opacity-50"
+          className="w-full dark:bg-darkBg"
         >
-          <LogIn className="text-2xl" />
+          <FaGoogle className="text-2xl" />
           <span className="font-medium">
             {isLoading ? "Signing in..." : "Sign in with Google"}
           </span>
-        </button>
+        </Button>
       </div>
     </div>
   );
