@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -50,13 +51,10 @@ export default function Register() {
         throw new Error(data.error || "Registration failed");
       }
 
-      showNotification("Registration successful! Please log in.", "success");
+      toast.success("Registration successful!");
       router.push("/");
     } catch (error) {
-      showNotification(
-        error instanceof Error ? error.message : "Registration failed",
-        "error"
-      );
+      toast.error((error as Error).message);
     } finally {
       setUploading(false); // Stop loading
     }
