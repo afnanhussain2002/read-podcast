@@ -17,6 +17,7 @@ import { useUser } from "@/hooks/useUser";
 import Loader from "./Loader";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
+import { toast } from "sonner";
 
 
 
@@ -107,8 +108,10 @@ const TranscribeInput = () => {
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
+      toast.success("Transcript successfully!");
      
     } catch (error) {
+      toast.error(error as string);
       setTranscript("Failed to fetch transcript.");
     } finally {
       setLoading(false);
