@@ -79,9 +79,10 @@ const TranscribeInput = () => {
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
+      toast.success("Transcript successfully!");
      
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      toast.error(err as string);
       setTranscript("Failed to fetch transcript.");
     } finally {
       setLoading(false);
