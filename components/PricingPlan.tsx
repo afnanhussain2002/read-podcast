@@ -22,7 +22,7 @@ export default function PricingPlan({
   mostPopular?: boolean;
   planName: string;
   description: string;
-  price: number;
+  price: string;
   minutes: number;
 
 }) {
