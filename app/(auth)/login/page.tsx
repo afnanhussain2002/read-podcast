@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useNotification } from "@/components/Notification";
 import {
   Card,
   CardHeader,
@@ -17,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleSignIn from "@/components/GoogleSign";
-import AlertBox from "@/components/AlertBox";
 import { toast } from "sonner";
 
 export default function Login() {

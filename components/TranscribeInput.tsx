@@ -14,7 +14,6 @@ import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
 import { useUser } from "@/hooks/useUser";
-import Loader from "./Loader";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { toast } from "sonner";
