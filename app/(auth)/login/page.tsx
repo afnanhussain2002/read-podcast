@@ -18,13 +18,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleSignIn from "@/components/GoogleSign";
 import AlertBox from "@/components/AlertBox";
+import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState<{ type: "success" | "error"; title: string; description?: string } | null>(null);
+ 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,17 +38,9 @@ export default function Login() {
     });
 
     if (result?.error) {
-      setAlert({
-        type: "error",
-        title: "Login failed!",
-        description: result.error,
-      });
+      toast.error(result.error);
     } else {
-      setAlert({
-        type: "success",
-        title: "Login successful!",
-        description: "Redirecting you now...",
-      });
+      toast.success("Login successful!");
       router.push("/");
     }
 
@@ -56,7 +49,6 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
-        {alert && <AlertBox {...alert} />}
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>

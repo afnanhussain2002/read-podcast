@@ -186,11 +186,8 @@ const TranscribeInput = () => {
           </div>
         </form>
       </CardContent>
-        <div className="flex gap-2 ml-5 flex-wrap">
-        <Badge  variant={"neutral"} >Note: </Badge>
-        {user?.transcriptMinutes} minutes of transcription available.
-        <Badge className="text-darkBg"><Link href="/#pricing"> Buy More</Link> </Badge>
-        </div>
+       
+   
 
       <CardFooter className="flex justify-end">
         <Button variant="default" onClick={handleAction} disabled={loading}>
@@ -199,7 +196,16 @@ const TranscribeInput = () => {
       </CardFooter>
     </Card>
 
-    <TranscribedData transcript={transcript} />
+    <div className="flex gap-2 ml-5 flex-wrap">
+        <Badge  variant={"neutral"} >Note: </Badge>
+        {user?.transcriptMinutes.toFixed(2)} minutes of transcription available.
+        <Badge className="text-darkBg"><Link href="/#pricing"> Buy More</Link> </Badge>
+        </div>
+
+  {transcriptId &&  <TranscribedData transcript={transcript} />}
+
+
+   
     
     </>
   );
