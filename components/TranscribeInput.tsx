@@ -199,11 +199,11 @@ const TranscribeInput = () => {
       </CardFooter>
     </Card>
 
-    <div className="flex gap-2 ml-5 flex-wrap">
-        <Badge  variant={"neutral"} >Note: </Badge>
-        {user?.transcriptMinutes.toFixed(2)} minutes of transcription available.
+    <Card className="mt-4 bg-darkBg">
+        <Badge >Note </Badge>
+         : {user?.transcriptMinutes.toFixed(2)} minutes of transcription available. If you need more,
         <Badge className="text-darkBg"><Link href="/#pricing"> Buy More</Link> </Badge>
-        </div>
+        </Card>
 
   {transcriptId &&  <TranscribedData transcript={transcript} />}
 
