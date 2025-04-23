@@ -28,5 +28,6 @@ export default async function POST(req: NextRequest) {
       const passwordResetTokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
 
     existingUser.resetToken = passwordResetToken;
+    existingUser.resetTokenExpiry = passwordResetTokenExpiry;
   } catch (error) {}
 }
