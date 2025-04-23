@@ -29,5 +29,7 @@ export default async function POST(req: NextRequest) {
 
     existingUser.resetToken = passwordResetToken;
     existingUser.resetTokenExpiry = passwordResetTokenExpiry;
+
+    const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password/${resetToken}`;
   } catch (error) {}
 }
