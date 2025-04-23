@@ -7,5 +7,11 @@ export default async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
+    try {
+        
+    } catch (error) {
+        
+    }
+
     
 }
