@@ -19,6 +19,8 @@ export default async function POST(req: NextRequest) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
+        const resetToken = crypto.randomBytes(20).toString('hex');
+
 
 
 
