@@ -20,6 +20,7 @@ export default async function POST(req: NextRequest) {
         }
 
         const resetToken = crypto.randomBytes(20).toString('hex');
+        const passwordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
 
 
