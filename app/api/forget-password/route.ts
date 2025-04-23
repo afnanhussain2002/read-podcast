@@ -2,6 +2,7 @@ import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { sendForgetPassword } from "@/helper/sendForgetPassword";
 
 export default async function POST(req: NextRequest) {
   const { email } = await req.json();
@@ -31,6 +32,9 @@ export default async function POST(req: NextRequest) {
     existingUser.resetTokenExpiry = passwordResetTokenExpiry;
 
     const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password/${resetToken}`;
+
+    const emailResponse = await sendForgetPassword(email, resetUrl);
+
 
   } catch (error) {}
 }

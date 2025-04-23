@@ -12,7 +12,8 @@ import {
 } from '@react-email/components';
 
 interface DropboxResetPasswordEmailProps {
-  resetPasswordLink?: string;
+  email: string;
+  resetPasswordLink: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
@@ -64,7 +65,7 @@ export const DropboxResetPasswordEmail = ({
 };
 
 DropboxResetPasswordEmail.PreviewProps = {
-  userFirstname: 'Alan',
+  email: 'Alan',
   resetPasswordLink: 'https://www.dropbox.com',
 } as DropboxResetPasswordEmailProps;
 

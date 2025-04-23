@@ -1,13 +1,13 @@
 import ForgetPasswordEmail from "@/emails/ForgetPasswordEmail";
 import { resend } from "@/lib/resend";
 
-export async function sendForgetPassword(email: string,) {
+export async function sendForgetPassword(email: string, resetPasswordLink: string) {
      try {
         await resend.emails.send({
             from: "onboarding@resend.dev",
             to: email,
             subject: "Vido Note | Forget Password",
-            react: ForgetPasswordEmail({email})
+            react: ForgetPasswordEmail({email, resetPasswordLink})
         })
         return {success: true, message: "Email sent successfully"}
      } catch (error) {
