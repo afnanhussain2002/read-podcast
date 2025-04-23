@@ -26,7 +26,7 @@ export default async function POST(req: NextRequest) {
       .update(resetToken)
       .digest("hex");
 
-      const passwordResetTokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
+    const passwordResetTokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
 
     existingUser.resetToken = passwordResetToken;
     existingUser.resetTokenExpiry = passwordResetTokenExpiry;
@@ -35,14 +35,25 @@ export default async function POST(req: NextRequest) {
 
     const emailResponse = await sendForgetPassword(email, resetUrl);
 
-    if (emailResponse.success) {
-      return NextResponse.json({
-          success:true,
-          message:emailResponse.message
-      },{status:200})
-  }
+    if (!emailResponse.success) {
+      existingUser.resetToken = undefined;
+      existingUser.resetTokenExpiry = undefined;
+      await existingUser.save();
+      return NextResponse.json(
+        "Failed to send password reset email",
+        { status: 500 }
+      )
+    }
 
+    await existingUser.save();
 
+    return NextResponse.json(
+      {
+        success: true,
+        message: emailResponse.message,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error: error as string }, { status: 500 });
   }
