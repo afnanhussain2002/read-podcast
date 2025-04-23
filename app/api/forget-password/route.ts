@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/lib/db";
+import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function POST(req: NextRequest) {
@@ -10,6 +11,10 @@ export default async function POST(req: NextRequest) {
 
     try {
         await connectToDatabase();
+
+        const existingUser = await User.findOne({ email });
+
+        
     } catch (error) {
         
     }
