@@ -6,7 +6,9 @@ export interface IUser {
   password?: string;
   _id?: mongoose.Types.ObjectId;
   profileImage?: string;
-  transcriptMinutes:number
+  transcriptMinutes: number;
+  resetToken?: string;
+  resetTokenExpiry?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -14,9 +16,11 @@ export interface IUser {
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    password: { type: String},
+    password: { type: String },
     profileImage: { type: String },
     transcriptMinutes: { type: Number, default: 10 },
+    resetToken: { type: String, required: true },
+    resetTokenExpiry: { type: Date, required: false },
   },
   { timestamps: true }
 );
