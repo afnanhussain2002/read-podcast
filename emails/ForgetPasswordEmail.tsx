@@ -12,7 +12,6 @@ import {
 } from '@react-email/components';
 
 interface DropboxResetPasswordEmailProps {
-  userFirstname?: string;
   resetPasswordLink?: string;
 }
 
@@ -21,14 +20,13 @@ const baseUrl = process.env.VERCEL_URL
   : '';
 
 export const DropboxResetPasswordEmail = ({
-  userFirstname,
   resetPasswordLink,
 }: DropboxResetPasswordEmailProps) => {
   return (
     <Html>
       <Head />
       <Body className="bg-[#0F172A] py-10">
-        <Preview>Dropbox reset your password</Preview>
+        <Preview>Vido Note reset your password</Preview>
         <Container className="bg-white border-4 border-[#0F172A] shadow-[8px_8px_0_#38BDF8] px-10 py-8 max-w-xl mx-auto">
           <Img
             src={`${baseUrl}/static/dropbox-logo.png`}
@@ -38,9 +36,8 @@ export const DropboxResetPasswordEmail = ({
             className="mb-6"
           />
           <Section>
-            <Text className="text-[#0F172A] text-xl font-bold mb-4">Hi {userFirstname},</Text>
             <Text className="text-[#0F172A] text-base mb-4">
-              Someone recently requested a password change for your Dropbox
+              Someone recently requested a password change for your Vido Note
               account. If this was you, you can set a new password here:
             </Text>
             <Button
