@@ -36,12 +36,14 @@ export default async function POST(req: NextRequest) {
     const emailResponse = await sendForgetPassword(email, resetUrl);
 
     if (emailResponse.success) {
-      return Response.json({
+      return NextResponse.json({
           success:true,
           message:emailResponse.message
-      },{status:500})
+      },{status:200})
   }
 
 
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json({ error: error as string }, { status: 500 });
+  }
 }
