@@ -9,7 +9,7 @@ export async function sendForgetPassword(email: string, resetPasswordLink: strin
             subject: "Vido Note | Forget Password",
             react: ForgetPasswordEmail({email, resetPasswordLink})
         })
-        return {success: true, message: "Email sent successfully"}
+        return {success: true, message: "Reset password email has been sent."}
      } catch (error) {
         return {success: false, message: error as string}
      }
