@@ -1,13 +1,13 @@
 import React from 'react'
 
 interface FPEmailProps {
-  firstName: string;
+  email: string;
 }
 
-const ForgetPasswordEmail: React.FC<Readonly<FPEmailProps>> = ({firstName})  => {
+const ForgetPasswordEmail = ({email}: FPEmailProps)  => {
   return (
     <div>
-    <h1>Welcome, {firstName}!</h1>
+    <h1>Welcome, {email}!</h1>
   </div>
   )
 }
