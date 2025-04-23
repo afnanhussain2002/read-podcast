@@ -1,3 +1,4 @@
+import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function POST(req: NextRequest) {
@@ -8,7 +9,7 @@ export default async function POST(req: NextRequest) {
     }
 
     try {
-        
+        await connectToDatabase();
     } catch (error) {
         
     }
