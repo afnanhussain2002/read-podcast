@@ -15,7 +15,8 @@ export default withAuth(
           pathname.startsWith("/api/auth") ||
           pathname === "/login" ||
           pathname === "/register"||
-          pathname === "/forget-password" 
+          pathname === "/forget-password" ||
+          pathname === "/reset-password"
         ) {
           return true;
         }
@@ -45,6 +46,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-"/((?!_next/static|_next/image|favicon.ico|public/|api/auth|api/forget-password|api/webhooks/stripe).*)",
+"/((?!_next/static|_next/image|favicon.ico|public/|api/auth|api/forget-password|api/reset-password|api/webhooks/stripe).*)",
   ],
 };
