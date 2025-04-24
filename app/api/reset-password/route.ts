@@ -23,11 +23,13 @@ export async function POST(req: Request) {
 
         await existingUser.save();
 
-        
+        return NextResponse.json({ message: "Password updated successfully" }, { status: 200 });
+
+
 
 
     } catch (error) {
-        
+        return NextResponse.json({ error: error }, { status: 500 });
     }
 
     

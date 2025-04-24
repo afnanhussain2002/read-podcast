@@ -18,5 +18,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid or expired token" }, { status: 400 });
   }  
   
-  return NextResponse.json(JSON.stringify(user), { status: 200 });
+  return NextResponse.json({ user }, { status: 200 });
 }
