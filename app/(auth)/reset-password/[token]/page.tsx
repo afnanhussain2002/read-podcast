@@ -32,6 +32,7 @@ export default function ResetPasswordPage({ params }: any) {
         const userData = await res.json();
         setUser(userData.user);
       }
+      return toast.error("Invalid or expired token.");
     };
     
 
