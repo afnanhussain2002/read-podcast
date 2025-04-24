@@ -1,7 +1,7 @@
 // /app/reset-password/[token]/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,12 @@ export default function ResetPasswordPage({ params }: any) {
   const [verified, setVerified] = useState(false);
   const [user, setUser] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const verifyToken = async () => {};
+
+    verifyToken();
+  }, [token]);
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
