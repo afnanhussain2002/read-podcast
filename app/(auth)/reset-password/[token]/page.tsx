@@ -19,7 +19,20 @@ export default function ResetPasswordPage({ params }: any) {
   const router = useRouter();
 
   useEffect(() => {
-    const verifyToken = async () => {};
+    const verifyToken = async () => {
+      const res = await fetch("/api/verify-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+      if (res.status === 200) {
+        setVerified(true);
+        const userData = await res.json();
+      }
+    };
+    
 
     verifyToken();
   }, [token]);
