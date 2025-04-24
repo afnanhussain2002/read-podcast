@@ -5,6 +5,9 @@ export async function POST(req: Request) {
 
     try {
         await connectToDatabase();
+
+        const existingUser = await User.findOne({ email });
+        
     } catch (error) {
         
     }
