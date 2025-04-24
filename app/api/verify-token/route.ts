@@ -1,6 +1,7 @@
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
 import crypto from "crypto";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { token } = await req.json();
@@ -12,4 +13,10 @@ export async function POST(req: Request) {
     resetToken: hashedToken,
     resetTokenExpiry: { $gt: Date.now() },
   });
+
+  if (!user) {
+    return NextResponse.json({ error: "Invalid or expired token" }, { status: 400 });
+  }  
+  
+  return NextResponse.json(JSON.stringify(user), { status: 200 });
 }
