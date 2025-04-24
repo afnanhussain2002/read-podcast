@@ -11,7 +11,7 @@ const AvailableMinutes = () => {
       if (isLoading) {
         return <p>Minutes Left.......</p>
       }
-      return <div>Available Minutes: {user?.transcriptMinutes.toFixed(2)}</div>;
+      return <div>Available Minutes: {user?.transcriptMinutes.toFixed(2)}</div> ;
 }
 
 export default AvailableMinutes

@@ -13,17 +13,12 @@ export default function GoogleSignIn() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const res = await signIn("google", { callbackUrl: "/", redirect: false });
+      const res = signIn("google", { callbackUrl: "/"});
 
       if (res?.error) {
         toast.error(res.error);
       } else {
        toast.success("Signed in successfully!");
-
-        // Optional delay before redirect
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1500);
       }
     } catch (err) {
       toast.error(err as string);

@@ -16,11 +16,11 @@ export interface IUser {
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    password: { type: String },
-    profileImage: { type: String },
+    password: { type: String, required: false  },
+    profileImage: { type: String, required: false },
     transcriptMinutes: { type: Number, default: 10 },
-    resetToken: { type: String, required: false, default: null },
-    resetTokenExpiry: { type: Date, required: false, default: null },
+    resetToken: { type: String, required: false, default: undefined },
+    resetTokenExpiry: { type: Date, required: false, default: undefined },
   },
   { timestamps: true }
 );
