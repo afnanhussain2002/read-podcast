@@ -3,15 +3,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export default function ResetPasswordPage() {
-  const { token } = useParams();
+export default function ResetPasswordPage({ params }: any) {
+  const { token } = params;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
