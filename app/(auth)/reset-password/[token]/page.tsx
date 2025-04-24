@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import Loader from "@/components/Loader";
 
 export default function ResetPasswordPage({ params }: any) {
   const { token } = params;
@@ -30,7 +31,7 @@ export default function ResetPasswordPage({ params }: any) {
       if (res.status === 200) {
         setVerified(true);
         const userData = await res.json();
-        setUser(userData.user);
+        setUser(userData);
       }
       return toast.error("Invalid or expired token.");
     };
@@ -55,7 +56,7 @@ export default function ResetPasswordPage({ params }: any) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token, newPassword }),
+        body: JSON.stringify({ password: newPassword, email: user?.email }),
       });
 
       const data = await res.json();
@@ -72,6 +73,8 @@ export default function ResetPasswordPage({ params }: any) {
 
     setLoading(false);
   };
+
+  if (loading) return <Loader/>
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
