@@ -10,42 +10,42 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
 
-        // Allow auth-related routes
+        // ✅ Public app routes
+        const publicRoutes = [
+          "/", 
+          "/login", 
+          "/register", 
+          "/forget-password",
+        ];
+
         if (
-          pathname.startsWith("/api/auth") ||
-          pathname === "/login" ||
-          pathname === "/register"||
-          pathname === "/forget-password" ||
+          publicRoutes.includes(pathname) ||
           pathname.startsWith("/reset-password")
         ) {
           return true;
         }
 
-        // ✅ Allow Stripe webhook route
-    if (pathname.startsWith("/api/webhooks/stripe")) {
-      return true;
-    }
-
-        // Public routes
-        if (pathname === "/" ) {
+        // ✅ Public API routes
+        if (
+          pathname.startsWith("/api/auth") ||
+          pathname.startsWith("/api/forget-password") ||
+          pathname.startsWith("/api/reset-password") ||
+          pathname.startsWith("/api/verify-token") ||
+          pathname.startsWith("/api/webhooks/stripe")
+        ) {
           return true;
         }
-        // All other routes require authentication
+
+        // ✅ All other routes require auth
         return !!token;
       },
     },
   }
 );
 
+// ✅ Only match paths that aren't obviously public/static
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-"/((?!_next/static|_next/image|favicon.ico|public/|api/auth|api/forget-password|api/reset-password|api/webhooks/stripe).*)",
+    "/((?!_next/static|_next/image|favicon.ico|public).*)",
   ],
 };

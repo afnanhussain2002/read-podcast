@@ -6,6 +6,8 @@ import bcrypt from "bcryptjs";
 export async function POST(req: Request) {
     const { password, email } = await req.json();
 
+    console.log("password", password, "email", email);
+
     try {
         await connectToDatabase();
 
@@ -15,9 +17,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        
 
-        existingUser.password = hashedPassword;
+        existingUser.password = password;
         existingUser.resetToken = undefined;
         existingUser.resetTokenExpiry = undefined;
 

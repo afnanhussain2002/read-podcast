@@ -32,6 +32,10 @@ export const authOptions: NextAuthOptions = {
             user.password
           );
 
+          console.log("credentials.password", credentials.password);
+          console.log("user.password", user.password);
+          console.log("isValid", isValid);
+
           if (!isValid) {
             throw new Error("Invalid password");
           }

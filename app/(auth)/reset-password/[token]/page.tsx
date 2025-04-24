@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,13 +10,13 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 
-export default function ResetPasswordPage({ params }: any) {
-  const { token } = params;
+export default function ResetPasswordPage() {
+  const { token } = useParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); 
   const router = useRouter();
 
   useEffect(() => {
@@ -31,8 +31,8 @@ export default function ResetPasswordPage({ params }: any) {
       if (res.status === 200) {
         setVerified(true);
         const userData = await res.json();
-        console.log("userData", userData);
-        setUser(userData);
+        console.log("userData", userData.user.email);
+        setUser(userData.user.email);
       }
       return toast.error("Invalid or expired token.");
     };
@@ -45,27 +45,26 @@ export default function ResetPasswordPage({ params }: any) {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("user", user);
+
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match.");
       return;
     }
 
     setLoading(true);
-
-  
-
     try {
       const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password: newPassword, email: user.email  }),
+        body: JSON.stringify({ password: newPassword, email: user  }),
       });
 
       const data = await res.json();
 
-      if (!res.ok) {
+      if (!res.status === 200) {
         toast.error(data.error || "Failed to reset password.");
       } else {
         toast.success(data.message);
