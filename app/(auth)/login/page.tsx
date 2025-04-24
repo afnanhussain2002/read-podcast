@@ -79,6 +79,12 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <Link
+                href="/forget-password"
+                className="underline underline-offset-4 text-sm font-bold hover:text-primary"
+              >
+                Forget Password?
+              </Link>
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}
