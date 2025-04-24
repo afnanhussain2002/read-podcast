@@ -45,6 +45,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    "/((?!_next/static|_next/image|favicon.ico|public/|api/webhooks/stripe).*)",
+"/((?!_next/static|_next/image|favicon.ico|public/|api/auth|api/forget-password|api/webhooks/stripe).*)",
   ],
 };

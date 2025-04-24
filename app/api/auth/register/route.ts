@@ -60,8 +60,7 @@ export async function POST(request: NextRequest) {
       email,
       password,
       profileImage: imageUrl || null,
-      isSubscribed: false,
-      clientId: "",
+      
     });
 
     return NextResponse.json(

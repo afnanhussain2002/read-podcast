@@ -19,8 +19,8 @@ const userSchema = new Schema<IUser>(
     password: { type: String },
     profileImage: { type: String },
     transcriptMinutes: { type: Number, default: 10 },
-    resetToken: { type: String, required: true },
-    resetTokenExpiry: { type: Date, required: false },
+    resetToken: { type: String, required: false, default: null },
+    resetTokenExpiry: { type: Date, required: false, default: null },
   },
   { timestamps: true }
 );

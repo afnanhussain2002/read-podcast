@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendForgetPassword } from "@/helper/sendForgetPassword";
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const { email } = await req.json();
+
+  console.log("user email----",email);
 
   if (!email) {
     return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -15,6 +17,8 @@ export default async function POST(req: NextRequest) {
     await connectToDatabase();
 
     const existingUser = await User.findOne({ email });
+
+    console.log("existingUser----",existingUser);
 
     if (!existingUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -26,6 +30,11 @@ export default async function POST(req: NextRequest) {
       .update(resetToken)
       .digest("hex");
 
+      console.log("resetToken----",resetToken);
+
+      console.log("passwordResetToken----",passwordResetToken);
+
+
     const passwordResetTokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
 
     existingUser.resetToken = passwordResetToken;
@@ -34,6 +43,8 @@ export default async function POST(req: NextRequest) {
     const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password/${resetToken}`;
 
     const emailResponse = await sendForgetPassword(email, resetUrl);
+
+    console.log("emailResponse----",emailResponse);
 
     if (!emailResponse.success) {
       existingUser.resetToken = undefined;
@@ -50,7 +61,7 @@ export default async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: emailResponse.message,
+        message: "Password reset email sent successfully",
       },
       { status: 200 }
     );
