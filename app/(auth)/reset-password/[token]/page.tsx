@@ -14,6 +14,8 @@ export default function ResetPasswordPage({ params }: any) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   const handleReset = async (e: React.FormEvent) => {
