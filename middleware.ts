@@ -16,7 +16,7 @@ export default withAuth(
           pathname === "/login" ||
           pathname === "/register"||
           pathname === "/forget-password" ||
-          pathname === "/reset-password"
+          pathname.startsWith("/reset-password")
         ) {
           return true;
         }

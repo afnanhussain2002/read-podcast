@@ -40,7 +40,7 @@ export default function ForgotPassword() {
         toast.error(data.message || "Something went wrong.");
       } else {
         toast.success("Reset link sent! Check your email.");
-        router.push("/login");
+        router.push("/reset-password");
       }
     } catch (error) {
       toast.error("Failed to send reset link.");

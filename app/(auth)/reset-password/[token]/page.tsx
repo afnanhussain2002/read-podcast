@@ -31,6 +31,7 @@ export default function ResetPasswordPage({ params }: any) {
       if (res.status === 200) {
         setVerified(true);
         const userData = await res.json();
+        console.log("userData", userData);
         setUser(userData);
       }
       return toast.error("Invalid or expired token.");
@@ -39,6 +40,7 @@ export default function ResetPasswordPage({ params }: any) {
 
     verifyToken();
   }, [token]);
+
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,13 +52,15 @@ export default function ResetPasswordPage({ params }: any) {
 
     setLoading(true);
 
+  
+
     try {
       const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password: newPassword, email: user?.email }),
+        body: JSON.stringify({ password: newPassword, email: user.email  }),
       });
 
       const data = await res.json();
@@ -68,13 +72,13 @@ export default function ResetPasswordPage({ params }: any) {
         router.push("/login");
       }
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(error as string);
     }
 
     setLoading(false);
   };
 
-  if (loading) return <Loader/>
+  if (loading || !verified) return <Loader/>
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-brand-darkBg">
