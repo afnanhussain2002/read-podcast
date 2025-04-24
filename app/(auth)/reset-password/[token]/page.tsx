@@ -30,6 +30,7 @@ export default function ResetPasswordPage({ params }: any) {
       if (res.status === 200) {
         setVerified(true);
         const userData = await res.json();
+        setUser(userData.user);
       }
     };
     
