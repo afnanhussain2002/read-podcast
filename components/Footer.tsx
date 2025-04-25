@@ -1,10 +1,14 @@
+import Logo from "./Logo";
+
 const Footer = () => {
     return (
       <footer className="bg-brand-light dark:bg-brand-glow border-t-4 border-black p-8 text-black">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo / About */}
           <div>
-            <h1 className="text-2xl font-bold">Scribint ✍️</h1>
+           <div className="mb-2">
+            <Logo/>
+           </div>
             <p className="mt-2 font-medium">
               Where your thoughts turn into stories. Built with creativity, designed with freedom.
             </p>
