@@ -124,8 +124,10 @@ const TranscribeInput = () => {
 
   const handleAction = () => {
     if (inputType === "youtubeLink") {
+      showNotification("Fetching youtube video transcript. Please wait...", "info");
       fetchTranscript();
     } else {
+      showNotification("Fetching local video transcript. Please wait...", "info");
       handleFileUpload();
     }
   };
@@ -142,10 +144,10 @@ const TranscribeInput = () => {
           <div className="flex w-full items-center gap-1">
             <div className="space-y-1.5 w-48">
               <Select onValueChange={(value) => setInputType(value)} value={inputType}>
-                <SelectTrigger className="bg-bw text-text dark:text-white" id="framework">
+                <SelectTrigger className=" bg-brand-glow dark:bg-brand-dark text-text dark:text-white" id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-brand-glow dark:bg-brand-dark">
                   <SelectItem value="youtubeLink" className="">🔗 Youtube Link</SelectItem>
                   <SelectItem value="localVideo">🎥 Local Video</SelectItem>
                 </SelectContent>
