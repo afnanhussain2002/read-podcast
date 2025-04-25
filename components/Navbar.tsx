@@ -16,6 +16,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import AvailableMinutes from "./AvailableMinutes"
+import Logo from "./Logo"
 
 export default function Navbar() {
   const { data: session } = useSession()
@@ -26,6 +27,7 @@ export default function Navbar() {
   return (
     <header className=" top-0 z-50 border-b absolute w-full">
       <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between px-4 py-3 ">
+        <Logo/>
         {/* Left - NavigationMenu */}
         <NavigationMenu className=" shadow-light dark:shadow-dark">
           <NavigationMenuList>
