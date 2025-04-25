@@ -8,6 +8,7 @@ import { RiProfileLine } from "react-icons/ri";
 import { Button } from './ui/button';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Logo from './Logo';
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -26,7 +27,10 @@ const Sidebar = () => {
           sidebarOpen ? '' : '-translate-x-full'
         }`}
       >
-        <div className="text-xl font-extrabold mb-4">🧱 Scribint</div>
+        <div className='mb-10'>
+        <Logo/>
+
+        </div>
 
         <Link href="/dashboard" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark border-none text-brand-glow shadow-light dark:shadow-dark'> <MdDashboard/> Dashboard</Button></Link>
         <Link href="/dashboard/all-transcribe" ><Button size={"lg"} variant={"neutral"}className='w-full bg-brand-light dark:bg-brand-dark mt-4 border-none text-brand-glow shadow-light dark:shadow-dark'> <GrDocumentNotes/> All Transcribe</Button></Link>
