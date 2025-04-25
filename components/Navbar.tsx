@@ -17,10 +17,17 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import AvailableMinutes from "./AvailableMinutes"
 import Logo from "./Logo"
+import { useNotification } from "./Notification"
 
 export default function Navbar() {
   const { data: session } = useSession()
   const user = session?.user
+  const {showNotification} = useNotification();
+  const handleSignOut = () =>{
+    signOut();
+    showNotification("Logged out successfully", "success");
+
+  } 
 
   console.log(user, "user");
 
@@ -78,7 +85,7 @@ export default function Navbar() {
                   {user.email?.split(" ").map((n) => n[0]).join("").toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
-              <Button size="sm" onClick={() => signOut()}>
+              <Button size="sm" onClick={handleSignOut}>
                 Logout
               </Button>
               <AvailableMinutes/>
