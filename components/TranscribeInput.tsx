@@ -17,6 +17,7 @@ import { useUser } from "@/hooks/useUser";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useNotification } from "./Notification";
 
 
 
@@ -31,6 +32,7 @@ const TranscribeInput = () => {
   const [error, setError] = useState<string | null>(null);
   const [transcriptId, setTranscriptId] = useState("");
   const { user, isLoading } = useUser();
+  const { showNotification } = useNotification();
 
 
 
@@ -65,7 +67,10 @@ const TranscribeInput = () => {
       });
 
       if (!response.ok) {
-        throw new Error("File upload failed.");
+        showNotification(
+          "Failed to fetch transcript. Please try again.",
+          "error"
+        )
       }
 
       const data = await response.json();
@@ -78,7 +83,7 @@ const TranscribeInput = () => {
       window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
-      toast.success("Transcript successfully!");
+      showNotification("Transcript successfully!", "success");
      
     } catch (err) {
       toast.error(err as string);
@@ -125,9 +130,6 @@ const TranscribeInput = () => {
     }
   };
 
-  console.log("transcriptId",transcriptId);
-  console.log("transcript data",transcript);
-
   if (isLoading) {
     return <p>Minutes Left.......</p>
   }
@@ -146,7 +148,6 @@ const TranscribeInput = () => {
                 <SelectContent>
                   <SelectItem value="youtubeLink" className="">🔗 Youtube Link</SelectItem>
                   <SelectItem value="localVideo">🎥 Local Video</SelectItem>
-                  <SelectItem value="localAudio">🎧 Local Audio</SelectItem>
                 </SelectContent>
               </Select>
             </div>
