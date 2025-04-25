@@ -5,6 +5,7 @@ import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { NotificationProvider } from '@/components/Notification';
 import LayoutWrapper from '@/components/LayoutWrapper'; // ✅ import it here
+import { Toaster } from '@/components/ui/sonner';
 
 const poppinsSans = Poppins({
   variable: '--font-poppins-sans',
@@ -27,8 +28,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppinsSans.variable} antialiased`}>
         <NotificationProvider>
+        <Toaster richColors position="bottom-right" />
           <ThemeProvider attribute="class" disableTransitionOnChange>
             <LayoutWrapper>
+
               {children}
             </LayoutWrapper>
             <ThemeSwitcher />

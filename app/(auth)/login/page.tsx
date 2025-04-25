@@ -17,12 +17,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleSignIn from "@/components/GoogleSign";
 import { toast } from "sonner";
+import { useNotification } from "@/components/Notification";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+ const { showNotification } = useNotification();
  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,9 +38,10 @@ export default function Login() {
     });
 
     if (result?.error) {
-      toast.error(result.error);
+      showNotification(result.error, "error");
+      
     } else {
-      toast.success("Login successful!");
+      showNotification("Login successful!", "success");
       router.push("/");
     }
 

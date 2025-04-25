@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useNotification } from "@/components/Notification";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -25,6 +26,7 @@ export default function Register() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setUploading] = useState(false);
   const router = useRouter();
+  const {showNotification} = useNotification();
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,13 +49,13 @@ export default function Register() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Registration failed");
+        showNotification(data.message || "Something went wrong", "error");
       }
 
-      toast.success("Registration successful!");
+      showNotification(data.message || "Registration successful", "success");
       router.push("/login");
     } catch (error) {
-      toast.error((error as Error).message);
+      showNotification(error as string || "Failed to register", "error");
     } finally {
       setUploading(false); // Stop loading
     }
