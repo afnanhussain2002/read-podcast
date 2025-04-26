@@ -29,7 +29,7 @@ const transcriptSchema = new Schema<ITranscript>(
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
     chapters: { type: [ChaptersSchema], required: true, default: [] },
-    summary: { type: String, required: true },
+    summary: { type: String, required: true, default: "No summary available." },
     ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
   },
