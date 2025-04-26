@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     const userId = mongoUser._id;
 
-    const { videoUrl, speakers} = await req.json();
+    const { videoUrl, speakers } = await req.json();
     if (!videoUrl) {
       return NextResponse.json(
         { error: "No YouTube URL provided" },
@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
 
     const pythonProcess = spawn("python", [
       "./scripts/download_audio.py",
-      videoUrl, 
-      userMinutes.toString(),  
+      videoUrl,
+      userMinutes.toString(),
     ]);
 
     let output = "";
@@ -99,6 +99,8 @@ export async function POST(req: NextRequest) {
             audio: assemblyUrl,
             speaker_labels: speakers,
             auto_chapters: true,
+            summarization: true,
+            summary_type: "bullets",
           });
 
           console.log("Transcript received:", transcript);
@@ -125,6 +127,7 @@ export async function POST(req: NextRequest) {
               confidence: transcript.confidence!,
               speakers: speakersData,
               chapters: transcript.chapters,
+              summary: transcript.summary,
               ownerId: userId, // ✅ linked to actual MongoDB User ID
             });
 
