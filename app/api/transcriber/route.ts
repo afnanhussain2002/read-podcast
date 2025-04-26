@@ -98,15 +98,7 @@ export async function POST(req: NextRequest) {
           const transcript = await client.transcripts.transcribe({
             audio: assemblyUrl,
             speaker_labels: speakers,
-            auto_chapters: true,
           });
-
-          const summary = await client.transcripts.transcribe({
-            audio: assemblyUrl,
-            summarization: true,
-            summary_model: "informative",
-            summary_type: "bullets",
-          })
 
           console.log("Transcript received:", transcript);
 
@@ -131,8 +123,8 @@ export async function POST(req: NextRequest) {
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
-              chapters: transcript.chapters,
-              summary: summary.summary,
+              chapters: [],
+              summary: "",
               ownerId: userId, // ✅ linked to actual MongoDB User ID
             });
 

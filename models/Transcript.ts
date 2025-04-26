@@ -14,7 +14,7 @@ const ChaptersSchema = new Schema({
   headline: String,
   start: Number,
   end: Number
-})
+}, );
 
 /* const ParagraphsSchema = new Schema({
   text: String,
@@ -27,7 +27,7 @@ const transcriptSchema = new Schema<ITranscript>(
     transcript: { type: String, required: true },
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
-    chapters: [ChaptersSchema],
+    chapters: { type: [ChaptersSchema], required: true, default: [] },
     summary: { type: String, required: true },
     ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
