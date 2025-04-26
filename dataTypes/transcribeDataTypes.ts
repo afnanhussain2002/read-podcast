@@ -15,6 +15,12 @@ export interface chapters{
   start: number;
   end: number;
 }
+export type entity = {
+  entity_type: string;
+  text: string;
+  start: number;
+  end: number;
+};
 
 /* export interface paragraphs{
   text: string;
@@ -32,6 +38,7 @@ export interface ITranscript {
     createdAt?: Date;
     updatedAt?: Date;
     chapters?: chapters[];
+    entities?:entity[];
     summary?: string;
     ownerId?: mongoose.Types.ObjectId;
   }

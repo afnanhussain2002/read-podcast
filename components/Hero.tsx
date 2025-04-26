@@ -14,7 +14,7 @@ const Hero = () => {
       </h1>
       <p className="my-12 mt-8 text-lg font-normal leading-relaxed md:text-xl lg:text-2xl lg:leading-relaxed">
        
-      Drop a YouTube or podcast link, and Scribint will turn it into a transcript with AI-powered speaker detection.
+      Drop a YouTube or podcast link, and Vido Note will turn it into a transcript with AI-powered speaker detection.
       </p>
       <Link
       href={'/transcriber'}
