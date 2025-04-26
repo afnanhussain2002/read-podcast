@@ -7,20 +7,27 @@ const SpeakerSchema = new Schema({
   text: String,
   start: Number,
   end: Number
-});
+}, {id: false});
 
 const ChaptersSchema = new Schema({
   gist: String,
   headline: String,
   start: Number,
   end: Number
-}, );
+}, {id: false});
 
 /* const ParagraphsSchema = new Schema({
   text: String,
   start: Number,
   end: Number
 }) */
+
+  const EntitiesSchema = new Schema({
+    entity_type: String,
+    text: String,
+    start: Number,
+    end: Number
+  }, {id: false});
 
 const transcriptSchema = new Schema<ITranscript>(
   {
@@ -29,6 +36,7 @@ const transcriptSchema = new Schema<ITranscript>(
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
     chapters: { type: [ChaptersSchema], required: true, default: [] },
+    entities: { type: [EntitiesSchema], required: true, default: [] },
     summary: { type: String, required: true, default: "" },
     ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
