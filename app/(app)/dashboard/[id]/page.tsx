@@ -19,6 +19,7 @@ type Transcript = {
   confidence: number;
   createdAt: string;
   chapters: chapters[];
+  summary?: string;
   speakers?: ISpeaker[];
 };
 
@@ -29,6 +30,7 @@ const SingleTranscript = () => {
     transcript: '',
     confidence: 0,
     createdAt: '',
+    summary: '',
     chapters: [],
   });
   const [loading, setLoading] = useState(true);
@@ -99,6 +101,7 @@ const SingleTranscript = () => {
     </Card>
          {/* ✅ Chapters Section */}
          <Chapters chapters={transcript.chapters} />
+         <p>{transcript.summary}</p>
     
     </>
   );

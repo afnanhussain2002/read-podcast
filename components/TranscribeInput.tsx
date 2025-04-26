@@ -109,10 +109,12 @@ const TranscribeInput = () => {
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
       setTranscriptId(data.transcriptId);
-      window.dispatchEvent(new Event("transcript-updated"));
+      if (!transcriptId) {
+        return toast.error("Failed to fetch transcript.");
+      }
 
-      resetForm(); // ✅ reset after success
       toast.success("Transcript successfully!");
+      resetForm(); // ✅ reset after success
      
     } catch (error) {
       toast.error(error as string);

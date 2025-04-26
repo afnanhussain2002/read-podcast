@@ -18,7 +18,7 @@ export default function GoogleSignIn() {
       if (res?.error) {
         toast.error(res.error);
       } else {
-       toast.success("Signed in successfully!");
+      //  toast.success("Signed in successfully!");
       }
     } catch (err) {
       toast.error(err as string);
