@@ -4,15 +4,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
-import { AssemblyAI } from "assemblyai";
 import { writeFile, unlink } from "fs/promises";
 import path from "path";
 import os from "os";
 import User from "@/models/User";
+import { client } from "@/lib/assemblyApi";
 
-const client = new AssemblyAI({
-  apiKey: process.env.ASSEMBLYAI_API_KEY!,
-});
 
 export async function POST(req: NextRequest) {
   try {
