@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { formatDate, formatTime } from '@/lib/formatDate';
-import { chapters, ISpeaker } from '@/dataTypes/transcribeDataTypes';
+import { chapters, entity, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
 
@@ -18,6 +18,7 @@ type Transcript = {
   confidence: number;
   createdAt: string;
   chapters: chapters[];
+  entities?: entity[];
   summary?: string;
   speakers?: ISpeaker[];
 };
