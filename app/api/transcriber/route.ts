@@ -120,6 +120,7 @@ export async function POST(req: NextRequest) {
             }));
 
             const transcribedData = await Transcript.create({
+              audioUrl: assemblyUrl,
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,

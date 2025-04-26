@@ -25,6 +25,7 @@ export interface chapters{
 // Main transcript interface without audioUrl, status, and words
 export interface ITranscript {
     _id?: mongoose.Types.ObjectId;
+    audioUrl: string;
     transcript: string;
     confidence: number;   
     speakers?: ISpeaker[]; 
