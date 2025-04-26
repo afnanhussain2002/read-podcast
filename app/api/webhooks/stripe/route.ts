@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         { new: true }
       );
 
-      console.log("udated user", user);
+      console.log("updated user", user);
 
       if (!user) {
         console.error("User not found");
