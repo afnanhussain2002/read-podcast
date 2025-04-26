@@ -104,11 +104,16 @@ const TranscribeInput = () => {
         body: JSON.stringify({ videoUrl, speakers }),
       });
       const data = await response.json();
+      console.log("transcript data==========", data);
       const speakersText = data.speakers || [];
 
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
       setTranscriptId(data.transcriptId);
+
+      if (data.error) {
+        return toast.error(data.error);
+      }
 
       toast.success("Transcript successfully!");
       resetForm(); // ✅ reset after success

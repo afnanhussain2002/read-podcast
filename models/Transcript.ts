@@ -35,9 +35,9 @@ const transcriptSchema = new Schema<ITranscript>(
     transcript: { type: String, required: true },
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
-    chapters: { type: [ChaptersSchema], required: true, default: [] },
-    entities: { type: [EntitiesSchema], required: true, default: [] },
-    summary: { type: String, required: true, default: "" },
+    chapters: { type: [ChaptersSchema], default: [] },
+    entities: { type: [EntitiesSchema], default: [] },
+    summary: { type: String, default: null },
     ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
   },

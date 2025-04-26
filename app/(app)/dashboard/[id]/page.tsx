@@ -8,9 +8,6 @@ import { chapters, entity, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
 
-// Dummy formatTime function for start/end (replace with real implementation)
-
-
 
 type Transcript = {
   _id: string;

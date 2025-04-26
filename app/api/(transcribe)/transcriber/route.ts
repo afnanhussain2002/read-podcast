@@ -124,9 +124,6 @@ export async function POST(req: NextRequest) {
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
-              chapters: [],
-              entities: [],
-              summary: "",
               ownerId: userId, // ✅ linked to actual MongoDB User ID
             });
 
@@ -152,7 +149,7 @@ export async function POST(req: NextRequest) {
             );
           }
         } catch (err: any) {
-          console.error("Error processing transcript:", err);
+          console.error("Error processing transcript:",err);
           return resolve(
             NextResponse.json(
               { error: "Processing error", details: err.message },
