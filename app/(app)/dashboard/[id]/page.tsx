@@ -14,6 +14,7 @@ import Loader from '@/components/Loader';
 
 type Transcript = {
   _id: string;
+  audioUrl: string;
   transcript: string;
   confidence: number;
   createdAt: string;
@@ -27,11 +28,14 @@ const SingleTranscript = () => {
   const { id } = useParams();
   const [transcript, setTranscript] = useState<Transcript>({
     _id: '',
+    audioUrl: '',
     transcript: '',
     confidence: 0,
     createdAt: '',
     summary: '',
     chapters: [],
+    entities: [],
+    speakers: [],
   });
   const [loading, setLoading] = useState(true);
 
