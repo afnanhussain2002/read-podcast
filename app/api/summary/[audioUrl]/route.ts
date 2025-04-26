@@ -5,6 +5,8 @@ export async function POST({ params }: { params: { audioUrl: string } }) {
 
     try {
         await connectToDatabase();
+
+        const getSummary = await client.transcripts.transcribe(params)
     } catch (error) {
         
     }

@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { formatDate, formatTime } from '@/lib/formatDate';
-import Star10 from '@/components/stars/s10';
 import { chapters, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
