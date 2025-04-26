@@ -7,6 +7,7 @@ import { formatDate, formatTime } from '@/lib/formatDate';
 import { chapters, entity, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
+import { Button } from '@/components/ui/button';
 
 
 type Transcript = {
@@ -15,9 +16,9 @@ type Transcript = {
   transcript: string;
   confidence: number;
   createdAt: string;
-  chapters: chapters[];
-  entities?: entity[];
-  summary?: string;
+  chapters?: chapters[]
+  entities?: entity[]
+  summary?: string
   speakers?: ISpeaker[];
 };
 
@@ -29,9 +30,6 @@ const SingleTranscript = () => {
     transcript: '',
     confidence: 0,
     createdAt: '',
-    summary: '',
-    chapters: [],
-    entities: [],
     speakers: [],
   });
   const [loading, setLoading] = useState(true);
@@ -51,6 +49,26 @@ const SingleTranscript = () => {
 
     fetchTranscript();
   }, [id]);
+
+  const getChapters = async() => {
+
+    try {
+      const response = await fetch("/api/chapters", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ audioUrl: transcript.audioUrl }),
+      });
+
+      const result = await response.json();
+
+    } catch (error) {
+      console.error("POST request failed", error);
+    }
+
+
+  }
 
   if (loading) {
     return <Loader/>
@@ -101,7 +119,36 @@ const SingleTranscript = () => {
       </CardContent>
     </Card>
          {/* ✅ Chapters Section */}
-         <Chapters chapters={transcript.chapters} />
+       
+         {transcript.chapters ? (
+           <Chapters chapters={transcript.chapters} />
+
+         ): (
+          <Button onClick={getChapters}>Get Chapters</Button>
+         )
+         }
+
+         {/* ✅ Entities Section */}
+         {transcript.entities ? (
+           <div>
+             <h2 className="text-xl font-semibold mb-4">📝 Entities</h2>
+             <div className="space-y-6 max-h-[500px] overflow-y-auto pr-3">
+               {transcript.entities.map((item, index) => (
+                 <div key={index} className="border-l-4 border-blue-500 pl-4">
+                   <div className="flex justify-between items-center mb-1">
+                     <span className="font-bold text-lg text-blue-700">{item.entity_type}</span>
+                     <span className="text-sm text-gray-500">
+                       🕒 {formatTime(item.start)} - {formatTime(item.end)}
+                     </span>
+                   </div>
+                   <p className="text-base leading-relaxed whitespace-pre-wrap">{item.text}</p>
+                 </div>
+               ))}
+             </div>
+           </div>
+         ) : (
+          <Button onClick={getChapters}>Get Entities</Button>
+         )}
          <p>{transcript.summary}</p>
     
     </>

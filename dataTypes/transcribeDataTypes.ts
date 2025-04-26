@@ -10,16 +10,16 @@ export interface ISpeaker {
 }
 
 export interface chapters{
-  gist: string;
-  headline: string;
-  start: number;
-  end: number;
+  gist?: string;
+  headline?: string;
+  start?: number;
+  end?: number;
 }
 export type entity = {
-  entity_type: string;
-  text: string;
-  start: number;
-  end: number;
+  entity_type?: string;
+  text?: string;
+  start?: number;
+  end?: number;
 };
 
 /* export interface paragraphs{
@@ -37,7 +37,7 @@ export interface ITranscript {
     speakers?: ISpeaker[]; 
     createdAt?: Date;
     updatedAt?: Date;
-    chapters?: chapters[];
+    chapters?: chapters[] | undefined;
     entities?:entity[];
     summary?: string | null;
     ownerId?: mongoose.Types.ObjectId;
