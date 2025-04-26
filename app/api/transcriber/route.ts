@@ -125,6 +125,7 @@ export async function POST(req: NextRequest) {
               confidence: transcript.confidence!,
               speakers: speakersData,
               chapters: [],
+              entities: [],
               summary: "",
               ownerId: userId, // ✅ linked to actual MongoDB User ID
             });

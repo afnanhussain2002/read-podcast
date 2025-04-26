@@ -124,7 +124,6 @@ export async function POST(req: NextRequest) {
           const transcript = await client.transcripts.transcribe({
             audio: audioUrl,
             speaker_labels: isSpeakersEnabled,
-            auto_chapters: true,
           });
 
           console.log("Transcript Status:", transcript.status);
@@ -152,11 +151,14 @@ export async function POST(req: NextRequest) {
           await connectToDatabase();
 
           const transcribedData = await Transcript.create({
+            audioUrl,
             transcript: transcript.text!,
             confidence: transcript.confidence!,
             speakers: speakersData,
-            chapters: transcript.chapters,
-            OwnerId: userId,
+            chapters: [],
+            entities: [],
+            summary: "",
+            ownerId: userId, // ✅ linked to actual MongoDB User ID
           });
 
           const createdTranscript = await Transcript.findById(
