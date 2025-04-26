@@ -171,21 +171,21 @@ export async function POST(req: NextRequest) {
               { status: 200 }
             )
           );
-        } catch (err: any) {
+        } catch (err) {
           console.error("❗ Error during transcription:", err);
           return resolve(
             NextResponse.json(
-              { error: "Transcription error", details: err.message },
+              { error: err as string, },
               { status: 500 }
             )
           );
         }
       });
     });
-  } catch (err: any) {
+  } catch (err) {
     console.error("🔥 Server Error:", err);
     return NextResponse.json(
-      { error: "Server error", details: err.message },
+      { error: err as string },
       { status: 500 }
     );
   }
