@@ -16,11 +16,11 @@ export interface chapters{
   end: number;
 }
 
-export interface paragraphs{
+/* export interface paragraphs{
   text: string;
   start: number;
   end: number;
-}
+} */
 
 // Main transcript interface without audioUrl, status, and words
 export interface ITranscript {
@@ -31,6 +31,6 @@ export interface ITranscript {
     createdAt?: Date;
     updatedAt?: Date;
     chapters?: chapters[];
-    paragraphs?: paragraphs[];
+    summary?: string;
     ownerId?: mongoose.Types.ObjectId;
   }
