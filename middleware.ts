@@ -11,12 +11,7 @@ export default withAuth(
         const { pathname } = req.nextUrl;
 
         // ✅ Public app routes
-        const publicRoutes = [
-          "/", 
-          "/login", 
-          "/register", 
-          "/forget-password",
-        ];
+        const publicRoutes = ["/", "/login", "/register", "/forget-password"];
 
         if (
           publicRoutes.includes(pathname) ||
@@ -36,6 +31,10 @@ export default withAuth(
           return true;
         }
 
+     /*    if (pathname.startsWith("/api/summary")) { // temporary just for testing
+          return true;
+        } */
+
         // ✅ All other routes require auth
         return !!token;
       },
@@ -45,7 +44,5 @@ export default withAuth(
 
 // ✅ Only match paths that aren't obviously public/static
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|public).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|public).*)"],
 };

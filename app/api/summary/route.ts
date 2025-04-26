@@ -1,10 +1,10 @@
 import { client } from "@/lib/assemblyApi";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST({ params }: { params: { audioUrl: string } }) {
-    const { audioUrl } = await params;
+export async function POST(req: NextRequest) {
+    const { audioUrl } = await req.json();
 
     try {
         await connectToDatabase();
