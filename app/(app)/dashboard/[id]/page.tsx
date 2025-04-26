@@ -8,6 +8,7 @@ import { chapters, entity, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
 import { Button } from '@/components/ui/button';
+import { getChapters } from '@/frontendFunctions/fetchData';
 
 
 type Transcript = {
@@ -50,25 +51,6 @@ const SingleTranscript = () => {
     fetchTranscript();
   }, [id]);
 
-  const getChapters = async() => {
-
-    try {
-      const response = await fetch("/api/chapters", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ audioUrl: transcript.audioUrl }),
-      });
-
-      const result = await response.json();
-
-    } catch (error) {
-      console.error("POST request failed", error);
-    }
-
-
-  }
 
   if (loading) {
     return <Loader/>
@@ -124,7 +106,7 @@ const SingleTranscript = () => {
            <Chapters chapters={transcript.chapters} />
 
          ): (
-          <Button onClick={getChapters}>Get Chapters</Button>
+          <Button onClick={() => getChapters(transcript.audioUrl)}>Get Chapters</Button>
          )
          }
 
