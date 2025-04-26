@@ -31,9 +31,9 @@ export default withAuth(
           return true;
         }
 
-     /*    if (pathname.startsWith("/api/summary")) { // temporary just for testing
+        if (pathname.startsWith("/api/chapters")) { // temporary just for testing
           return true;
-        } */
+        }
 
         // ✅ All other routes require auth
         return !!token;
