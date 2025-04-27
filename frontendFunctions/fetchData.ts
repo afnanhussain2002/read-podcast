@@ -9,7 +9,7 @@ export const getChapters = async(audioUrl: string) => {
         body: JSON.stringify({ audioUrl }),
       });
 
-      const result = await response.json();
+      return await response.json();
 
     } catch (error) {
       console.error("POST request failed", error);
@@ -26,10 +26,11 @@ export const getChapters = async(audioUrl: string) => {
           body: JSON.stringify({ audioUrl }),
         });
   
-        const result = await response.json();
+        return await response.json();
   
       } catch (error) {
         console.error("POST request failed", error);
+      
       }
 
   }
@@ -44,7 +45,7 @@ export const getChapters = async(audioUrl: string) => {
           body: JSON.stringify({ audioUrl }),
         });
   
-        const result = await response.json();
+       return await response.json();
   
       } catch (error) {
         console.error("POST request failed", error);

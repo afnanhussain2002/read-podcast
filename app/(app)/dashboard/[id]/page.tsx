@@ -38,6 +38,9 @@ const SingleTranscript = () => {
     confidence: 0,
     createdAt: "",
     speakers: [],
+    chapters: [],
+    entities: [],
+    summary: "",
   });
   const [loading, setLoading] = useState(true);
   const [chaptersLoading, setChaptersLoading] = useState(false);
@@ -59,6 +62,42 @@ const SingleTranscript = () => {
 
     fetchTranscript();
   }, [id]);
+
+  const handleGetChapters = async () => {
+    try {
+      setChaptersLoading(true);
+      const chaptersData = await getChapters(transcript.audioUrl);
+      setTranscript({ ...transcript, chapters: chaptersData  });
+    } catch (error) {
+      console.error("Error getting chapters:", error);
+    } finally {
+      setChaptersLoading(false);
+    }
+  };
+
+  const handleGetEntities = async () => {
+    try {
+      setEntitiesLoading(true);
+      const entitiesData = await getEntities(transcript.audioUrl);
+      setTranscript({ ...transcript, entities: entitiesData });
+    } catch (error) {
+      console.error("Error getting entities:", error);
+    } finally {
+      setEntitiesLoading(false);
+    }
+  };
+
+  const handleGetSummary = async () => {
+    try {
+      setSummaryLoading(true);
+      const summaryData = await getSummary(transcript.audioUrl);
+      setTranscript({ ...transcript, summary: summaryData });
+    } catch (error) {
+      console.error("Error getting summary:", error);
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -116,13 +155,12 @@ const SingleTranscript = () => {
           )}
         </CardContent>
       </Card>
-      {/* ✅ Chapters Section */}
-
-      {transcript.chapters ? (
+       {/* ✅ Chapters Section */}
+       {transcript.chapters ? (
         <Chapters chapters={transcript.chapters} />
       ) : (
-        <Button onClick={() => getChapters(transcript.audioUrl)}>
-          Get Chapters
+        <Button onClick={handleGetChapters} disabled={chaptersLoading}>
+          {chaptersLoading ? "Loading Chapters..." : "Get Chapters"}
         </Button>
       )}
 
@@ -130,21 +168,20 @@ const SingleTranscript = () => {
       {transcript.entities && transcript.entities.length > 0 ? (
         <Entities entities={transcript.entities} />
       ) : (
-        <Button onClick={() => getEntities(transcript.audioUrl)}>
-          Get Entities
+        <Button onClick={handleGetEntities} disabled={entitiesLoading}>
+          {entitiesLoading ? "Loading Entities..." : "Get Entities"}
         </Button>
       )}
 
       {/* ✅ Summary Section */}
-
       {transcript.summary ? (
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">📝 Summary</h2>
           <p>{transcript.summary}</p>
         </div>
       ) : (
-        <Button onClick={() => getSummary(transcript.audioUrl)}>
-          Get Summary
+        <Button onClick={handleGetSummary} disabled={summaryLoading}>
+          {summaryLoading ? "Loading Summary..." : "Get Summary"}
         </Button>
       )}
     </>
