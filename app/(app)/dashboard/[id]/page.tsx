@@ -181,10 +181,18 @@ const SingleTranscript = () => {
 
       {/* ✅ Summary Section */}
       {transcript.summary ? (
-        <div className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">📝 Summary</h2>
-          <p>{transcript.summary}</p>
+        <div className="mt-10 max-w-5xl">
+        <h2 className="text-xl font-semibold mb-4">📝 Summary</h2>
+        <div className="space-y-3">
+          {transcript.summary?.split("- ").map((sentence, index) => 
+            sentence.trim() && (
+              <p key={index} className="leading-relaxed">
+                - {sentence.trim()}
+              </p>
+            )
+          )}
         </div>
+      </div>
       ) : (
         <div className="flex justify-center max-w-5xl">
         <Button onClick={handleGetSummary} disabled={summaryLoading} className="mt-10 w-3/6">
