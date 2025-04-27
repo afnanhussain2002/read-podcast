@@ -159,18 +159,24 @@ const SingleTranscript = () => {
        {transcript.chapters ? (
         <Chapters chapters={transcript.chapters} />
       ) : (
-        <Button onClick={handleGetChapters} disabled={chaptersLoading}>
+        <div className="flex justify-center max-w-5xl">
+        <Button onClick={handleGetChapters} disabled={chaptersLoading} className="mt-10 w-3/6">
           {chaptersLoading ? "Loading Chapters..." : "Get Chapters"}
         </Button>
+
+        </div>
       )}
 
       {/* ✅ Entities Section */}
       {transcript.entities && transcript.entities.length > 0 ? (
         <Entities entities={transcript.entities} />
       ) : (
-        <Button onClick={handleGetEntities} disabled={entitiesLoading}>
+        <div className="flex justify-center max-w-5xl">
+        <Button onClick={handleGetEntities} disabled={entitiesLoading} className="mt-10 w-3/6">
           {entitiesLoading ? "Loading Entities..." : "Get Entities"}
         </Button>
+
+        </div>
       )}
 
       {/* ✅ Summary Section */}
@@ -180,9 +186,12 @@ const SingleTranscript = () => {
           <p>{transcript.summary}</p>
         </div>
       ) : (
-        <Button onClick={handleGetSummary} disabled={summaryLoading}>
+        <div className="flex justify-center max-w-5xl">
+        <Button onClick={handleGetSummary} disabled={summaryLoading} className="mt-10 w-3/6">
           {summaryLoading ? "Loading Summary..." : "Get Summary"}
         </Button>
+
+        </div>
       )}
     </>
   );
