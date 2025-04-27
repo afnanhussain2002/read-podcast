@@ -8,7 +8,8 @@ import { chapters, entity, ISpeaker } from '@/dataTypes/transcribeDataTypes';
 import Chapters from '@/components/ShowChapters';
 import Loader from '@/components/Loader';
 import { Button } from '@/components/ui/button';
-import { getChapters } from '@/frontendFunctions/fetchData';
+import { getChapters, getEntities } from '@/frontendFunctions/fetchData';
+import Entities from '@/components/Entities';
 
 
 type Transcript = {
@@ -32,6 +33,7 @@ const SingleTranscript = () => {
     confidence: 0,
     createdAt: '',
     speakers: [],
+    
   });
   const [loading, setLoading] = useState(true);
 
@@ -111,26 +113,13 @@ const SingleTranscript = () => {
          }
 
          {/* ✅ Entities Section */}
-         {transcript.entities ? (
-           <div>
-             <h2 className="text-xl font-semibold mb-4">📝 Entities</h2>
-             <div className="space-y-6 max-h-[500px] overflow-y-auto pr-3">
-               {transcript.entities.map((item, index) => (
-                 <div key={index} className="border-l-4 border-blue-500 pl-4">
-                   <div className="flex justify-between items-center mb-1">
-                     <span className="font-bold text-lg text-blue-700">{item.entity_type}</span>
-                     <span className="text-sm text-gray-500">
-                       🕒 {formatTime(item.start)} - {formatTime(item.end)}
-                     </span>
-                   </div>
-                   <p className="text-base leading-relaxed whitespace-pre-wrap">{item.text}</p>
-                 </div>
-               ))}
-             </div>
-           </div>
-         ) : (
-          <Button onClick={getChapters}>Get Entities</Button>
-         )}
+         {transcript.entities && transcript.entities.length > 0 ?  (
+           <Entities entities={transcript.entities} />
+
+         ): (
+          <Button onClick={() => getEntities(transcript.audioUrl)}>Get Entities</Button>
+         )
+         }
          <p>{transcript.summary}</p>
     
     </>
