@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
 
       const data = await res.json();
 
-      if (!res.status === 200) {
+      if (!res.ok) {
         toast.error(data.error || "Failed to reset password.");
       } else {
         toast.success(data.message);

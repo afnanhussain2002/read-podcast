@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       error += data.toString();
     });
 
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       pythonProcess.on("close", async (code) => {
         console.log("Python Process Exit Code:", code);
         console.log("Python Script Output:", output);

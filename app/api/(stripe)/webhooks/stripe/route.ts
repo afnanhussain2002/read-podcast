@@ -30,39 +30,41 @@ export async function POST(req: NextRequest) {
   if (event.type === "checkout.session.completed") {
     try {
       const session = event.data.object as Stripe.Checkout.Session;
-      const { email, minutes } = session.metadata;
+      const metadata = session.metadata;
 
-      console.log(`🎉 Payment received for user: ${email} and update ${minutes}`);
+      if (metadata && metadata.email && metadata.minutes) {
+        const { email, minutes } = metadata;
+  
+        console.log(`🎉 Payment received for user: ${email} and update ${minutes}`);
 
-      if (!email || !minutes) {
+        const user = await User.findOneAndUpdate(
+          { email },
+          {
+            $inc: {
+              transcriptMinutes: parseInt(minutes),
+            },
+          }, // increment minutes
+          { new: true }
+        );
+  
+        console.log("updated user", user);
+  
+        if (!user) {
+          console.error("User not found");
+          return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+  
+        console.log(`🎉 Added ${minutes} minutes to user: ${email}`);
+      } else {
         return NextResponse.json(
           { error: "Missing metadata" },
           { status: 400 }
         );
       }
 
-      const user = await User.findOneAndUpdate(
-        { email },
-        {
-          $inc: {
-            transcriptMinutes: parseInt(minutes),
-          },
-        }, // increment minutes
-        { new: true }
-      );
-
-      console.log("updated user", user);
-
-      if (!user) {
-        console.error("User not found");
-        return NextResponse.json({ error: "User not found" }, { status: 404 });
-      }
-
-      console.log(`🎉 Added ${minutes} minutes to user: ${email}`);
     } catch (err) {
-      console.error("❌ Error updating user:", err);
       return NextResponse.json(
-        { error: "Internal server error" },
+        { error: err },
         { status: 500 }
       );
     }

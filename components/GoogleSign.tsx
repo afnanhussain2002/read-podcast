@@ -13,13 +13,10 @@ export default function GoogleSignIn() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const res = signIn("google", { callbackUrl: "/"});
+      await signIn("google", { callbackUrl: "/"});
 
-      if (res?.error) {
-        toast.error(res.error);
-      } else {
       //  toast.success("Signed in successfully!");
-      }
+ 
     } catch (err) {
       toast.error(err as string);
     } finally {

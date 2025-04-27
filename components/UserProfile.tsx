@@ -22,7 +22,7 @@ export default function UserAvatar() {
               .toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
-        <Button variant="outline" onClick={() => signOut()}>
+        <Button variant="default" onClick={() => signOut()}>
           Logout
         </Button>
       </div>
