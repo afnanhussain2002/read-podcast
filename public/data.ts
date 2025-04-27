@@ -28,25 +28,40 @@ export const features = [
 
 export const pricingPlans = [
   {
+    planName: 'Free without Credit Card',
+    description: 'Get started with 10 minutes free after signing up.',
+    price: '$0',
+    minutes: 10,
+    perks: [
+      '10 minutes of transcription',
+      'Upload files, YouTube links, or podcast URLs',
+      'Entities detection (names, places, organizations)',
+      'Multilingual transcription (15+ languages)',
+      'AI-generated summaries',
+      'Speaker identification',
+      'Word confidence scores & timestamps',
+    ],
+  },
+  {
     planName: 'Quick 10',
-    description: 'Perfect for small tasks or short clips.',
+    description: 'Perfect for short tasks or quick tests.',
     price: '$1',
     minutes: 10,
     perks: [
       '10 minutes of transcription',
-      'All AI features included',
-      'Upload files or paste URLs',
+      'All features included',
+      'Upload files and URLs',
     ],
   },
   {
     planName: 'Standard',
-    description: 'For occasional creators and light users.',
+    description: 'Ideal for casual creators and occasional users.',
     price: '$5',
     minutes: 60,
     perks: [
       '60 minutes of transcription',
-      'Speaker separation & summaries',
-      'Ask AI about your content',
+      'Everything from Quick 10',
+      'Faster processing',
     ],
   },
   {
@@ -57,20 +72,21 @@ export const pricingPlans = [
     mostPopular: true,
     perks: [
       '150 minutes of transcription',
-      'All features from Standard',
+      'Everything from Standard',
       'Priority processing',
     ],
   },
   {
     planName: 'Power Pack',
-    description: 'Bulk transcription time at the best rate.',
+    description: 'Bulk minutes at the best rate.',
     price: '$19',
     minutes: 360,
     perks: [
       '360 minutes of transcription',
-      'All Scribint features included',
-      'Great for podcasts, interviews & research teams',
+      'Everything from Pro',
+      'Best deal for teams, podcasts, and researchers',
     ],
   },
 ];
+
 
