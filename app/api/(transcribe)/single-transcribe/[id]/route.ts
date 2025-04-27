@@ -2,28 +2,42 @@ import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RouteParams {
+// Define the params interface explicitly
+interface RouteContext {
   params: {
     id: string;
-  };
+  }
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
-  const id = params.id;
+export async function GET(
+  request: NextRequest,
+  context: RouteContext
+) {
+  const id = context.params.id;
 
   try {
     await connectToDatabase();
+
     const transcript = await Transcript.findById(id);
 
     if (!transcript) {
       return NextResponse.json({ error: "Transcript not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ transcript }, { status: 200 });
+    // Make sure the response structure matches what your frontend expects
+    return NextResponse.json({ 
+      _id: transcript._id,
+      audioUrl: transcript.audioUrl,
+      transcript: transcript.transcript,
+      confidence: transcript.confidence,
+      createdAt: transcript.createdAt,
+      chapters: transcript.chapters || [],
+      entities: transcript.entities || [],
+      summary: transcript.summary || null,
+      speakers: transcript.speakers || [],
+    }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: error as string}, 
-      { status: 500 }
-    );
+    console.error("Error fetching transcript:", error);
+    return NextResponse.json({ error: "Failed to fetch transcript" }, { status: 500 });
   }
 }
