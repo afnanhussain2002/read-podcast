@@ -113,7 +113,7 @@ const SingleTranscript = () => {
 
   return (
     <>
-      <Card className="w-full max-w-5xl border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5">
+      <Card id="fullTranscript" className="w-full max-w-5xl border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5">
         <CardHeader>
           <CardTitle>
             {transcript.chapters[0]?.gist || "Untitled Transcript"}
@@ -164,6 +164,7 @@ const SingleTranscript = () => {
         </CardContent>
       </Card>
        {/* ✅ Chapters Section */}
+       <div id="chapters">
        {transcript.chapters && transcript.chapters.length > 0 ? (
         <Chapters chapters={transcript.chapters} />
       ) : (
@@ -175,7 +176,10 @@ const SingleTranscript = () => {
         </div>
       )}
 
+       </div>
+
       {/* ✅ Entities Section */}
+      <div id="entities">
       {transcript.entities && transcript.entities.length > 0 ? (
         <Entities entities={transcript.entities} />
       ) : (
@@ -187,7 +191,11 @@ const SingleTranscript = () => {
         </div>
       )}
 
+      </div>
+
       {/* ✅ Summary Section */}
+      <div id="summary">
+
       {transcript.summary ? (
         <div className="mt-10 max-w-5xl">
         <h2 className="text-2xl font-semibold mb-4">📝 Summary</h2>
@@ -209,6 +217,7 @@ const SingleTranscript = () => {
 
         </div>
       )}
+      </div>
     </>
   );
 };
