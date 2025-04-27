@@ -16,7 +16,8 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { getChapters, getEntities, getSummary } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
-import SingleMenu from "@/components/SingleMenu";
+import SingleMenu from "@/components/singleMenu";
+
 
 
 type Transcript = {
