@@ -156,7 +156,7 @@ const SingleTranscript = () => {
         </CardContent>
       </Card>
        {/* ✅ Chapters Section */}
-       {transcript.chapters ? (
+       {transcript.chapters && transcript.chapters.length > 0 ? (
         <Chapters chapters={transcript.chapters} />
       ) : (
         <div className="flex justify-center max-w-5xl">
