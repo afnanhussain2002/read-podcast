@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       console.error("Python Error:", data.toString());
     });
 
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       pythonProcess.on("close", async (code) => {
         clearTimeout(timeout);
 
