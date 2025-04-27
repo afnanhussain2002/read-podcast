@@ -1,12 +1,11 @@
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
+ {params} : {params: Promise<{ id: string }>}
 ) {
-  const id = context.params.id;
+  const id = (await params).id;
 
   try {
     await connectToDatabase();
