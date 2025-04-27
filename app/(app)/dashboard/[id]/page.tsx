@@ -33,7 +33,7 @@ type Transcript = {
 };
 
 const SingleTranscript = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [transcript, setTranscript] = useState<Transcript>({
     _id: "",
     audioUrl: "",
