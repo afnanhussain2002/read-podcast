@@ -19,7 +19,7 @@ export async function GET() {
         }
         return NextResponse.json({ transcriptMinutes: user.transcriptMinutes, id: user._id });
     } catch (error) {
-        return NextResponse.json({ error: "Failed to fetch user" }, { status: 500 });
+        return NextResponse.json({ error: error as string }, { status: 500 });
     }
   
   }

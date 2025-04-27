@@ -1,14 +1,10 @@
-import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) { 
 
     const {userId} = await req.json();
-   
-   const session = await getServerSession(authOptions);
 
 //    const userId = session?.user?.id;
    console.log(userId);
@@ -28,6 +24,6 @@ export async function DELETE(req: NextRequest) {
 
         return NextResponse.json({ message: "All transcriptions deleted successfully" }, { status: 200 });
       } catch (error) {
-        return NextResponse.json({ error: "Failed to delete transcriptions" }, { status: 500 });
+        return NextResponse.json({ error: error as string }, { status: 500 });
       }  
 }

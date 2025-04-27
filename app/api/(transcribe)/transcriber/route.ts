@@ -148,21 +148,19 @@ export async function POST(req: NextRequest) {
               )
             );
           }
-        } catch (err: any) {
-          console.error("Error processing transcript:",err);
+        } catch (err) {
           return resolve(
             NextResponse.json(
-              { error: "Processing error", details: err.message },
+              { error: err as string },
               { status: 500 }
             )
           );
         }
       });
     });
-  } catch (err: any) {
-    console.error("Server Error:", err);
+  } catch (err) {
     return NextResponse.json(
-      { error: "Server error", details: err.message },
+      { error: err as string },
       { status: 500 }
     );
   }

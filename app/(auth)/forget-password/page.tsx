@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Card,
@@ -19,7 +18,7 @@ import { toast } from "sonner";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +42,7 @@ export default function ForgotPassword() {
        
       }
     } catch (error) {
-      toast.error("Failed to send reset link.");
+      toast.error(error as string);
     }
 
     setIsLoading(false);

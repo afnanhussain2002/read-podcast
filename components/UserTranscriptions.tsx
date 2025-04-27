@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import Star10 from './stars/s10';
 import Loader from './Loader';
 import DeleteAllTranscriptsButton from './DeleteAllTranscript';
 

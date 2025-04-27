@@ -34,8 +34,8 @@ const Home = () => {
 
       const result = await response.json();
       alert(`File uploaded successfully: ${result.fileName}`);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err as string);
     } finally {
       setUploading(false);
     }

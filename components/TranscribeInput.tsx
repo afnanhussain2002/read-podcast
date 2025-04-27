@@ -13,9 +13,6 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
-import { useUser } from "@/hooks/useUser";
-import { Badge } from "./ui/badge";
-import Link from "next/link";
 import { toast } from "sonner";
 import { useNotification } from "./Notification";
 
@@ -28,9 +25,6 @@ const TranscribeInput = () => {
   const [transcript, setTranscript] = useState("");
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
-  const [detectSpeakers, setDetectSpeakers] = useState({});
-  const [error, setError] = useState<string | null>(null);
-  const { user, isLoading } = useUser();
   const { showNotification } = useNotification();
 
 
@@ -59,7 +53,6 @@ const TranscribeInput = () => {
 
     try {
       setLoading(true);
-      setError(null);
       const response = await fetch("/api/local-video-transcribe", {
         method: "POST",
         body: formData,
@@ -73,9 +66,7 @@ const TranscribeInput = () => {
       }
 
       const data = await response.json();
-      const speakersText = data.speakers || [];
 
-      setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
       // localStorage.setItem("transcript", JSON.stringify(data));
       window.dispatchEvent(new Event("transcript-updated"));
@@ -103,9 +94,7 @@ const TranscribeInput = () => {
       });
       const data = await response.json();
       console.log("transcript data==========", data);
-      const speakersText = data.speakers || [];
 
-      setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
 
       if (data.error) {
@@ -133,9 +122,6 @@ const TranscribeInput = () => {
     }
   };
 
-  if (isLoading) {
-    return <p>Minutes Left.......</p>
-  }
 
   return (
     <>
