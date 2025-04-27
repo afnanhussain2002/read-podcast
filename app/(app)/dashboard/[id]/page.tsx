@@ -67,37 +67,45 @@ const SingleTranscript = () => {
     try {
       setChaptersLoading(true);
       const chaptersData = await getChapters(transcript.audioUrl);
-      setTranscript({ ...transcript, chapters: chaptersData  });
+      if (chaptersData && Array.isArray(chaptersData)) {
+        setTranscript((prev) => ({ ...prev, chapters: chaptersData }));
+      }
     } catch (error) {
       console.error("Error getting chapters:", error);
     } finally {
       setChaptersLoading(false);
     }
   };
-
+  
   const handleGetEntities = async () => {
     try {
       setEntitiesLoading(true);
       const entitiesData = await getEntities(transcript.audioUrl);
-      setTranscript({ ...transcript, entities: entitiesData });
+      if (entitiesData && Array.isArray(entitiesData)) {
+        setTranscript((prev) => ({ ...prev, entities: entitiesData }));
+      }
     } catch (error) {
       console.error("Error getting entities:", error);
     } finally {
       setEntitiesLoading(false);
     }
   };
-
+  
   const handleGetSummary = async () => {
     try {
       setSummaryLoading(true);
       const summaryData = await getSummary(transcript.audioUrl);
-      setTranscript({ ...transcript, summary: summaryData });
+      if (summaryData && typeof summaryData === "string") {
+        setTranscript((prev) => ({ ...prev, summary: summaryData }));
+      }
     } catch (error) {
       console.error("Error getting summary:", error);
     } finally {
       setSummaryLoading(false);
     }
   };
+  
+  
 
   if (loading) {
     return <Loader />;
@@ -182,7 +190,7 @@ const SingleTranscript = () => {
       {/* ✅ Summary Section */}
       {transcript.summary ? (
         <div className="mt-10 max-w-5xl">
-        <h2 className="text-xl font-semibold mb-4">📝 Summary</h2>
+        <h2 className="text-2xl font-semibold mb-4">📝 Summary</h2>
         <div className="space-y-3">
           {transcript.summary?.split("- ").map((sentence, index) => 
             sentence.trim() && (
