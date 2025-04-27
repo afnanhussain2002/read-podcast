@@ -112,7 +112,11 @@ const SingleTranscript = () => {
   }
 
   return (
-    <>
+    <div>
+    <div>
+      Menu
+    </div>
+    <div>
       <Card id="fullTranscript" className="w-full max-w-5xl border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5">
         <CardHeader>
           <CardTitle>
@@ -218,7 +222,9 @@ const SingleTranscript = () => {
         </div>
       )}
       </div>
-    </>
+
+    </div>
+    </div>
   );
 };
 
