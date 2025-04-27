@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleSignIn from "@/components/GoogleSign";
-import { toast } from "sonner";
 import { useNotification } from "@/components/Notification";
 
 export default function Login() {
