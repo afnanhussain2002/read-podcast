@@ -27,7 +27,7 @@ type Transcript = {
   createdAt: string;
   chapters?: chapters[];
   entities?: entity[];
-  summary?: string;
+  summary?: string | null;
   speakers?: ISpeaker[];
 };
 
@@ -42,7 +42,7 @@ const SingleTranscript = () => {
     speakers: [],
     chapters: [],
     entities: [],
-    summary: "",
+    summary: null,
   });
   const [loading, setLoading] = useState(true);
   const [chaptersLoading, setChaptersLoading] = useState(false);
@@ -76,6 +76,7 @@ const SingleTranscript = () => {
       console.error("Error getting chapters:", error);
     } finally {
       setChaptersLoading(false);
+      window.location.reload();
     }
   };
   
@@ -90,6 +91,7 @@ const SingleTranscript = () => {
       console.error("Error getting entities:", error);
     } finally {
       setEntitiesLoading(false);
+      window.location.reload();
     }
   };
   
@@ -99,11 +101,13 @@ const SingleTranscript = () => {
       const summaryData = await getSummary(transcript.audioUrl);
       if (summaryData && typeof summaryData === "string") {
         setTranscript((prev) => ({ ...prev, summary: summaryData }));
+        
       }
     } catch (error) {
       console.error("Error getting summary:", error);
     } finally {
       setSummaryLoading(false);
+      window.location.reload();
     }
   };
   
