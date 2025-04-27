@@ -16,7 +16,7 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { getChapters, getEntities, getSummary } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
-import SingleMenu from "@/components/singleMenu";
+
 
 
 
@@ -120,8 +120,16 @@ const SingleTranscript = () => {
 
   return (
     <div className="grid grid-cols-4 gap-1">
+      {/* menu */}
     <div className="order-2">
-    <SingleMenu/>
+    <div className='mt-20 flex fixed'>
+        <ul className='bg-brand-glow p-2 rounded-md flex gap-4 flex-col font-bold text-sm shadow-light dark:shadow-dark'>
+            <a href='#fullTranscript'>Full Transcript</a>
+            <a href='#chapters'>Chapters</a>
+            <a href='#entities'>Entities</a>
+            <a href='#summary'>Summary</a>
+        </ul>
+    </div>
     </div>
     <div className="col-span-3 order-1">
       <Card id="fullTranscript" className="w-full max-w-5xl border-border dark:border-darkBorder dark:bg-brand-dark shadow-light dark:shadow-dark flex flex-col gap-3 rounded-base border-2 bg-brand-light p-5">
