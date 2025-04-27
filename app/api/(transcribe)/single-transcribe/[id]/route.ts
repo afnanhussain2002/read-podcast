@@ -16,7 +16,6 @@ export async function GET(request: NextRequest, context: { params: { id: string 
 
     return NextResponse.json(transcript, { status: 200 });
   } catch (error) {
-    console.error("Error fetching transcript:", error);
-    return NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
+    return NextResponse.json({ error: error as string }, { status: 500 });
   }
 }
