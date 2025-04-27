@@ -10,7 +10,7 @@ const Entities: React.FC<EntitiesProps> = ({ entities }) => {
   if (!entities || entities.length === 0) return null;
 
   return (
-    <div>
+    <div className="max-w-5xl mt-10">
       <h2 className="text-xl font-semibold mb-4">📝 Entities</h2>
       <div className="space-y-6 max-h-[500px] overflow-y-auto pr-3">
         {entities.map((item, index) => (
