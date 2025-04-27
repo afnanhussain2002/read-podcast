@@ -1,6 +1,7 @@
 "use client"
 import { useUser } from '@/hooks/useUser';
 import React, { useEffect } from 'react'
+import { FaClockRotateLeft } from "react-icons/fa6";
 
 const AvailableMinutes = () => {
     const { user, isLoading, refreshUser } = useUser();
@@ -9,7 +10,7 @@ const AvailableMinutes = () => {
         refreshUser();
       }, [refreshUser]);
       if (isLoading) {
-        return <p>Minutes Left.......</p>
+        return <p><FaClockRotateLeft className="animate-spin" /></p>
       }
       return <div>Available Minutes: {user?.transcriptMinutes.toFixed(2)}</div> ;
 }

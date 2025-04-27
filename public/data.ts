@@ -4,8 +4,8 @@ export const features = [
     text: 'Whether it’s a local file, YouTube video, or podcast URL, Scribint transcribes with high accuracy in seconds.',
   },
   {
-    title: '💬 Ask AI About the Content',
-    text: 'Curious about what was said? Ask anything, and Scribint AI will answer based on the transcript, like ChatGPT but focused on your file.',
+    title: '🧩 Explore Entities',
+    text: 'Discover important Entities automatically detected from your file, including names, places, organizations, dates, and more.',
   },
   {
     title: '🌐 Multilingual Support',

@@ -37,7 +37,7 @@ export default function Features() {
             'Multilingual Support',
             'YouTube to Text',
             'Podcast Summaries',
-            'Smart Q&A from Transcript',
+            'Entity Recognition',
           ].map((text, id) => {
             return (
               <div className="flex items-center" key={id}>

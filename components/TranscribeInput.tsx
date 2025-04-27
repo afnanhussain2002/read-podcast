@@ -30,7 +30,6 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [detectSpeakers, setDetectSpeakers] = useState({});
   const [error, setError] = useState<string | null>(null);
-  const [transcriptId, setTranscriptId] = useState("");
   const { user, isLoading } = useUser();
   const { showNotification } = useNotification();
 
@@ -78,7 +77,6 @@ const TranscribeInput = () => {
 
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      setTranscriptId(data.transcriptId);
       // localStorage.setItem("transcript", JSON.stringify(data));
       window.dispatchEvent(new Event("transcript-updated"));
 
@@ -109,7 +107,6 @@ const TranscribeInput = () => {
 
       setDetectSpeakers(speakersText);
       setTranscript(data.transcript || "No transcript available.");
-      setTranscriptId(data.transcriptId);
 
       if (data.error) {
         return toast.error(data.error);
@@ -194,6 +191,7 @@ const TranscribeInput = () => {
             </Label>
           </div>
         </form>
+        
       </CardContent>
        
    
@@ -205,17 +203,8 @@ const TranscribeInput = () => {
       </CardFooter>
     </Card>
 
-    <Card className="mt-4 bg-darkBg">
-        <Badge >Note </Badge>
-         : {user?.transcriptMinutes.toFixed(2)} minutes of transcription available. If you need more,
-        <Badge className="text-darkBg"><Link href="/#pricing"> Buy More</Link> </Badge>
-        </Card>
+  {transcript &&  <TranscribedData transcript={transcript} />}
 
-  {transcriptId &&  <TranscribedData transcript={transcript} />}
-
-
-   
-    
     </>
   );
 };
