@@ -1,7 +1,7 @@
 export const features = [
   {
     title: '🎧 Upload or Link – Transcribe Anything',
-    text: 'Whether it’s a local file, YouTube video, or podcast URL, Scribint transcribes with high accuracy in seconds.',
+    text: 'Whether it’s a local file, YouTube video, or podcast URL, Vido Note transcribes with high accuracy in seconds.',
   },
   {
     title: '🧩 Explore Entities',

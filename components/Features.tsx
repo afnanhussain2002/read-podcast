@@ -8,7 +8,7 @@ export default function Features() {
     <div>
       <section className="border-t-border dark:border-t-darkBorder dark:bg-brand-dark border-t-2 bg-brand-light py-20 font-base lg:py-[100px]">
         <h2 className="mb-14 px-5 text-center text-2xl font-heading md:text-3xl lg:mb-20 lg:text-4xl">
-          ✨ Features That Make Scribint Magical
+          ✨ Features That Make Vido Note Magical
         </h2>
 
         <div className="mx-auto grid w-container max-w-full grid-cols-1 gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3">

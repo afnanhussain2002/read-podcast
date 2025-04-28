@@ -37,7 +37,7 @@ const Footer = () => {
   
         {/* Bottom bar */}
         <div className="border-t-4 border-black mt-8 pt-4 text-center font-bold">
-          © {new Date().getFullYear()} Scribint — All rights reserved.
+          © {new Date().getFullYear()} Vido Note — All rights reserved.
         </div>
       </footer>
     );

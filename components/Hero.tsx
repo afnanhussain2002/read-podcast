@@ -23,7 +23,7 @@ const Hero = () => {
         size="lg"
         className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl mt-12"
       >
-        Try Scribint Today!
+        Try Vido Note Today!
       </Button>
       
       </Link>
