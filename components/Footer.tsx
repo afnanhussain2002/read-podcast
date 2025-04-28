@@ -28,8 +28,9 @@ const Footer = () => {
           <div>
             <h2 className="text-xl font-bold mb-2">Follow Us</h2>
             <ul className="space-y-1">
-              <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:underline">Twitter</a></li>
-              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a></li>
+              <li><a href="https://www.linkedin.com/company/vido-note/" target="_blank" rel="noopener noreferrer" className="hover:underline">Linkedin</a></li>
+              <li><a href="https://www.instagram.com/vidonote/" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a></li>
+              <li><a href="https://www.tiktok.com/@vido.note" target="_blank" rel="noopener noreferrer" className="hover:underline">TikTok</a></li>
             </ul>
           </div>
         </div>
