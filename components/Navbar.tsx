@@ -15,7 +15,6 @@ import {
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import AvailableMinutes from "./AvailableMinutes"
 import Logo from "./Logo"
 import { useNotification } from "./Notification"
