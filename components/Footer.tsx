@@ -16,14 +16,14 @@ const Footer = () => {
           </div>
   
           {/* Links */}
-          <div>
+         {/*  <div>
             <h2 className="text-xl font-bold mb-2">Links</h2>
             <ul className="space-y-1">
               <li><Link href="/about" className="hover:underline">About</Link></li>
               <li><Link href="/blog" className="hover:underline">Blog</Link></li>
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             </ul>
-          </div>
+          </div> */}
   
           {/* Socials */}
           <div>

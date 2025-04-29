@@ -68,8 +68,6 @@ const TranscribeInput = () => {
       const data = await response.json();
 
       setTranscript(data.transcript || "No transcript available.");
-      // localStorage.setItem("transcript", JSON.stringify(data));
-      window.dispatchEvent(new Event("transcript-updated"));
 
       resetForm(); // ✅ reset after success
       showNotification("Transcript successfully!", "success");
