@@ -37,8 +37,8 @@ export interface ITranscript {
     speakers?: ISpeaker[]; 
     createdAt?: Date;
     updatedAt?: Date;
-    chapters?: chapters[] | undefined;
-    entities?:entity[] | undefined;
+    chapters?: chapters[] | null;
+    entities?:entity[] | null;
     summary?: string | null;
     ownerId?: mongoose.Types.ObjectId;
   }

@@ -1,4 +1,4 @@
-export const formatDate = (isoString: string) => {
+export const formatDate = (isoString: Date) => {
     const date = new Date(isoString);
     return date.toLocaleString("en-US", {
       dateStyle: "medium",
