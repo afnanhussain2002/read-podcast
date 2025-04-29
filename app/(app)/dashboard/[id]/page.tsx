@@ -16,6 +16,7 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { getChapters, getEntities, getSummary } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
+import Link from "next/link";
 
 
 
@@ -124,10 +125,10 @@ const SingleTranscript = () => {
     <div className="order-2">
     <div className='mt-20 flex fixed'>
         <ul className='bg-brand-glow p-2 rounded-md flex gap-4 flex-col font-bold text-sm shadow-light dark:shadow-dark'>
-            <a href='#fullTranscript'>Full Transcript</a>
-            <a href='#chapters'>Chapters</a>
-            <a href='#entities'>Entities</a>
-            <a href='#summary'>Summary</a>
+            <Link href='#fullTranscript'>Full Transcript</Link>
+            <Link href='#chapters'>Chapters</Link>
+            <Link href='#entities'>Entities</Link>
+            <Link href='#summary'>Summary</Link>
         </ul>
     </div>
     </div>
