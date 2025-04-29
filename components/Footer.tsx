@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "./Logo";
 
 const Footer = () => {
@@ -18,9 +19,9 @@ const Footer = () => {
           <div>
             <h2 className="text-xl font-bold mb-2">Links</h2>
             <ul className="space-y-1">
-              <li><a href="/about" className="hover:underline">About</a></li>
-              <li><a href="/blog" className="hover:underline">Blog</a></li>
-              <li><a href="/contact" className="hover:underline">Contact</a></li>
+              <li><Link href="/about" className="hover:underline">About</Link></li>
+              <li><Link href="/blog" className="hover:underline">Blog</Link></li>
+              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             </ul>
           </div>
   
@@ -28,9 +29,9 @@ const Footer = () => {
           <div>
             <h2 className="text-xl font-bold mb-2">Follow Us</h2>
             <ul className="space-y-1">
-              <li><a href="https://www.linkedin.com/company/vido-note/" target="_blank" rel="noopener noreferrer" className="hover:underline">Linkedin</a></li>
-              <li><a href="https://www.instagram.com/vidonote/" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a></li>
-              <li><a href="https://www.tiktok.com/@vido.note" target="_blank" rel="noopener noreferrer" className="hover:underline">TikTok</a></li>
+              <li><Link href="https://www.linkedin.com/company/vido-note/" target="_blank" rel="noopener noreferrer" className="hover:underline">Linkedin</Link></li>
+              <li><Link href="https://www.instagram.com/vidonote/" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</Link></li>
+              <li><Link href="https://www.tiktok.com/@vido.note" target="_blank" rel="noopener noreferrer" className="hover:underline">TikTok</Link></li>
             </ul>
           </div>
         </div>
