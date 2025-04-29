@@ -103,7 +103,8 @@ const TranscribeInput = () => {
       resetForm(); // ✅ reset after success
      
     } catch (error) {
-      toast.error(error as string);
+      const message = error instanceof Error ? error.message : "Unknown error";
+      toast.error(message);
       setTranscript("Failed to fetch transcript.");
     } finally {
       setLoading(false);
@@ -187,7 +188,7 @@ const TranscribeInput = () => {
       </CardFooter>
     </Card>
 
-  {transcript &&  <TranscribedData transcript={transcript} />}
+  {transcript ?  <TranscribedData transcript={transcript} /> : <p>Something went wrong please try again</p>}
 
     </>
   );
