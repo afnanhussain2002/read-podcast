@@ -11,7 +11,7 @@ export const getChapters = async (audioUrl: string) => {
     }
 
     const data = await response.json();
-    return data; // assume data is always array or throw in API itself
+    return data.chapters; // assume data is always array or throw in API itself
   } catch (error) {
     console.error("POST request failed", error);
     throw error; // rethrow to handle properly
@@ -31,7 +31,7 @@ export const getEntities = async (audioUrl: string) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.entities;
   } catch (error) {
     console.error("POST request failed", error);
     throw error;

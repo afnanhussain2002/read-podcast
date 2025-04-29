@@ -6,6 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     const { audioUrl } = await req.json();
 
+    console.log(audioUrl);
+
     try {
         await connectToDatabase();
 
@@ -13,6 +15,8 @@ export async function POST(req: NextRequest) {
             audio: audioUrl,
             entity_detection: true,
         })
+
+        console.log("getEntities",getEntities);
 
         if (!getEntities.entities) {
             return NextResponse.json({ error: "Something went wrong when getting entities" }, { status: 501 });
