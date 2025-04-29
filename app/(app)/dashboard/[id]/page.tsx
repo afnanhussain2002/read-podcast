@@ -57,6 +57,7 @@ const SingleTranscript = () => {
         setTranscript((prev) =>
           prev ? { ...prev, chapters: chaptersData } : prev
         );
+          window.location.reload();
       }
     } catch (error) {
       console.error("Error getting chapters:", error);
@@ -74,6 +75,7 @@ const SingleTranscript = () => {
         setTranscript((prev) =>
           prev ? { ...prev, entities: entitiesData } : prev
         );
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error getting entities:", error);
@@ -81,14 +83,14 @@ const SingleTranscript = () => {
       setEntitiesLoading(false);
     }
   };
-
   const handleGetSummary = async () => {
     if (!transcript?.audioUrl) return;
     try {
       setSummaryLoading(true);
       const summaryData = await getSummary(transcript.audioUrl);
+      console.log("summary data",summaryData.summary);
       if (typeof summaryData === "string") {
-        setTranscript((prev) =>
+        setTranscript((prev) => 
           prev ? { ...prev, summary: summaryData } : prev
         );
       }
@@ -236,5 +238,6 @@ const SingleTranscript = () => {
     </div>
   );
 };
-
 export default SingleTranscript;
+
+

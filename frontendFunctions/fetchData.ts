@@ -51,7 +51,7 @@ export const getSummary = async (audioUrl: string) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.summary;
   } catch (error) {
     console.error("POST request failed", error);
     throw error;
