@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/db";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/lib/auth";
+// import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
-import User from "@/models/User"; // 👈 make sure this path is correct
+// import User from "@/models/User"; // 👈 make sure this path is correct
 import { client } from "@/lib/assemblyApi";
 import { ErrorResponse } from "@/dataTypes/transcribeDataTypes";
 import { spawn } from "child_process";
@@ -12,7 +12,7 @@ import { spawn } from "child_process";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+   /*  const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const userMinutes = mongoUser.transcriptMinutes;
 
-    const userId = mongoUser._id;
+    const userId = mongoUser._id; */
 
     const { videoUrl, speakers } = await req.json();
     if (!videoUrl) {
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     const pythonProcess = spawn("python", [
       "./scripts/download_audio.py",
       videoUrl,
-      userMinutes.toString(),
+      // userMinutes.toString(),
     ]);
 
     let output = "";
@@ -124,11 +124,11 @@ export async function POST(req: NextRequest) {
               transcript: transcript.text!,
               confidence: transcript.confidence!,
               speakers: speakersData,
-              ownerId: userId, // ✅ linked to actual MongoDB User ID
+              // ownerId: userId, // ✅ linked to actual MongoDB User ID
             });
 
-            mongoUser.transcriptMinutes -= videoMinutes;
-            await mongoUser.save();
+           /*  mongoUser.transcriptMinutes -= videoMinutes;
+            await mongoUser.save(); */
 
             const createdTranscript = await Transcript.findById(
               transcribedData._id
