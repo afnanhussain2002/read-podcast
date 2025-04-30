@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
     const userId = mongoUser._id; */
 
     const { videoUrl, speakers } = await req.json();
+    console.log("videoUrl",videoUrl);
     if (!videoUrl) {
       return NextResponse.json(
         { error: "No YouTube URL provided", success: false },
