@@ -17,12 +17,17 @@ import { toast } from "sonner";
 import { useNotification } from "./Notification";
 
 
+type TranscriptResponse = {
+  transcript?: string;
+  error?: string;
+};
+
 
 const TranscribeInput = () => {
   const [inputType, setInputType] = useState("youtubeLink");
   const [videoUrl, setVideoUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [transcript, setTranscript] = useState("");
+  const [transcript, setTranscript] = useState<TranscriptResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
@@ -49,32 +54,30 @@ const TranscribeInput = () => {
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("speakers", String(speakers)); // Convert boolean to string
-
+    formData.append("speakers", String(speakers));
+  
     try {
       setLoading(true);
       const response = await fetch("/api/local-video-transcribe", {
         method: "POST",
         body: formData,
       });
-
-      if (!response.ok) {
-        showNotification(
-          "Failed to fetch transcript. Please try again.",
-          "error"
-        )
-      }
-
+  
       const data = await response.json();
-
-      setTranscript(data.transcript || "No transcript available.");
-
-      resetForm(); // ✅ reset after success
-      showNotification("Transcript successfully!", "success");
-     
+  
+      if (!response.ok) {
+        // If the backend sends a JSON with `error` field
+        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
+        return;
+      }
+  
+      setTranscript(data);
+      resetForm(); 
+      toast.success("Transcript successfully!");
     } catch (err) {
-      toast.error(err as string);
-      setTranscript("Failed to fetch transcript.");
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message);
+      setTranscript({ error: message });
     } finally {
       setLoading(false);
     }
@@ -83,7 +86,6 @@ const TranscribeInput = () => {
   const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
     setLoading(true);
-    setTranscript("");
     try {
       const response = await fetch("/api/transcriber", {
         method: "POST",
@@ -93,19 +95,22 @@ const TranscribeInput = () => {
       const data = await response.json();
       console.log("transcript data==========", data);
 
-      setTranscript(data.transcript || "No transcript available.");
-
-      if (data.error) {
-        return toast.error(data.error);
+      if (!response.ok) {
+        // If the backend sends a JSON with `error` field
+        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
+        return;
       }
+
+      setTranscript(data);
+
 
       toast.success("Transcript successfully!");
       resetForm(); // ✅ reset after success
      
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
       toast.error(message);
-      setTranscript("Failed to fetch transcript.");
+      setTranscript({ error: message });
     } finally {
       setLoading(false);
     }
@@ -188,7 +193,14 @@ const TranscribeInput = () => {
       </CardFooter>
     </Card>
 
-  {transcript ?  <TranscribedData transcript={transcript} /> : <p>Something went wrong please try again</p>}
+    {transcript?.error && (
+  <p className="text-red-500">Error: {transcript.error}</p>
+)}
+
+{transcript?.transcript && (
+  <TranscribedData transcript={transcript.transcript} />
+)}
+
 
     </>
   );

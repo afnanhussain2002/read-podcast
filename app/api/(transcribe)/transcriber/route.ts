@@ -6,6 +6,7 @@ import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
 import User from "@/models/User"; // 👈 make sure this path is correct
 import { client } from "@/lib/assemblyApi";
+import { ErrorResponse } from "@/dataTypes/transcribeDataTypes";
 
 
 export async function POST(req: NextRequest) {
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
     }
 
     const userEmail = session.user.email;
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
     const mongoUser = await User.findOne({ email: userEmail });
 
     if (!mongoUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found", success: false }, { status: 404 });
     }
 
     const userMinutes = mongoUser.transcriptMinutes;
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     const { videoUrl, speakers } = await req.json();
     if (!videoUrl) {
       return NextResponse.json(
-        { error: "No YouTube URL provided" },
+        { error: "No YouTube URL provided", success: false },
         { status: 400 }
       );
     }
@@ -55,29 +56,30 @@ export async function POST(req: NextRequest) {
 
     pythonProcess.stderr.on("data", (data) => {
       error += data.toString();
+      console.log("Error:", error);
     });
 
     return new Promise<Response>((resolve) => {
-      pythonProcess.on("close", async (code) => {
-        console.log("Python Process Exit Code:", code);
-        console.log("Python Script Output:", output);
+      pythonProcess.on("close", async () => {
 
-        if (code !== 0) {
+        /* if (code !== 0) {
           return resolve(
             NextResponse.json(
               { error: "Failed to process video", details: error },
               { status: 500 }
             )
           );
-        }
+        } */
 
         try {
-          const parsedOutput = JSON.parse(output);
+          const parsedOutput = JSON.parse(output.trim());
 
           if (parsedOutput.error) {
-            return resolve(
-              NextResponse.json({ error: parsedOutput.error }, { status: 400 })
-            );
+            const errorResponse: ErrorResponse = {
+              error: parsedOutput.error,
+              success: false,
+            };
+            return resolve(NextResponse.json(errorResponse, { status: 400 }));
           }
           const assemblyUrl = parsedOutput.assemblyai_url;
           const videoMinutes = parsedOutput.video_minutes;
@@ -102,7 +104,7 @@ export async function POST(req: NextRequest) {
           if (transcript.status !== "completed") {
             return resolve(
               NextResponse.json(
-                { error: "Failed to transcribe audio" },
+                { error: "Failed to transcribe audio", success: false },
                 { status: 500 }
               )
             );
@@ -133,7 +135,7 @@ export async function POST(req: NextRequest) {
 
             return resolve(
               NextResponse.json(
-                { transcript: createdTranscript._id },
+                { transcript: createdTranscript._id, success: true },
                 { status: 200 }
               )
             );
@@ -146,19 +148,16 @@ export async function POST(req: NextRequest) {
             );
           }
         } catch (err) {
-          return resolve(
-            NextResponse.json(
-              { error: err as string },
-              { status: 500 }
-            )
-          );
+          const message =
+                    err instanceof Error ? err.message : "Unknown transcription error";
+                  const response: ErrorResponse = { error: message, success: false };
+                  return resolve(NextResponse.json(response, { status: 500 }));
         }
       });
     });
   } catch (err) {
-    return NextResponse.json(
-      { error: err as string },
-      { status: 500 }
-    );
+    const message =
+    err instanceof Error ? err.message : "Unknown transcription error";
+    return NextResponse.json({ error: message, success:false }, { status: 500 });
   }
 }

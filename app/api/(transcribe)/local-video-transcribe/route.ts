@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const mongoUser = await User.findOne({ email: userEmail });
 
     if (!mongoUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found", success: false }, { status: 404 });
     }
 
     const userMinutes = mongoUser.transcriptMinutes;
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
     });
 
     return new Promise<Response>((resolve) => {
-      pythonProcess.on("close", async (code) => {
+      pythonProcess.on("close", async () => {
         clearTimeout(timeout);
 
         // Delete temp video file
@@ -85,19 +85,26 @@ export async function POST(req: NextRequest) {
           console.error("🧹 Failed to delete temp file:", err);
         });
 
-        if (code !== 0 || !output.trim()) {
+      /*   if (code !== 0 || !output.trim()) {
           return resolve(
             NextResponse.json(
-              { error: "Failed to process video", success: false },
+              { error: "Failed to fetch transcript. Please try again.", success: false },
               { status: 500 }
             )
           );
-        }
+        } */
 
         let audioUrl = "";
         let videoMinutes = 0;
         try {
           const parsedOutput = JSON.parse(output.trim());
+          if (parsedOutput.error) {
+            const errorResponse: ErrorResponse = {
+              error: parsedOutput.error,
+              success: false,
+            };
+            return resolve(NextResponse.json(errorResponse, { status: 400 }));
+          }
           audioUrl = parsedOutput.assemblyai_url;
           videoMinutes = parsedOutput.video_minutes; // Get video minutes from the response
         } catch (err) {
@@ -155,9 +162,6 @@ export async function POST(req: NextRequest) {
             transcript: transcript.text!,
             confidence: transcript.confidence!,
             speakers: speakersData,
-            chapters: [],
-            entities: [],
-            summary: "",
             ownerId: userId, // ✅ linked to actual MongoDB User ID
           });
 
@@ -180,7 +184,8 @@ export async function POST(req: NextRequest) {
       });
     });
   } catch (err) {
-    console.error("🔥 Server Error:", err);
-    return NextResponse.json({ error: err as string }, { status: 500 });
+    const message =
+    err instanceof Error ? err.message : "Unknown transcription error";
+    return NextResponse.json({ error: message, success:false }, { status: 500 });
   }
 }
