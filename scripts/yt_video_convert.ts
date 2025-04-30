@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/* import fetch from "node-fetch";
 import ytdl from "@distube/ytdl-core";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
@@ -76,3 +76,4 @@ export async function uploadToAssemblyAI(filePath: string): Promise<string> {
     throw new Error(`Failed to upload audio to AssemblyAI: ${error.message}`);
   }
 }
+ */
