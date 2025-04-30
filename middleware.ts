@@ -26,9 +26,7 @@ export default withAuth(
           pathname.startsWith("/api/forget-password") ||
           pathname.startsWith("/api/reset-password") ||
           pathname.startsWith("/api/verify-token") ||
-          pathname.startsWith("/api/webhooks/stripe") ||
-          pathname.startsWith("/api/transcriber") ||
-          pathname.startsWith("/api/local-video-transcribe") //
+          pathname.startsWith("/api/webhooks/stripe")  //
         ) {
           return true;
         }
