@@ -31,9 +31,13 @@ export async function GET(req: NextRequest) {
     const userMinutes = mongoUser.transcriptMinutes;
 
     const userId = mongoUser._id; */
-
+/* 
     const { videoUrl, speakers } = await req.json();
-    console.log("videoUrl",videoUrl);
+    console.log("videoUrl",videoUrl); */
+        // Parse the query parameters from the request URL
+        const url = new URL(req.url);
+        const videoUrl = url.searchParams.get('videoUrl');
+        // const speakers = url.searchParams.get('speakers');
     if (!videoUrl) {
       return NextResponse.json(
         { error: "No YouTube URL provided", success: false },
@@ -98,7 +102,7 @@ export async function GET(req: NextRequest) {
           console.log("Uploading to AssemblyAI...");
           const transcript = await client.transcripts.transcribe({
             audio: assemblyUrl,
-            speaker_labels: speakers,
+            // speaker_labels: speakers,
           });
 
           console.log("Transcript received:", transcript);
