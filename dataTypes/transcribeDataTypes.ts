@@ -22,11 +22,7 @@ export type entity = {
   end?: number;
 };
 
-/* export interface paragraphs{
-  text: string;
-  start: number;
-  end: number;
-} */
+
 
 // Main transcript interface without audioUrl, status, and words
 export interface ITranscript {
@@ -42,3 +38,8 @@ export interface ITranscript {
     summary?: string | null;
     ownerId?: mongoose.Types.ObjectId;
   }
+
+  export type ErrorResponse = {
+    error: string;
+    success?: false;
+  };

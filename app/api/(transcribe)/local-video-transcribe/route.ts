@@ -9,7 +9,7 @@ import path from "path";
 import os from "os";
 import User from "@/models/User";
 import { client } from "@/lib/assemblyApi";
-
+import { ErrorResponse } from "@/dataTypes/transcribeDataTypes";
 
 export async function POST(req: NextRequest) {
   try {
@@ -59,9 +59,12 @@ export async function POST(req: NextRequest) {
     let output = "";
     let error = "";
 
-    const timeout = setTimeout(() => {
-      pythonProcess.kill("SIGTERM");
-    }, 2 * 60 * 1000); // 2 mins max
+    const timeout = setTimeout(
+      () => {
+        pythonProcess.kill("SIGTERM");
+      },
+      2 * 60 * 1000
+    ); // 2 mins max
 
     pythonProcess.stdout.on("data", (data) => {
       output += data.toString();
@@ -169,21 +172,15 @@ export async function POST(req: NextRequest) {
             )
           );
         } catch (err) {
-          console.error("❗ Error during transcription:", err);
-          return resolve(
-            NextResponse.json(
-              { error: err as string, },
-              { status: 500 }
-            )
-          );
+          const message =
+            err instanceof Error ? err.message : "Unknown transcription error";
+          const response: ErrorResponse = { error: message, success: false };
+          return resolve(NextResponse.json(response, { status: 500 }));
         }
       });
     });
   } catch (err) {
     console.error("🔥 Server Error:", err);
-    return NextResponse.json(
-      { error: err as string },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err as string }, { status: 500 });
   }
 }
