@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
     }
 
     const userEmail = session.user.email;
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     if (!file) {
       return NextResponse.json(
-        { error: "No video file provided" },
+        { error: "No video file provided", success: false },
         { status: 400 }
       );
     }
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
 
     pythonProcess.stderr.on("data", (data) => {
       error += data.toString();
-      console.error("Python Error:", data.toString());
+      console.error("Python Error:", error);
     });
 
     return new Promise<Response>((resolve) => {
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         if (code !== 0 || !output.trim()) {
           return resolve(
             NextResponse.json(
-              { error: "Failed to process video", details: error },
+              { error: "Failed to process video", success: false },
               { status: 500 }
             )
           );
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
           console.error("❗ Failed to parse Python output:", err, output);
           return resolve(
             NextResponse.json(
-              { error: "Invalid audio URL returned by Python script" },
+              { error: "Invalid audio URL returned by Python script", success: false },
               { status: 500 }
             )
           );
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         if (!audioUrl) {
           return resolve(
             NextResponse.json(
-              { error: "AssemblyAI upload failed or no audio URL returned" },
+              { error: "AssemblyAI upload failed or no audio URL returned", success: false },
               { status: 500 }
             )
           );
@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
           if (transcript.status !== "completed") {
             return resolve(
               NextResponse.json(
-                { error: "Failed to transcribe audio" },
+                { error: "Failed to transcribe audio", success: false },
                 { status: 500 }
               )
             );
@@ -167,7 +167,7 @@ export async function POST(req: NextRequest) {
 
           return resolve(
             NextResponse.json(
-              { transcript: createdTranscript._id },
+              { transcript: createdTranscript._id, success: true },
               { status: 200 }
             )
           );
