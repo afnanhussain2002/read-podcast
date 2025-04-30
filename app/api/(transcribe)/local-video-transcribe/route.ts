@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
 import { writeFile, unlink } from "fs/promises";
 import path from "path";
 import os from "os";
-// import User from "@/models/User";
+import User from "@/models/User";
 import { client } from "@/lib/assemblyApi";
 import { ErrorResponse } from "@/dataTypes/transcribeDataTypes";
 
 export async function POST(req: NextRequest) {
   try {
-/*     const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
     }
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     const userMinutes = mongoUser.transcriptMinutes;
-    const userId = mongoUser._id; */
+    const userId = mongoUser._id;
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const pythonProcess = spawn("python", [
       "./scripts/download_local_audio.py",
       tempFilePath,
-      // userMinutes.toString(),
+      userMinutes.toString(),
     ]);
 
     let output = "";
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
         } */
 
         let audioUrl = "";
-        // let videoMinutes = 0;
+        let videoMinutes = 0;
         try {
           const parsedOutput = JSON.parse(output.trim());
           if (parsedOutput.error) {
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
             return resolve(NextResponse.json(errorResponse, { status: 400 }));
           }
           audioUrl = parsedOutput.assemblyai_url;
-          // videoMinutes = parsedOutput.video_minutes; // Get video minutes from the response
+          videoMinutes = parsedOutput.video_minutes; // Get video minutes from the response
         } catch (err) {
           console.error("❗ Failed to parse Python output:", err, output);
           return resolve(
@@ -152,8 +152,8 @@ export async function POST(req: NextRequest) {
           }));
 
           // Update transcript minutes of the user
-      /*     mongoUser.transcriptMinutes -= videoMinutes;
-          await mongoUser.save();  */// Save the updated user document
+          mongoUser.transcriptMinutes -= videoMinutes;
+          await mongoUser.save(); // Save the updated user document
 
           await connectToDatabase();
 
@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
             transcript: transcript.text!,
             confidence: transcript.confidence!,
             speakers: speakersData,
-            // ownerId: userId, // ✅ linked to actual MongoDB User ID
+            ownerId: userId, // ✅ linked to actual MongoDB User ID
           });
 
           const createdTranscript = await Transcript.findById(
