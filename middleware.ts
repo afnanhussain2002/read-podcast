@@ -27,7 +27,8 @@ export default withAuth(
           pathname.startsWith("/api/reset-password") ||
           pathname.startsWith("/api/verify-token") ||
           pathname.startsWith("/api/webhooks/stripe") ||
-          pathname.startsWith("/api/transcriber") //
+          pathname.startsWith("/api/transcriber") ||
+          pathname.startsWith("/api/local-video-transcribe") //
         ) {
           return true;
         }
