@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { spawn } from "child_process";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
@@ -7,6 +6,8 @@ import Transcript from "@/models/Transcript";
 import User from "@/models/User"; // 👈 make sure this path is correct
 import { client } from "@/lib/assemblyApi";
 import { ErrorResponse } from "@/dataTypes/transcribeDataTypes";
+import { spawn } from "child_process";
+
 
 
 export async function POST(req: NextRequest) {
