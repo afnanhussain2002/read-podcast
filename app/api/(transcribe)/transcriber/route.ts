@@ -10,7 +10,7 @@ import { spawn } from "child_process";
 
 
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
    /*  const session = await getServerSession(authOptions);
 

@@ -87,7 +87,7 @@ const TranscribeInput = () => {
     if (!videoUrl.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch("/api/transcriber", {
+      const response = await fetch("https://vidonote.com/api/transcriber", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ videoUrl, speakers }),
