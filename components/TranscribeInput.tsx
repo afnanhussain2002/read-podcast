@@ -83,7 +83,7 @@ const TranscribeInput = () => {
     }
   };
 
- /*  const fetchTranscript = async () => {
+   const fetchTranscript = async () => { 
     if (!videoUrl.trim()) return;
     setLoading(true);
     try {
@@ -114,9 +114,9 @@ const TranscribeInput = () => {
     } finally {
       setLoading(false);
     }
-  }; */
+  }; 
 
-  const fetchTranscript = async () => {
+/*   const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
     setLoading(true);
     try {
@@ -152,7 +152,7 @@ const TranscribeInput = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
   
   const handleAction = () => {
     if (inputType === "youtubeLink") {
