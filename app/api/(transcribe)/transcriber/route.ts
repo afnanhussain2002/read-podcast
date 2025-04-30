@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+ import { NextRequest, NextResponse } from "next/server";
 // import { getServerSession } from "next-auth";
 // import { authOptions } from "@/lib/auth";
 // import { connectToDatabase } from "@/lib/db";
@@ -10,7 +10,7 @@ import { spawn } from "child_process";
 
 
 
-export async function POST(req: NextRequest) {
+export default async function POST(req: NextRequest) {
   try {
    /*  const session = await getServerSession(authOptions);
 
@@ -162,4 +162,4 @@ export async function POST(req: NextRequest) {
     err instanceof Error ? err.message : "Unknown transcription error";
     return NextResponse.json({ error: message, success:false }, { status: 500 });
   }
-}
+} 
