@@ -83,11 +83,11 @@ const TranscribeInput = () => {
     }
   };
 
-  const fetchTranscript = async () => {
+ /*  const fetchTranscript = async () => {
     if (!videoUrl.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch("https://vidonote.com/api/transcriber", {
+      const response = await fetch("/api/transcriber", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ videoUrl, speakers }),
@@ -114,8 +114,46 @@ const TranscribeInput = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
 
+  const fetchTranscript = async () => {
+    if (!videoUrl.trim()) return;
+    setLoading(true);
+    try {
+      // Construct the URL with query parameters
+      const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+      const url = new URL("/api/transcriber", baseUrl);
+      url.searchParams.append("videoUrl", videoUrl);
+      url.searchParams.append("speakers", String(speakers));
+  
+      // Perform GET request
+      const response = await fetch(url.toString(), {
+        method: "GET", // Changed method to GET
+        headers: { "Content-Type": "application/json" }, // No body in GET request
+      });
+  
+      const data = await response.json();
+      console.log("Transcript data==========", data);
+  
+      if (!response.ok) {
+        // If the backend sends a JSON with `error` field
+        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
+        return;
+      }
+  
+      setTranscript(data);
+      toast.success("Transcript successfully!");
+      resetForm(); // ✅ Reset after success
+  
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message);
+      setTranscript({ error: message });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   const handleAction = () => {
     if (inputType === "youtubeLink") {
       showNotification("Fetching youtube video transcript. Please wait...", "info");
