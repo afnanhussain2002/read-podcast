@@ -1,4 +1,4 @@
- import { NextRequest, NextResponse } from "next/server";
+/*  import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
@@ -165,4 +165,47 @@ export async function POST(req: NextRequest) {
     err instanceof Error ? err.message : "Unknown transcription error";
     return NextResponse.json({ error: message, success:false }, { status: 500 });
   }
-} 
+}  */
+
+  // app/api/transcriber/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { connectToDatabase } from "@/lib/db";
+import User from "@/models/User";
+import TranscriptJob from "@/models/TranscriptJob";
+
+
+export async function POST(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
+    }
+
+    await connectToDatabase();
+
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+      return NextResponse.json({ error: "User not found", success: false }, { status: 404 });
+    }
+
+    const { videoUrl, speakers } = await req.json();
+    if (!videoUrl) {
+      return NextResponse.json({ error: "Video URL required", success: false }, { status: 400 });
+    }
+
+    // Create job in DB
+    const newJob = await TranscriptJob.create({
+      userId: user._id,
+      videoUrl,
+      speakers: Boolean(speakers),
+      status: "pending",
+    });
+
+    return NextResponse.json({ success: true, jobId: newJob._id });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json({ error: message, success: false }, { status: 500 });
+  }
+}
