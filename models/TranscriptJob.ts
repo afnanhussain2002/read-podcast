@@ -1,23 +1,29 @@
-// models/TranscriptJob.ts
-import { Schema, model, models } from "mongoose";
+// models/TranscriptionJob.ts
+import mongoose, { Schema, Document } from 'mongoose';
 
-const transcriptJobSchema = new Schema(
+export interface ITranscriptionJob extends Document {
+  userId: mongoose.Types.ObjectId;
+  videoUrl: string;
+  speakers: boolean;
+  status: 'pending' | 'processing' | 'transcribing' | 'completed' | 'failed';
+  createdAt: Date;
+  updatedAt: Date;
+  error?: string;
+  audioUrl?: string;
+  transcriptId?: mongoose.Types.ObjectId;
+}
+
+const TranscriptionJobSchema: Schema = new Schema(
   {
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     videoUrl: { type: String, required: true },
-    audioUrl: { type: String }, // filled after download
-    status: {
-      type: String,
-      enum: ["queued", "processing", "transcribing", "completed", "failed"],
-      default: "queued",
-    },
-    error: { type: String, default: null },
-    videoMinutes: { type: Number },
-    userId: { type: Schema.Types.ObjectId, ref: "User" },
-    assemblyTranscriptId: { type: String }, // returned by AssemblyAI after starting transcription
-    transcriptId: { type: Schema.Types.ObjectId, ref: "Transcript" }, // after saving final transcript
+    speakers: { type: Boolean, default: false },
+    status: { type: String, enum: ['pending', 'processing', 'transcribing', 'completed', 'failed'], default: 'pending' },
+    error: { type: String },
+    audioUrl: { type: String },
+    transcriptId: { type: Schema.Types.ObjectId, ref: 'Transcript' },
   },
   { timestamps: true }
 );
 
-const TranscriptJob = models?.TranscriptJob || model("TranscriptJob", transcriptJobSchema);
-export default TranscriptJob;
+export default mongoose.models.TranscriptionJob || mongoose.model<ITranscriptionJob>('TranscriptionJob', TranscriptionJobSchema);
