@@ -164,6 +164,8 @@ const TranscribeInput = () => {
     }
   };
 
+  console.log("transcript", transcript);
+
 
   return (
     <>
