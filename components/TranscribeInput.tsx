@@ -15,24 +15,23 @@ import { Loader2 } from "lucide-react";
 import TranscribedData from "./TranscribedData";
 import { toast } from "sonner";
 import { useNotification } from "./Notification";
-
+import { getAudioDuration } from "@/lib/audioFileHelper";
+import Link from "next/link";
+import Pricing from "./Pricing";
 
 type TranscriptResponse = {
   transcript?: string;
   error?: string;
 };
 
-
 const TranscribeInput = () => {
-  const [inputType, setInputType] = useState("youtubeLink");
+  const [inputType, setInputType] = useState("localVideo");
   const [videoUrl, setVideoUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [transcript, setTranscript] = useState<TranscriptResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
-
-
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -52,30 +51,35 @@ const TranscribeInput = () => {
 
   const handleFileUpload = async () => {
     if (!file) return;
+    const durationInMinutes = await getAudioDuration(file);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("speakers", String(speakers));
-  
+    formData.append("duration", String(durationInMinutes));
+
     try {
       setLoading(true);
-      const response = await fetch("/api/local-video-transcribe", {
+      const response = await fetch("/api/transcript-audio", {
         method: "POST",
         body: formData,
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         // If the backend sends a JSON with `error` field
-        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
+        toast.error(
+          data?.error || "Failed to fetch transcript. Please try again."
+        );
         return;
       }
-  
+
       setTranscript(data);
-      resetForm(); 
+      resetForm();
       toast.success("Transcript successfully!");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Something went wrong";
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
       toast.error(message);
       setTranscript({ error: message });
     } finally {
@@ -83,7 +87,7 @@ const TranscribeInput = () => {
     }
   };
 
-   const fetchTranscript = async () => { 
+  /* const fetchTranscript = async () => { 
     if (!videoUrl.trim()) return;
     setLoading(true);
     try {
@@ -114,134 +118,105 @@ const TranscribeInput = () => {
     } finally {
       setLoading(false);
     }
-  }; 
+  };  */
 
-/*   const fetchTranscript = async () => {
-    if (!videoUrl.trim()) return;
-    setLoading(true);
-    try {
-      // Construct the URL with query parameters
-      const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-      const url = new URL("/api/transcriber", baseUrl);
-      url.searchParams.append("videoUrl", videoUrl);
-      url.searchParams.append("speakers", String(speakers));
-  
-      // Perform GET request
-      const response = await fetch(url.toString(), {
-        method: "GET", // Changed method to GET
-        headers: { "Content-Type": "application/json" }, // No body in GET request
-      });
-  
-      const data = await response.json();
-      console.log("Transcript data==========", data);
-  
-      if (!response.ok) {
-        // If the backend sends a JSON with `error` field
-        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
-        return;
-      }
-  
-      setTranscript(data);
-      toast.success("Transcript successfully!");
-      resetForm(); // ✅ Reset after success
-  
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Something went wrong";
-      toast.error(message);
-      setTranscript({ error: message });
-    } finally {
-      setLoading(false);
-    }
-  }; */
-  
+  const fetchYoutubeTranscript = async () => {
+    toast.info("Youtube Video Transcript is coming soon....");
+  };
+
   const handleAction = () => {
     if (inputType === "youtubeLink") {
-      showNotification("Fetching youtube video transcript. Please wait...", "info");
-      fetchTranscript();
+      // showNotification("Fetching youtube video transcript. Please wait...", "info");
+      fetchYoutubeTranscript();
     } else {
-      showNotification("Fetching local video transcript. Please wait...", "info");
+      showNotification("Fetching audio transcript. Please wait...", "info");
       handleFileUpload();
     }
   };
 
   console.log("transcript", transcript);
 
-
   return (
     <>
-    <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
-      <CardContent className="mt-4">
-        <form ref={formRef}>
-          <div className="flex w-full items-center gap-1">
-            <div className="space-y-1.5 w-48">
-              <Select onValueChange={(value) => setInputType(value)} value={inputType}>
-                <SelectTrigger className=" bg-brand-glow dark:bg-brand-dark text-text dark:text-white" id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent className="bg-brand-glow dark:bg-brand-dark">
-                  <SelectItem value="youtubeLink" className="">🔗 Youtube Link</SelectItem>
-                  <SelectItem value="localVideo">🎥 Local Video</SelectItem>
-                </SelectContent>
-              </Select>
+      <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
+        <CardContent className="mt-4">
+          <form ref={formRef}>
+            <div className="flex w-full items-center gap-1">
+              <div className="space-y-1.5 w-48">
+                <Select
+                  onValueChange={(value) => setInputType(value)}
+                  value={inputType}
+                >
+                  <SelectTrigger
+                    className=" bg-brand-glow dark:bg-brand-dark text-text dark:text-white"
+                    id="framework"
+                  >
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-brand-glow dark:bg-brand-dark">
+                    <SelectItem value="youtubeLink" className="">
+                      🔗 Youtube Link Coming Soon
+                    </SelectItem>
+                    <SelectItem value="localVideo">🎥 Upload Audio</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex-1 space-y-1.5">
+                {inputType === "youtubeLink" && (
+                  <Input
+                    id="youtubeLink"
+                    placeholder="Paste YouTube video link..."
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    className="text-black dark:text-white"
+                  />
+                )}
+
+                {(inputType === "localVideo" || inputType === "localAudio") && (
+                  <Input
+                    id={inputType}
+                    type="file"
+                    accept={"audio/*"}
+                    onChange={handleFileChange}
+                    className="text-black dark:text-white"
+                  />
+                )}
+              </div>
             </div>
 
-            <div className="flex-1 space-y-1.5">
-              {inputType === "youtubeLink" && (
-                <Input
-                  id="youtubeLink"
-                  placeholder="Paste YouTube video link..."
-                  value={videoUrl}
-                  onChange={(e) => setVideoUrl(e.target.value)}
-                  className="text-black dark:text-white"
-                />
-              )}
-
-              {(inputType === "localVideo" || inputType === "localAudio") && (
-                <Input
-                  id={inputType}
-                  type="file"
-                  accept={inputType === "localVideo" ? "video/*" : "audio/*"}
-                  onChange={handleFileChange}
-                  className="text-black dark:text-white"
-                />
-              )}
+            <div className="flex items-center space-x-2 mt-3">
+              <input
+                type="checkbox"
+                id="speakers"
+                checked={speakers}
+                onChange={() => setSpeakers(!speakers)}
+                className="w-5 h-5"
+              />
+              <Label htmlFor="speakers" className="text-lg">
+                Enable Speaker Detection
+              </Label>
             </div>
-          </div>
+          </form>
+        </CardContent>
 
-          <div className="flex items-center space-x-2 mt-3">
-            <input
-              type="checkbox"
-              id="speakers"
-              checked={speakers}
-              onChange={() => setSpeakers(!speakers)}
-              className="w-5 h-5"
-            />
-            <Label htmlFor="speakers" className="text-lg">
-              Enable Speaker Detection
-            </Label>
-          </div>
-        </form>
-        
-      </CardContent>
-       
-   
-
-      <CardFooter className="flex justify-end">
-        <Button variant="default" onClick={handleAction} disabled={loading}>
-          {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
-        </Button>
-      </CardFooter>
-    </Card>
-
-    {transcript?.error && (
-  <p className="text-red-500">Error: {transcript.error}</p>
-)}
-
-{transcript?.transcript && (
-  <TranscribedData transcript={transcript.transcript} />
-)}
+        <CardFooter className="flex justify-end">
+          <Button variant="default" onClick={handleAction} disabled={loading}>
+            {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
+          </Button>
+        </CardFooter>
+      </Card>
 
 
+      {transcript?.error && (
+        <p className="text-red-500">Error: {transcript.error}</p>
+      )}
+
+      {transcript && (
+        <Link href={`/dashboard/${transcript}`}>View Full Transcript</Link>
+      )}
+
+      <Pricing/>
     </>
   );
 };

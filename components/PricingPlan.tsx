@@ -62,7 +62,6 @@ export default function PricingPlan({
 
   return (
     <div
-      id="pricing"
       className={cn(
         "border-border dark:border-darkBorder dark:bg-brand-dark flex flex-col justify-between rounded-base border-2 bg-white p-5 shadow-light dark:shadow-dark",
         mostPopular && "border-black"

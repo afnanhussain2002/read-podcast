@@ -1,3 +1,4 @@
+
 import { client } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
@@ -15,7 +16,10 @@ export async function POST(req: Request) {
       { status: 401 }
     );
   }
-  const { audioUrl } = await req.json();
+  const formData = await req.formData();
+  const audioFile = formData.get("file") as File | null;
+  const speakers = formData.get("speakers") === "true";
+  const duration = formData.get("duration");
 
   try {
     await connectToDatabase();
@@ -32,9 +36,16 @@ export async function POST(req: Request) {
     }
     const userId = mongoUser._id;
 
+    if (mongoUser.transcriptMinutes < duration!) {
+      return NextResponse.json(
+        { error: "Not enough minutes", success: false },
+        { status: 400 }
+      )
+    }
+
     const getTranscript = await client.transcripts.transcribe({
-      audio: audioUrl,
-      speaker_labels: true,
+      audio: audioFile!,
+      speaker_labels: speakers,
     });
 
     console.log("Transcript received:", getTranscript);
@@ -54,12 +65,15 @@ export async function POST(req: Request) {
     }));
 
     const transcribedData = await Transcript.create({
-      audioUrl: audioUrl,
+      audioUrl: getTranscript.audio_url!,
       transcript: getTranscript.text!,
       confidence: getTranscript.confidence!,
       speakers: speakersData,
       ownerId: userId, // ✅ linked to actual MongoDB User ID
     });
+
+    mongoUser.transcriptMinutes -= Number(duration!);
+    await mongoUser.save();
 
     return NextResponse.json(
       { success: true, transcriptId: transcribedData._id },
@@ -70,3 +84,35 @@ export async function POST(req: Request) {
     NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
   }
 }
+
+/* export async function POST(req: NextRequest) {
+
+  const formData = await req.formData();
+  const audioFile = formData.get("file") as File | null;
+
+  console.log("audioFile", audioFile);
+
+  if (!audioFile) {
+    return NextResponse.json(
+      { error: "Audio file is required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+
+    const uploadAssembly = await client.transcripts.transcribe({
+      audio: audioFile,
+    });
+
+    console.log("uploadAssembly", uploadAssembly);
+
+    return NextResponse.json({ uploadAssembly }, { status: 200 });
+    
+  } catch (error) {
+    return NextResponse.json({ error: error as string }, { status: 500 });
+  }
+
+
+
+} */
