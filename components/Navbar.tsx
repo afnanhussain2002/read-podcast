@@ -58,7 +58,7 @@ export default function Navbar() {
               </NavigationMenuItem>
             )}
             <NavigationMenuItem>
-              <Link href="#pricing" legacyBehavior passHref>
+              <Link href="/pricing" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Pricing
                 </NavigationMenuLink>
