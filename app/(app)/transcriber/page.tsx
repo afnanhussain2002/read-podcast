@@ -1,4 +1,4 @@
-import AudioUpload from "@/components/AudioUpload";
+
 import TranscribeInput from "@/components/TranscribeInput";
 
 export default function Transcriber() {
@@ -16,7 +16,6 @@ export default function Transcriber() {
       </p>
 
       <TranscribeInput/>
-      {/* <AudioUpload/> */}
       
     </div>
   </section>  

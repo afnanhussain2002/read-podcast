@@ -12,16 +12,18 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
-import TranscribedData from "./TranscribedData";
+
 import { toast } from "sonner";
 import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
-import Pricing from "./Pricing";
+
 
 type TranscriptResponse = {
   transcript?: string;
   error?: string;
+  success?: boolean;
+  transcriptId?: string;  
 };
 
 const TranscribeInput = () => {
@@ -65,6 +67,8 @@ const TranscribeInput = () => {
       });
 
       const data = await response.json();
+
+      console.log("transcript data==========", data);
 
       if (!response.ok) {
         // If the backend sends a JSON with `error` field
@@ -212,8 +216,10 @@ const TranscribeInput = () => {
         <p className="text-red-500">Error: {transcript.error}</p>
       )}
 
-      {transcript && (
-        <Link href={`/dashboard/${transcript}`}>View Full Transcript</Link>
+      {transcript?.success && (
+        <Button className="mt-4">
+          <Link href={`/dashboard/${transcript.transcriptId}`}>View Full Transcript</Link>
+        </Button>
       )}
     </>
   );
