@@ -116,7 +116,7 @@ export default function Navbar() {
               </li>
             )}
             <li>
-              <Link href="#pricing" onClick={() => setMenuOpen(false)}>
+              <Link href="/pricing" onClick={() => setMenuOpen(false)}>
                 Pricing
               </Link>
             </li>

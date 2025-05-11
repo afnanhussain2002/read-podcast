@@ -215,8 +215,6 @@ const TranscribeInput = () => {
       {transcript && (
         <Link href={`/dashboard/${transcript}`}>View Full Transcript</Link>
       )}
-
-      <Pricing/>
     </>
   );
 };
