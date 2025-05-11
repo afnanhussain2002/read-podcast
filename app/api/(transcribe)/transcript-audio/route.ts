@@ -1,4 +1,3 @@
-
 import { client } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
@@ -40,7 +39,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { error: "Not enough minutes", success: false },
         { status: 400 }
-      )
+      );
     }
 
     const getTranscript = await client.transcripts.transcribe({
@@ -80,8 +79,10 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error, "error from getting transcript");
-    NextResponse.json({ error: "Failed to get the transcript" }, { status: 500 });
+    const message =
+      error instanceof Error ? error.message : "Something went wrong while getting transcript";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 

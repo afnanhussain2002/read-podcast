@@ -30,7 +30,10 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ chapters: updateChapters.chapters }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: error as string }, { status: 500 });
+          const message =
+      error instanceof Error ? error.message : "Something went wrong while getting chapters";
+
+    return NextResponse.json({ error: message }, { status: 500 });
     }
 
 

@@ -34,7 +34,10 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ entities: updateEntities.entities }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: error as string }, { status: 500 });
+         const message =
+      error instanceof Error ? error.message : "Something went wrong while getting entities";
+
+    return NextResponse.json({ error: message }, { status: 500 });
     }
 
 
