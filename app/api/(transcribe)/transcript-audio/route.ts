@@ -6,6 +6,8 @@ import User from "@/models/User";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
+
+
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 

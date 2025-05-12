@@ -12,6 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2 } from "lucide-react";
+import axios from "axios";
 
 import { toast } from "sonner";
 import { useNotification } from "./Notification";
@@ -34,6 +35,8 @@ const TranscribeInput = () => {
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
+
+  
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -61,16 +64,17 @@ const TranscribeInput = () => {
 
     try {
       setLoading(true);
-      const response = await fetch("/api/transcript-audio", {
-        method: "POST",
-        body: formData,
-      });
+        const response = await axios.post("/api/transcript-audio", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
 
-      const data = await response.json();
+      const data = await response.data;
 
       console.log("transcript data==========", data);
 
-      if (!response.ok) {
+      if (!response) {
         // If the backend sends a JSON with `error` field
         toast.error(
           data?.error || "Failed to fetch transcript. Please try again."
@@ -91,38 +95,6 @@ const TranscribeInput = () => {
     }
   };
 
-  /* const fetchTranscript = async () => { 
-    if (!videoUrl.trim()) return;
-    setLoading(true);
-    try {
-      const response = await fetch("/api/transcriber", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ videoUrl, speakers }),
-      });
-      const data = await response.json();
-      console.log("transcript data==========", data);
-
-      if (!response.ok) {
-        // If the backend sends a JSON with `error` field
-        toast.error(data?.error || "Failed to fetch transcript. Please try again.");
-        return;
-      }
-
-      setTranscript(data);
-
-
-      toast.success("Transcript successfully!");
-      resetForm(); // ✅ reset after success
-     
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Something went wrong";
-      toast.error(message);
-      setTranscript({ error: message });
-    } finally {
-      setLoading(false);
-    }
-  };  */
 
   const fetchYoutubeTranscript = async () => {
     toast.info("Youtube Video Transcript is coming soon....");
