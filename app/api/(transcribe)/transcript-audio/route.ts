@@ -17,10 +17,7 @@ export async function POST(req: Request) {
       { status: 401 }
     );
   }
-  const formData = await req.formData();
-  const audioFile = formData.get("file") as File | null;
-  const speakers = formData.get("speakers") === "true";
-  const duration = formData.get("duration");
+ const { duration, audioUrl, speakers } = await req.json();
 
   try {
     await connectToDatabase();
@@ -45,7 +42,7 @@ export async function POST(req: Request) {
     }
 
     const getTranscript = await client.transcripts.transcribe({
-      audio: audioFile!,
+      audio: audioUrl,
       speaker_labels: speakers,
     });
 

@@ -19,12 +19,11 @@ import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
 
-
 type TranscriptResponse = {
   transcript?: string;
   error?: string;
   success?: boolean;
-  transcriptId?: string;  
+  transcriptId?: string;
 };
 
 const TranscribeInput = () => {
@@ -35,8 +34,6 @@ const TranscribeInput = () => {
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
-
-  
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -59,20 +56,18 @@ const TranscribeInput = () => {
     const durationInMinutes = await getAudioDuration(file);
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("speakers", String(speakers));
-    formData.append("duration", String(durationInMinutes));
 
     try {
       setLoading(true);
-        const response = await axios.post("/api/transcript-audio", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+      const response = await axios.post("/api/upload-url", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       const data = await response.data;
 
-      console.log("transcript data==========", data);
+      console.log("s3 data==========", data);
 
       if (!response) {
         // If the backend sends a JSON with `error` field
@@ -82,7 +77,18 @@ const TranscribeInput = () => {
         return;
       }
 
-      setTranscript(data);
+      const getTranscript = await axios.post("/api/transcript-audio", {
+        audioUrl: data,
+        speakers,
+        duration: durationInMinutes,
+      });
+
+      const transcriptData = await getTranscript.data;
+
+      console.log("transcriptData", transcriptData);
+
+
+      setTranscript(transcriptData);
       resetForm();
       toast.success("Transcript successfully!");
     } catch (err) {
@@ -94,7 +100,6 @@ const TranscribeInput = () => {
       setLoading(false);
     }
   };
-
 
   const fetchYoutubeTranscript = async () => {
     toast.info("Youtube Video Transcript is coming soon....");
@@ -183,14 +188,15 @@ const TranscribeInput = () => {
         </CardFooter>
       </Card>
 
-
       {transcript?.error && (
         <p className="text-red-500">Error: {transcript.error}</p>
       )}
 
       {transcript?.success && (
         <Button className="mt-4">
-          <Link href={`/dashboard/${transcript.transcriptId}`}>View Full Transcript</Link>
+          <Link href={`/dashboard/${transcript.transcriptId}`}>
+            View Full Transcript
+          </Link>
         </Button>
       )}
     </>
