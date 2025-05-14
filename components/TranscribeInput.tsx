@@ -19,6 +19,7 @@ import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
 
+
 type TranscriptResponse = {
   transcript?: string;
   error?: string;
@@ -34,6 +35,7 @@ const TranscribeInput = () => {
   const [loading, setLoading] = useState(false);
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
+  const [publicUrl, setPublicUrl] = useState<string | null>(null);
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -84,7 +86,7 @@ const TranscribeInput = () => {
         return;
       }
 
-          console.log("file", file);
+      setPublicUrl(fileUrl);
 
 
       // ✅ Step 2: Upload file to S3 using signed URL
@@ -108,6 +110,8 @@ const TranscribeInput = () => {
 
       const transcriptData = await getTranscript.data;
       console.log("Transcript Data:", transcriptData);
+
+      setPublicUrl(null);
 
       setTranscript(transcriptData);
       resetForm();
@@ -208,6 +212,12 @@ const TranscribeInput = () => {
           </Button>
         </CardFooter>
       </Card>
+
+      {publicUrl && (
+        <div className="mt-4">
+          <p>Almost Done, Please wait...</p>
+        </div>
+      )}
 
       {transcript?.error && (
         <p className="text-red-500">Error: {transcript.error}</p>
