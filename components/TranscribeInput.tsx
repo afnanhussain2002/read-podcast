@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
+import crc32 from "crc-32";
 
 type TranscriptResponse = {
   transcript?: string;
@@ -44,49 +45,70 @@ const TranscribeInput = () => {
     setSpeakers(false);
   };
 
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null;
+    console.log("selectedFile", selectedFile);
     if (selectedFile) {
       setFile(selectedFile);
     }
   };
 
+  
+
   const handleFileUpload = async () => {
     if (!file) return;
     const durationInMinutes = await getAudioDuration(file);
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
       setLoading(true);
-      const response = await axios.post("/api/upload-url", formData, {
+
+      // Step 1: Get signed URL from backend
+      const response = await fetch("/api/upload-url", {
+        method: "POST",
+        body: JSON.stringify({
+          fileName: file.name,
+          fileType: file.type,
+       
+        }),
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
-      const data = await response.data;
+      const { uploadUrl, fileUrl } = await response.json();
+      console.log("S3 Signed URL:", uploadUrl);
+      console.log("Public File URL:", fileUrl);
 
-      console.log("s3 data==========", data);
-
-      if (!response) {
-        // If the backend sends a JSON with `error` field
-        toast.error(
-          data?.error || "Failed to fetch transcript. Please try again."
-        );
+      if (!uploadUrl) {
+        toast.error("Failed to get signed URL.");
         return;
       }
 
+          console.log("file", file);
+
+
+      // ✅ Step 2: Upload file to S3 using signed URL
+    const s3Response = await fetch(uploadUrl, {
+  method: "PUT",
+  headers: {
+    "Content-Type": "audio/mpeg",
+  },
+  body: file,
+});
+
+    console.log("s3Response", s3Response);
+
+
+      // Step 3: Send the public file URL to your backend for transcription
       const getTranscript = await axios.post("/api/transcript-audio", {
-        audioUrl: data,
+        audioUrl: fileUrl,
         speakers,
         duration: durationInMinutes,
       });
 
       const transcriptData = await getTranscript.data;
-
-      console.log("transcriptData", transcriptData);
-
+      console.log("Transcript Data:", transcriptData);
 
       setTranscript(transcriptData);
       resetForm();

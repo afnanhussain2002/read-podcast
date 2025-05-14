@@ -1,5 +1,7 @@
+import { authOptions } from "@/lib/auth";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const s3 = new S3Client({
@@ -11,17 +13,33 @@ const s3 = new S3Client({
 });
 
 export async function POST(req: NextRequest) {
-  const { fileName, fileType } = await req.json();
+
+   const session = await getServerSession(authOptions);
+  
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: "Unauthorized", success: false },
+        { status: 401 }
+      );
+    }
+
+const { fileName, fileType } = await req.json(); 
+
+  if (!fileName || !fileType) {
+    return NextResponse.json({ error: "Missing fileName or fileType" });
+  }
 
   const command = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: fileName,
-    ContentType: fileType,
+    Key: `vidonotes/${fileName}`,
+    ContentType: 'audio/mpeg',
+
   });
 
-  const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 }); // 1 min
+  const signedUrl = await getSignedUrl(s3, command); // 1 min
 
-  const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+  const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/vidonotes/${fileName}`;
+
 
   return NextResponse.json({ uploadUrl: signedUrl, fileUrl });
 }
