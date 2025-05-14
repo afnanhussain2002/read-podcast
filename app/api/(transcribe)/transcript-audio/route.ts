@@ -99,34 +99,4 @@ export async function POST(req: Request) {
   }
 }
 
-/* export async function POST(req: NextRequest) {
 
-  const formData = await req.formData();
-  const audioFile = formData.get("file") as File | null;
-
-  console.log("audioFile", audioFile);
-
-  if (!audioFile) {
-    return NextResponse.json(
-      { error: "Audio file is required" },
-      { status: 400 }
-    );
-  }
-
-  try {
-
-    const uploadAssembly = await client.transcripts.transcribe({
-      audio: audioFile,
-    });
-
-    console.log("uploadAssembly", uploadAssembly);
-
-    return NextResponse.json({ uploadAssembly }, { status: 200 });
-    
-  } catch (error) {
-    return NextResponse.json({ error: error as string }, { status: 500 });
-  }
-
-
-
-} */
