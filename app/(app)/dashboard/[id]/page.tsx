@@ -17,7 +17,6 @@ import Chapters from "@/components/ShowChapters";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import {
-  getChapters,
   getEntities,
   getSummary,
 } from "@/frontendFunctions/fetchData";
@@ -28,7 +27,6 @@ const SingleTranscript = () => {
   const { id } = useParams<{ id: string }>();
   const [transcript, setTranscript] = useState<ITranscript | null>(null);
   const [loading, setLoading] = useState(true);
-  const [chaptersLoading, setChaptersLoading] = useState(false);
   const [entitiesLoading, setEntitiesLoading] = useState(false);
   const [summaryLoading, setSummaryLoading] = useState(false);
 
@@ -48,7 +46,7 @@ const SingleTranscript = () => {
     fetchTranscript();
   }, [id]);
 
-  const handleGetChapters = async () => {
+/*   const handleGetChapters = async () => {
     if (!transcript?.audioUrl) return;
     try {
       setChaptersLoading(true);
@@ -63,7 +61,7 @@ const SingleTranscript = () => {
     } finally {
       setChaptersLoading(false);
     }
-  };
+  }; */
 
   const handleGetEntities = async () => {
     if (!transcript?.audioUrl) return;
@@ -178,15 +176,7 @@ const SingleTranscript = () => {
           {transcript.chapters && transcript.chapters.length > 0 ? (
             <Chapters chapters={transcript.chapters} />
           ) : (
-            <div className="flex justify-center max-w-5xl">
-              <Button
-                onClick={handleGetChapters}
-                disabled={chaptersLoading}
-                className="mt-10 w-3/6"
-              >
-                {chaptersLoading ? "Loading Chapters..." : "Get Chapters"}
-              </Button>
-            </div>
+            <p>Something went wrong Get the chapters</p>
           )}
         </div>
 

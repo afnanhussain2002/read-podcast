@@ -3,10 +3,10 @@ import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
 import User from "@/models/User";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-
-
+import { s3 } from "../../(s3)/upload-url/route";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       { status: 401 }
     );
   }
- const { duration, audioUrl, speakers } = await req.json();
+  const { duration, audioUrl, speakers } = await req.json();
 
   try {
     await connectToDatabase();
@@ -56,6 +56,16 @@ export async function POST(req: Request) {
       );
     }
 
+    const url = new URL(audioUrl);
+    const key = url.pathname.slice(1);
+
+    const deleteCommand = new DeleteObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME!,
+      Key: key,
+    });
+
+    await s3.send(deleteCommand);
+
     const speakersData = getTranscript.utterances?.map((utterance) => ({
       speaker: utterance.speaker,
       text: utterance.text,
@@ -81,7 +91,9 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Something went wrong while getting transcript";
+      error instanceof Error
+        ? error.message
+        : "Something went wrong while getting transcript";
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
