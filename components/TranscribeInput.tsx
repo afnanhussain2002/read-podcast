@@ -18,7 +18,6 @@ import { toast } from "sonner";
 import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
-import crc32 from "crc-32";
 
 type TranscriptResponse = {
   transcript?: string;
