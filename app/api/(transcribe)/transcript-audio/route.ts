@@ -44,6 +44,7 @@ export async function POST(req: Request) {
     const getTranscript = await client.transcripts.transcribe({
       audio: audioUrl,
       speaker_labels: speakers,
+      auto_chapters: true,
     });
 
     console.log("Transcript received:", getTranscript);
@@ -67,6 +68,7 @@ export async function POST(req: Request) {
       transcript: getTranscript.text!,
       confidence: getTranscript.confidence!,
       speakers: speakersData,
+      chapters: getTranscript.chapters,
       ownerId: userId, // ✅ linked to actual MongoDB User ID
     });
 
