@@ -13,17 +13,16 @@ export const s3 = new S3Client({
 });
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
 
-   const session = await getServerSession(authOptions);
-  
-    if (!session || !session.user) {
-      return NextResponse.json(
-        { error: "Unauthorized", success: false },
-        { status: 401 }
-      );
-    }
+  if (!session || !session.user) {
+    return NextResponse.json(
+      { error: "Unauthorized", success: false },
+      { status: 401 }
+    );
+  }
 
-const { fileName, fileType } = await req.json(); 
+  const { fileName, fileType } = await req.json();
 
   if (!fileName || !fileType) {
     return NextResponse.json({ error: "Missing fileName or fileType" });
@@ -33,13 +32,11 @@ const { fileName, fileType } = await req.json();
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `vidonotes/${fileName}`,
     ContentType: 'audio/mpeg',
-
   });
 
   const signedUrl = await getSignedUrl(s3, command); // 1 min
 
   const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/vidonotes/${fileName}`;
-
 
   return NextResponse.json({ uploadUrl: signedUrl, fileUrl });
 }
