@@ -64,7 +64,16 @@ export async function POST(req: Request) {
       Key: key,
     });
 
-    await s3.send(deleteCommand);
+    const response = await s3.send(deleteCommand);
+
+    if (response.$metadata.httpStatusCode === 204) {
+      console.log("✅ File successfully deleted.");
+    } else {
+      console.warn(
+        "⚠️ Delete command responded with status:",
+        response.$metadata.httpStatusCode
+      );
+    }
 
     const speakersData = getTranscript.utterances?.map((utterance) => ({
       speaker: utterance.speaker,
@@ -98,5 +107,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-
