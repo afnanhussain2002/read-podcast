@@ -46,23 +46,6 @@ const SingleTranscript = () => {
     fetchTranscript();
   }, [id]);
 
-/*   const handleGetChapters = async () => {
-    if (!transcript?.audioUrl) return;
-    try {
-      setChaptersLoading(true);
-      const chaptersData = await getChapters(transcript.audioUrl);
-      if (Array.isArray(chaptersData)) {
-        setTranscript((prev) =>
-          prev ? { ...prev, chapters: chaptersData } : prev
-        );
-      }
-    } catch (error) {
-      console.error("Error getting chapters:", error);
-    } finally {
-      setChaptersLoading(false);
-    }
-  }; */
-
   const handleGetEntities = async () => {
     if (!transcript?.audioUrl) return;
     try {
@@ -227,5 +210,9 @@ const SingleTranscript = () => {
   );
 };
 export default SingleTranscript;
+
+
+
+
 
 

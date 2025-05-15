@@ -16,11 +16,6 @@ const ChaptersSchema = new Schema({
   end: Number
 }, {id: false});
 
-/* const ParagraphsSchema = new Schema({
-  text: String,
-  start: Number,
-  end: Number
-}) */
 
   const EntitiesSchema = new Schema({
     entity_type: String,
@@ -32,7 +27,7 @@ const ChaptersSchema = new Schema({
 const transcriptSchema = new Schema<ITranscript>(
   {
     audioUrl: { type: String, required: true },
-    transcript: { type: String, required: true },
+    transcript: { type: String, required: true, default: "" },
     confidence: { type: Number, min: 0, max: 1,required: true },
     speakers: [SpeakerSchema],
     chapters: { type: [ChaptersSchema], default: [] },
