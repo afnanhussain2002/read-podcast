@@ -1,4 +1,4 @@
-import { client } from "@/lib/assemblyApi";
+import { client, s3 } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
@@ -6,7 +6,7 @@ import User from "@/models/User";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { s3 } from "../../(s3)/upload-url/route";
+
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
