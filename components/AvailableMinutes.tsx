@@ -12,7 +12,7 @@ const AvailableMinutes = () => {
       if (isLoading) {
         return <p><FaClockRotateLeft className="animate-spin" /></p>
       }
-      return <div>Available Minutes: {user?.transcriptMinutes.toFixed(2)}</div> ;
+      return <div>Available Minutes: {user?.transcriptMinutes.toFixed(2) || "0"}</div> ;
 }
 
 export default AvailableMinutes
