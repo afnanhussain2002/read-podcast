@@ -26,7 +26,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false)
 
   const handleSignOut = () => {
-    signOut()
+    signOut({ callbackUrl: "/" })
     showNotification("Logged out successfully", "success")
   }
 
