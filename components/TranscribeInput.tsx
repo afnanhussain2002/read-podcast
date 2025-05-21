@@ -1,4 +1,4 @@
-/* "use client";
+"use client";
 import React, { useRef, useState } from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
@@ -235,9 +235,9 @@ const TranscribeInput = () => {
 };
 
 export default TranscribeInput;
- */
 
-"use client";
+
+/* "use client";
 import React, { useRef, useState } from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
@@ -442,4 +442,4 @@ const TranscribeInput = () => {
   );
 };
 
-export default TranscribeInput;
+export default TranscribeInput; */

@@ -1,4 +1,4 @@
-/* import { client, s3 } from "@/lib/assemblyApi";
+import { client, s3 } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
@@ -109,9 +109,9 @@ export async function POST(req: Request) {
 }
 
 
- */
 
-import { client, s3 } from "@/lib/assemblyApi";
+
+/* import { client, s3 } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
@@ -174,4 +174,4 @@ const assemblyResponse = await client.transcripts.submit({
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
-}
+} */

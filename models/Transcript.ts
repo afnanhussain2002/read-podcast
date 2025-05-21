@@ -26,7 +26,7 @@ const ChaptersSchema = new Schema({
 
 const transcriptSchema = new Schema<ITranscript>(
   {
-    transcriptId: { type: String, required: true },
+    transcriptId: { type: String, required: false },
     audioUrl: { type: String, required: true },
     transcript: { type: String, required: true, default: "" },
     confidence: { type: Number, min: 0, max: 1,required: true },
