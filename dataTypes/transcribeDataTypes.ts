@@ -27,6 +27,7 @@ export type entity = {
 // Main transcript interface without audioUrl, status, and words
 export interface ITranscript {
     _id?: mongoose.Types.ObjectId;
+    transcriptId?:string;
     audioUrl: string;
     transcript: string;
     confidence: number;   

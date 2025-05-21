@@ -2,7 +2,7 @@ import { ITranscript } from "@/dataTypes/transcribeDataTypes";
 import { Schema, model, models } from "mongoose";
 
 // Define the speaker schema
-const SpeakerSchema = new Schema({
+ const SpeakerSchema = new Schema({
   speaker: String,
   text: String,
   start: Number,
@@ -26,6 +26,7 @@ const ChaptersSchema = new Schema({
 
 const transcriptSchema = new Schema<ITranscript>(
   {
+    transcriptId: { type: String, required: true },
     audioUrl: { type: String, required: true },
     transcript: { type: String, required: true, default: "" },
     confidence: { type: Number, min: 0, max: 1,required: true },
