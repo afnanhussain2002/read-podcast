@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     }
     const userId = mongoUser._id;
 
-    if (mongoUser.transcriptMinutes < duration!) {
+    if (mongoUser.transcriptMinutes < duration) {
       return NextResponse.json(
         { error: "Not enough minutes", success: false },
         { status: 400 }

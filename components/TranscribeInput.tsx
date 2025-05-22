@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { useNotification } from "./Notification";
 import { getAudioDuration } from "@/lib/audioFileHelper";
 import Link from "next/link";
+import Loader from "./Loader";
+import { useUser } from "@/hooks/useUser";
 
 
 type TranscriptResponse = {
@@ -36,6 +38,8 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const { showNotification } = useNotification();
   const [publicUrl, setPublicUrl] = useState<string | null>(null);
+  const { user, isLoading } = useUser();
+    const userMinutes = user?.transcriptMinutes.toFixed(2);
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -55,11 +59,21 @@ const TranscribeInput = () => {
     }
   };
 
+
+  if (isLoading) {
+    return <Loader/>
+  }
   
 
   const handleFileUpload = async () => {
     if (!file) return;
     const durationInMinutes = await getAudioDuration(file);
+
+    if (durationInMinutes > userMinutes) {
+      toast.error("No Enough Minutes, Please Buy More");
+      return;
+      
+    }
 
     try {
       setLoading(true);
