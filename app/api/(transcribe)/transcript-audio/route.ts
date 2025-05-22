@@ -19,6 +19,15 @@ export async function POST(req: Request) {
   }
   const { duration, audioUrl, speakers } = await req.json();
 
+  console.log("duration", duration, "audioUrl", audioUrl, "speakers", speakers);
+
+  if (!duration || !audioUrl) {
+    return NextResponse.json(
+      { error: "Missing required fields", success: false },
+      { status: 400 }
+    );
+  }
+
   try {
     await connectToDatabase();
 
