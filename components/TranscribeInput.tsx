@@ -106,10 +106,7 @@ const TranscribeInput = () => {
         audioUrl: fileUrl,
         speakers,
         duration: durationInMinutes,
-      },
-     {
-    timeout: 300000, // 5 minutes in ms
-  }
+      }
     );
 
       const transcriptData = await getTranscript.data;
