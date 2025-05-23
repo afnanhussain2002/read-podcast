@@ -255,6 +255,7 @@ const TranscribeInput = () => {
 export default TranscribeInput; */
 
 "use client";
+
 import React, { useRef, useState } from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
@@ -291,7 +292,6 @@ const TranscribeInput = () => {
   const [transcript, setTranscript] = useState<ITranscriptStatus | null>(null);
   const { showNotification } = useNotification();
   const formRef = useRef<HTMLFormElement | null>(null);
-  // const router = useRouter();
 
   const resetForm = () => {
     formRef.current?.reset();
@@ -301,28 +301,52 @@ const TranscribeInput = () => {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null;
+    const selectedFile = event.target.files?.[0] || null;
     if (selectedFile) {
       setFile(selectedFile);
     }
   };
 
+  const pollTranscriptStatus = async (id: string) => {
+    let attempts = 0;
+    const maxAttempts = 20;
+
+    while (attempts < maxAttempts) {
+      const { data }: { data: ITranscriptStatus } = await axios.get(
+        "/api/poll-transcript",
+        { params: { transcriptId: id } }
+      );
+
+      if (data.status === "completed") {
+        setTranscript(data);
+        toast.success("Transcript is ready!");
+        return;
+      } else if (data.status === "error") {
+        toast.error("Error processing transcript.");
+        return;
+      }
+
+      await new Promise((r) => setTimeout(r, 3000));
+      attempts++;
+    }
+
+    toast.error("Polling timed out. Try again later.");
+  };
+
   const handleFileUpload = async () => {
     if (!file) return;
-    const durationInMinutes = await getAudioDuration(file);
 
     try {
       setLoading(true);
+      const durationInMinutes = await getAudioDuration(file);
 
       const response = await fetch("/api/upload-url", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fileName: file.name,
           fileType: file.type,
         }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
       const { uploadUrl, fileUrl } = await response.json();
@@ -336,36 +360,28 @@ const TranscribeInput = () => {
 
       await fetch(uploadUrl, {
         method: "PUT",
-        headers: {
-          "Content-Type": "audio/mpeg",
-        },
+        headers: { "Content-Type": "audio/mpeg" },
         body: file,
       });
 
       const transcriptRes = await axios.post("/api/transcript-audio", {
         audioUrl: fileUrl,
         duration: durationInMinutes,
+        speakers,
       });
 
       const { transcriptId, success, error } = transcriptRes.data;
 
       if (success) {
         toast.success("Transcript started! It’ll be ready shortly.");
-        const pollingResponse = await axios.get("/api/poll-transcript", {
-          params: { transcriptId },
-        });
-
-        const data = pollingResponse.data;
-        console.log("Transcript Data:", data);
-        setTranscript(data);
+        pollTranscriptStatus(transcriptId);
       } else {
         toast.error(error || "Something went wrong");
       }
 
       resetForm();
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Something went wrong";
+      const message = err instanceof Error ? err.message : "Something went wrong";
       toast.error(message);
     } finally {
       setLoading(false);
@@ -385,10 +401,10 @@ const TranscribeInput = () => {
       handleFileUpload();
     }
   };
-console.log("transcript", transcript);
+
   return (
     <>
-      <Card className="w-full bg-white dark:bg-brand-dark border-border border-main">
+      <Card className="w-full bg-white dark:bg-brand-dark border border-main">
         <CardContent className="mt-4">
           <form ref={formRef}>
             <div className="flex w-full items-center gap-1">
@@ -397,20 +413,18 @@ console.log("transcript", transcript);
                   onValueChange={(value) => setInputType(value)}
                   value={inputType}
                 >
-                  <SelectTrigger className=" bg-brand-glow dark:bg-brand-dark text-text dark:text-white">
+                  <SelectTrigger className="bg-brand-glow dark:bg-brand-dark text-text dark:text-white">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent className="bg-brand-glow dark:bg-brand-dark">
-                    <SelectItem value="youtubeLink">
-                      🔗 Youtube Link Coming Soon
-                    </SelectItem>
+                    <SelectItem value="youtubeLink">🔗 Youtube Link Coming Soon</SelectItem>
                     <SelectItem value="localVideo">🎥 Upload Audio</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="flex-1 space-y-1.5">
-                {inputType === "youtubeLink" && (
+                {inputType === "youtubeLink" ? (
                   <Input
                     id="youtubeLink"
                     placeholder="Paste YouTube video link..."
@@ -418,13 +432,11 @@ console.log("transcript", transcript);
                     onChange={(e) => setVideoUrl(e.target.value)}
                     className="text-black dark:text-white"
                   />
-                )}
-
-                {(inputType === "localVideo" || inputType === "localAudio") && (
+                ) : (
                   <Input
                     id={inputType}
                     type="file"
-                    accept={"audio/*"}
+                    accept="audio/*"
                     onChange={handleFileChange}
                     className="text-black dark:text-white"
                   />
@@ -448,29 +460,29 @@ console.log("transcript", transcript);
         </CardContent>
 
         <CardFooter className="flex justify-end">
-          <Button variant="default" onClick={handleAction} disabled={loading}>
+          <Button onClick={handleAction} disabled={loading}>
             {loading ? <Loader2 className="animate-spin" /> : "Get Transcript"}
           </Button>
         </CardFooter>
       </Card>
 
       {publicUrl && (
-        <div className="mt-4">
-          <p>Almost Done, Please wait...</p>
-        </div>
+        <p className="mt-4 text-center text-muted-foreground">
+          Upload complete. Processing transcript...
+        </p>
       )}
+
       {transcript?.success ? (
-        <Button className="mt-4">
-          <Link href={`/dashboard/${transcript.transcriptId}`}>View Full Transcript</Link>
+        <Button className="mt-4 mx-auto block">
+          <Link href={`/dashboard/${transcript.transcriptId}`}>
+            View Full Transcript
+          </Link>
         </Button>
-      )
-    :
-    <>
-    {transcript?.status &&
-      <p className="text-white bg-brand-glow p-2 rounded w-20 mx-auto mt-5 flex justify-center gap-1"><Loader2 className="animate-spin" />{transcript?.status}...</p>
-    }
-    </>
-    }
+      ) : transcript?.status ? (
+        <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
+          <Loader2 className="animate-spin" /> {transcript.status}...
+        </p>
+      ) : null}
     </>
   );
 };
