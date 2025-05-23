@@ -34,7 +34,7 @@ export async function GET() {
 
     // Shape the response data
     const formattedTranscriptions = transcriptions.map((t) => ({
-      _id: t._id.toString(),
+      _id: t.transcriptId,
       transcript: t.transcript.slice(0, 100),
       createdAt: t.createdAt,
       title: t.chapters?.[0]?.gist || "Untitled",

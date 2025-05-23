@@ -238,25 +238,15 @@ const pollTranscriptStatus = async (id: string) => {
         </p>
       )}
 
-      {/* {transcript && (
-        transcript.status === "processing" ? (
-           <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
-            <Loader2 className="animate-spin" /> {transcript.status}...
-          </p>
-        ) : (
-         
-          <Button className="mt-4 mx-auto block">
-            <Link href={`/dashboard/${transcript.transcriptId}`}>
-              View Full Transcript
-            </Link>
-          </Button>
-        )
-      )} */}
-
       {(pollingStatus && pollingStatus !== "completed") || transcript?.status === "processing" ? (
+        <>
   <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
     <Loader2 className="animate-spin" /> {pollingStatus || transcript?.status}...
   </p>
+
+  <p>Please wait. This may take a few minutes. If You turn of it dose not affect the transcript.</p>
+        
+        </>
 ) : (
   transcript?.status === "completed" && (
     <Button className="mt-4 mx-auto block">

@@ -29,6 +29,8 @@ const SingleTranscript = () => {
   const [entitiesLoading, setEntitiesLoading] = useState(false);
   const [summaryLoading, setSummaryLoading] = useState(false);
 
+  console.log("transcript id", id);
+
   useEffect(() => {
     const fetchTranscript = async () => {
       try {
