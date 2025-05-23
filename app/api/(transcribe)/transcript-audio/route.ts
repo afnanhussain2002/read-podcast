@@ -1,4 +1,4 @@
-import { client, s3 } from "@/lib/assemblyApi";
+/* import { client, s3 } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Transcript from "@/models/Transcript";
@@ -115,12 +115,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
-}
+} */
 
 
 
 
-/* import { client, s3 } from "@/lib/assemblyApi";
+import { client, s3 } from "@/lib/assemblyApi";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
@@ -135,7 +135,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
   }
 
-  const { duration, audioUrl, speakers } = await req.json();
+  const { duration, audioUrl } = await req.json();
 
   try {
     await connectToDatabase();
@@ -145,16 +145,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found", success: false }, { status: 404 });
     }
 
+    const userId = mongoUser._id;
+
     if (mongoUser.transcriptMinutes < duration) {
       return NextResponse.json({ error: "Not enough minutes", success: false }, { status: 400 });
     }
 
   const encodedEmail = encodeURIComponent(session.user.email!);
-const webhookUrl = `${process.env.NEXT_PUBLIC_URL}/api/assemblyAi/webhook?email=${encodedEmail}&duration=${duration}`;
+const webhookUrl = `https://f903-103-155-151-192.ngrok-free.app/api/assemblyAi/webhook?email=${encodedEmail}&duration=${duration}`;
 
 const assemblyResponse = await client.transcripts.submit({
   audio: audioUrl,
-  speaker_labels: speakers,
   auto_chapters: true,
   webhook_url: webhookUrl,
 });
@@ -176,6 +177,7 @@ const assemblyResponse = await client.transcripts.submit({
       success: true,
       transcriptId: assemblyResponse.id,
       status: assemblyResponse.status,
+      userId
     });
   } catch (error) {
     const message =
@@ -183,4 +185,86 @@ const assemblyResponse = await client.transcripts.submit({
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
+}
+
+/*   import { client } from "@/lib/assemblyApi";
+import { authOptions } from "@/lib/auth";
+import { connectToDatabase } from "@/lib/db";
+import Transcript from "@/models/Transcript";
+import User from "@/models/User";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+
+export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
+  }
+
+  const { duration, audioUrl, speakers } = await req.json();
+
+  if (!duration || !audioUrl) {
+    return NextResponse.json(
+      { error: "Missing required fields", success: false },
+      { status: 400 }
+    );
+  }
+
+  try {
+    await connectToDatabase();
+
+    const userEmail = session.user.email;
+    const mongoUser = await User.findOne({ email: userEmail });
+
+    if (!mongoUser) {
+      return NextResponse.json({ error: "User not found", success: false }, { status: 404 });
+    }
+
+    console.log("mongoUser", mongoUser);
+
+    if (mongoUser.transcriptMinutes < duration) {
+      return NextResponse.json({ error: "Not enough minutes", success: false }, { status: 400 });
+    }
+
+    // Submit transcription to AssemblyAI with webhook
+    const getTranscript = await client.transcripts.submit({
+      audio: audioUrl,
+      speaker_labels: speakers,
+      auto_chapters: true,
+      webhook_url: `https://e5b2-103-155-151-197.ngrok-free.app/api/assemblyAi/webhook`,
+    });
+
+    console.log("Transcript received:", getTranscript);
+
+    // Optionally store a draft with audioUrl and ownerId so webhook can find it later
+  const saveDB =  await Transcript.create({
+      transcriptId: getTranscript.id,
+      audioUrl: audioUrl,
+      transcript: "",
+      confidence: 0,
+      speakers: [],
+      chapters: [],
+      ownerId: mongoUser._id,
+      processing: true, // Add a flag to track incomplete processing
+    });
+
+    console.log("Transcript saved to DB:", saveDB);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Transcription started. You will be notified when it's ready.",
+        transcriptId: getTranscript.id, // return AssemblyAI ID if needed
+      },
+      { status: 202 }
+    );
+  } catch (error) {
+    console.error("POST /api/transcript-audio error:", error); // ✅ Log this
+    const message =
+      error instanceof Error ? error.message : "Something went wrong while starting transcription";
+
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 } */
+

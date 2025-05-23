@@ -1,6 +1,4 @@
 "use client";
-
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -22,9 +20,10 @@ import {
 } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const SingleTranscript = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const [transcript, setTranscript] = useState<ITranscript | null>(null);
   const [loading, setLoading] = useState(true);
   const [entitiesLoading, setEntitiesLoading] = useState(false);
@@ -33,7 +32,13 @@ const SingleTranscript = () => {
   useEffect(() => {
     const fetchTranscript = async () => {
       try {
-        const res = await fetch(`/api/single-transcribe/${id}`);
+        const res = await fetch(`/api/single-transcribe`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({transcriptId: id }),
+        });
         const data = await res.json();
         setTranscript(data.transcript);
       } catch (err) {

@@ -26,14 +26,15 @@ const ChaptersSchema = new Schema({
 
 const transcriptSchema = new Schema<ITranscript>(
   {
-    transcriptId: { type: String, required: false },
+    transcriptId: { type: String, },
     audioUrl: { type: String, required: true },
-    transcript: { type: String, required: true, default: "" },
-    confidence: { type: Number, min: 0, max: 1,required: true },
-    speakers: [SpeakerSchema],
+    transcript: { type: String, required: false, default: "" },
+    confidence: { type: Number, default: 0 },
+    speakers: { type: [SpeakerSchema], default: [] },
     chapters: { type: [ChaptersSchema], default: [] },
     entities: { type: [EntitiesSchema], default: [] },
     summary: { type: String, default: null },
+    processing : { type: Boolean, },
     ownerId: { type: Schema.Types.ObjectId, ref: "User"},
     
   },
