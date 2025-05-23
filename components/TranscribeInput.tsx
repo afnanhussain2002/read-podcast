@@ -174,7 +174,7 @@ const pollTranscriptStatus = async (id: string) => {
         <CardContent className="mt-4">
           <form ref={formRef}>
             <div className="flex w-full items-center gap-1">
-              <div className="space-y-1.5 w-48">
+              <div className="space-y-1.5 w-24 lg:w-48">
                 <Select
                   onValueChange={(value) => setInputType(value)}
                   value={inputType}
@@ -184,7 +184,7 @@ const pollTranscriptStatus = async (id: string) => {
                   </SelectTrigger>
                   <SelectContent className="bg-brand-glow dark:bg-brand-dark">
                     <SelectItem value="youtubeLink">🔗 Youtube Link Coming Soon</SelectItem>
-                    <SelectItem value="localVideo">🎥 Upload Audio</SelectItem>
+                    <SelectItem value="localVideo">🔉Upload Audio</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

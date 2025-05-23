@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized", success: false }, { status: 401 });
   }
 
-  const { duration, audioUrl } = await req.json();
+  const { duration, audioUrl, speakers } = await req.json();
 
   try {
     await connectToDatabase();
@@ -36,6 +36,7 @@ const webhookUrl = `${process.env.NEXT_PUBLIC_URL}/api/assemblyAi/webhook?email=
 const assemblyResponse = await client.transcripts.submit({
   audio: audioUrl,
   auto_chapters: true,
+  speaker_labels: speakers,
   webhook_url: webhookUrl,
 });
 
