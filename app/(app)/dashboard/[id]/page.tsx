@@ -180,7 +180,7 @@ const SingleTranscript = () => {
                 disabled={entitiesLoading}
                 className="mt-10 w-3/6"
               >
-                {entitiesLoading ? "Loading Entities..." : "Get Entities"}
+                {entitiesLoading ? "Loading Information..." : "Get Information"}
               </Button>
             </div>
           )}
