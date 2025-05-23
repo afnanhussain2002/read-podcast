@@ -6,7 +6,7 @@ import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
-  // useSecureCookies:true,
+  useSecureCookies:true,
   providers: [
     // Credentials login
     CredentialsProvider({
