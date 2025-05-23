@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(response.data);
+    return NextResponse.json({ success: true, status: response.data.status, transcriptId });
   } catch (error) {
    const message =
       error instanceof Error ? error.message : "Polling failed";

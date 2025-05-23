@@ -152,7 +152,7 @@ export async function POST(req: Request) {
     }
 
   const encodedEmail = encodeURIComponent(session.user.email!);
-const webhookUrl = `${process.env.NEXT_PUBLIC_URL}/api/assemblyAi/webhook?email=${encodedEmail}&duration=${duration}`;
+const webhookUrl = `https://6403-103-155-151-192.ngrok-free.app/api/assemblyAi/webhook?email=${encodedEmail}&duration=${duration}`;
 
 const assemblyResponse = await client.transcripts.submit({
   audio: audioUrl,

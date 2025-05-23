@@ -290,6 +290,7 @@ const TranscribeInput = () => {
   const [speakers, setSpeakers] = useState(false);
   const [publicUrl, setPublicUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<ITranscriptStatus | null>(null);
+  const [pollingStatus, setPollingStatus] = useState<string | null>(null);
   const { showNotification } = useNotification();
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -307,31 +308,40 @@ const TranscribeInput = () => {
     }
   };
 
-  const pollTranscriptStatus = async (id: string) => {
-    let attempts = 0;
-    const maxAttempts = 20;
+const pollTranscriptStatus = async (id: string) => {
+  let attempts = 0;
+  const maxAttempts = 18;
 
-    while (attempts < maxAttempts) {
-      const { data }: { data: ITranscriptStatus } = await axios.get(
-        "/api/poll-transcript",
-        { params: { transcriptId: id } }
-      );
+  while (attempts < maxAttempts) {
+    const { data }: { data: ITranscriptStatus } = await axios.get(
+      "/api/poll-transcript",
+      { params: { transcriptId: id } }
+    );
 
-      if (data.status === "completed") {
-        setTranscript(data);
-        toast.success("Transcript is ready!");
-        return;
-      } else if (data.status === "error") {
-        toast.error("Error processing transcript.");
-        return;
-      }
+    console.log(data);
 
-      await new Promise((r) => setTimeout(r, 3000));
-      attempts++;
+    // ✅ Show live polling status to user
+    setPollingStatus(data.status); 
+
+    if (data.status === "completed") {
+      setTranscript(data);
+      setPollingStatus(null); // ✅ Stop showing loader
+      toast.success("Transcript is ready!");
+      return;
+    } else if (data.status === "error") {
+      setPollingStatus(null);
+      toast.error("Error processing transcript.");
+      return;
     }
 
-    toast.error("Polling timed out. Try again later.");
-  };
+    await new Promise((r) => setTimeout(r, 10000));
+    attempts++;
+  }
+
+  setPollingStatus(null);
+  toast.error("Polling timed out. Try again later.");
+};
+
 
   const handleFileUpload = async () => {
     if (!file) return;
@@ -472,22 +482,41 @@ const TranscribeInput = () => {
         </p>
       )}
 
-      {transcript?.success ? (
-        <Button className="mt-4 mx-auto block">
-          <Link href={`/dashboard/${transcript.transcriptId}`}>
-            View Full Transcript
-          </Link>
-        </Button>
-      ) : transcript?.status ? (
-        <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
-          <Loader2 className="animate-spin" /> {transcript.status}...
-        </p>
-      ) : null}
+      {/* {transcript && (
+        transcript.status === "processing" ? (
+           <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
+            <Loader2 className="animate-spin" /> {transcript.status}...
+          </p>
+        ) : (
+         
+          <Button className="mt-4 mx-auto block">
+            <Link href={`/dashboard/${transcript.transcriptId}`}>
+              View Full Transcript
+            </Link>
+          </Button>
+        )
+      )} */}
+
+      {(pollingStatus && pollingStatus !== "completed") || transcript?.status === "processing" ? (
+  <p className="text-white bg-brand-glow p-2 rounded w-fit mx-auto mt-5 flex items-center gap-2">
+    <Loader2 className="animate-spin" /> {pollingStatus || transcript?.status}...
+  </p>
+) : (
+  transcript?.status === "completed" && (
+    <Button className="mt-4 mx-auto block">
+      <Link href={`/dashboard/${transcript?.transcriptId}`}>
+        View Full Transcript
+      </Link>
+    </Button>
+  )
+)}
+
     </>
   );
 };
 
 export default TranscribeInput;
+
 
 /* "use client";
 import React, { useRef, useState } from "react";
