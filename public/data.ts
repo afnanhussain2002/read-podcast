@@ -39,7 +39,7 @@ export const pricingPlans = [
       'Multilingual transcription (15+ languages)',
       'AI-generated summaries',
       'Speaker identification',
-      'Word confidence scores & timestamps',
+      'Confidence scores & Chapters',
     ],
   },
   {

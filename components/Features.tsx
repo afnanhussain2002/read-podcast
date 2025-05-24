@@ -35,9 +35,9 @@ export default function Features() {
             'AI-Powered Transcription',
             'Speaker Detection',
             'Multilingual Support',
-            'YouTube to Text',
             'Podcast Summaries',
-            'Entity Recognition',
+            'Information Recognition',
+            'Chapters of Podcast',
           ].map((text, id) => {
             return (
               <div className="flex items-center" key={id}>
