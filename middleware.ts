@@ -26,7 +26,7 @@ export default withAuth(
           pathname.startsWith("/api/forget-password") ||
           pathname.startsWith("/api/reset-password") ||
           pathname.startsWith("/api/verify-token") ||
-          pathname.startsWith("/api/webhooks/stripe") ||
+          pathname.startsWith("/api/stripe/webhook") ||
           pathname.startsWith("/api/assemblyAi/webhook")
         ) {
           return true;
