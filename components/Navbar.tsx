@@ -67,7 +67,7 @@ export default function Navbar() {
             <NavigationMenuItem>
               <Link href="/transcriber" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Transcribe Video
+                  Transcribe Audio
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
@@ -122,7 +122,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href="/transcriber" onClick={() => setMenuOpen(false)}>
-                Transcribe Video
+                Transcribe Audio
               </Link>
             </li>
             <li>

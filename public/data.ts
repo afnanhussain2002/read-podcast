@@ -1,6 +1,6 @@
 export const features = [
   {
-    title: '🎧 Upload or Link – Transcribe Anything',
+    title: '🎧 Upload or Link – Transcribe Anything. (Coming Soon...)',
     text: 'Whether it’s a local file, YouTube video, or podcast URL, Vido Note transcribes with high accuracy in seconds.',
   },
   {
@@ -20,8 +20,8 @@ export const features = [
     text: 'Automatically detects and separates speakers — perfect for interviews, meetings, and multi-host podcasts.',
   },
   {
-    title: '📌 Word Confidence & Timestamps',
-    text: 'Every word includes a confidence score and timestamp so you can trust and verify your transcript.',
+    title: '📌 Chapters of podcast',
+    text: 'Confidence score and chapters so you can trust and verify your transcript.',
   },
 ];
 
@@ -34,7 +34,7 @@ export const pricingPlans = [
     minutes: 10,
     perks: [
       '10 minutes of transcription',
-      'Upload files, YouTube links, or podcast URLs',
+      'Upload Audio File',
       'Entities detection (names, places, organizations)',
       'Multilingual transcription (15+ languages)',
       'AI-generated summaries',
