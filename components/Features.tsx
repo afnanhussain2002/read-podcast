@@ -1,12 +1,16 @@
 import { features } from '@/public/data'
+import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
+import featuresImg from '../public/features-img.png'
 
 export default function Features() {
 
 
   return (
+    <>
     <div>
       <section className="border-t-border dark:border-t-darkBorder dark:bg-brand-dark border-t-2 bg-brand-light py-20 font-base lg:py-[100px]">
+         
         <h2 className="mb-14 px-5 text-center text-2xl font-heading md:text-3xl lg:mb-20 lg:text-4xl">
           ✨ Features That Make Vido Note Magical
         </h2>
@@ -50,5 +54,12 @@ export default function Features() {
         </Marquee>
       </div>
     </div>
+      <div>
+          <Image src={featuresImg} alt="full transcript" width={3000} height={3000} className='w-full'/>
+       
+       
+      </div>
+    
+    </>
   )
 }
