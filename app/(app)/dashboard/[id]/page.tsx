@@ -8,16 +8,11 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { formatDate, formatTime } from "@/lib/formatDate";
-import {
-  ITranscript,
-} from "@/dataTypes/transcribeDataTypes";
+import { ITranscript } from "@/dataTypes/transcribeDataTypes";
 import Chapters from "@/components/ShowChapters";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
-import {
-  getEntities,
-  getSummary,
-} from "@/frontendFunctions/fetchData";
+import { getEntities, getSummary } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -39,7 +34,7 @@ const SingleTranscript = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({transcriptId: id }),
+          body: JSON.stringify({ transcriptId: id }),
         });
         const data = await res.json();
         setTranscript(data.transcript);
@@ -58,7 +53,7 @@ const SingleTranscript = () => {
     try {
       setEntitiesLoading(true);
       const entitiesData = await getEntities(transcript.audioUrl);
-      console.log("entitiesData",entitiesData);
+      console.log("entitiesData", entitiesData);
       if (Array.isArray(entitiesData)) {
         setTranscript((prev) =>
           prev ? { ...prev, entities: entitiesData } : prev
@@ -76,7 +71,7 @@ const SingleTranscript = () => {
       setSummaryLoading(true);
       const summaryData = await getSummary(transcript.audioUrl);
       if (typeof summaryData === "string") {
-        setTranscript((prev) => 
+        setTranscript((prev) =>
           prev ? { ...prev, summary: summaryData } : prev
         );
       }
@@ -93,7 +88,7 @@ const SingleTranscript = () => {
 
   return (
     <div className="grid grid-cols-4 gap-1">
-      <div className="order-2">
+  {/*     <div className="order-2">
         <div className="mt-20 flex fixed">
           <ul className="bg-brand-glow p-2 rounded-md flex gap-4 flex-col font-bold text-sm shadow-light dark:shadow-dark">
             <Link href="#fullTranscript">Full Transcript</Link>
@@ -102,7 +97,7 @@ const SingleTranscript = () => {
             <Link href="#summary">Summary</Link>
           </ul>
         </div>
-      </div>
+      </div> */}
       <div className="col-span-3 order-1">
         <Card
           id="fullTranscript"
@@ -217,9 +212,3 @@ const SingleTranscript = () => {
   );
 };
 export default SingleTranscript;
-
-
-
-
-
-
