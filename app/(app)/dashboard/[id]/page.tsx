@@ -14,7 +14,7 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { getEntities, getSummary } from "@/frontendFunctions/fetchData";
 import Entities from "@/components/Entities";
-import Link from "next/link";
+// import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const SingleTranscript = () => {
